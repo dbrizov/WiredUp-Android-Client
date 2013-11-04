@@ -1,12 +1,20 @@
 package wiredup.data;
 
+import com.google.gson.Gson;
+
+import wiredup.http.HttpRequester;
+
 public class DataPersister {
+	private HttpRequester httpRequester;
 	private String rootUrl;
 	private UsersPersister users;
+	private Gson gson;
 	
-	public DataPersister(String rootUrl) {
+	public DataPersister(String rootUrl, HttpRequester httpRequester) {
+		this.httpRequester = httpRequester;
 		this.rootUrl = rootUrl;
-		this.users = new UsersPersister(this.rootUrl);
+		this.gson = new Gson();
+		this.users = new UsersPersister(this.rootUrl, this.httpRequester, this.gson);
 	}
 	
 	public String getRootUrl() {
@@ -17,7 +25,15 @@ public class DataPersister {
 		this.rootUrl = rootUrl;
 	}
 	
-	public UsersPersister getUsers() {
+	public HttpRequester getHttpRequester() {
+		return this.httpRequester;
+	}
+	
+	public void setHttpRequester(HttpRequester httpRequester) {
+		this.httpRequester = httpRequester;
+	}
+	
+	public UsersPersister users() {
 		return this.users;
 	}
 }
