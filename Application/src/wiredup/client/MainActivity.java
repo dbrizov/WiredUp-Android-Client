@@ -30,23 +30,23 @@ public class MainActivity extends HttpActivity {
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				GetJsonTask getVals = new GetJsonTask(
-						"http://wiredup.apphb.com/api/test");
-				getVals.setOnSuccess(new IOnSuccess() {
+				HttpDeleteTask deleteMessage = new HttpDeleteTask(
+						"http://wiredup.apphb.com/api/messages/delete/2?sessionKey=1keyPpQOcOUxWMypnJpdblkiGCyvzOIphdvjIUWrdjnKEWNAQp");
+				deleteMessage.setOnSuccess(new IOnSuccess() {
 					@Override
 					public void performAction(String data) {
 						MainActivity.this.textViewWelcomeMessage.setText(data);
 					}
 				});
 
-				getVals.setOnEror(new IOnError() {
+				deleteMessage.setOnEror(new IOnError() {
 					@Override
 					public void performAction(String data) {
 						MainActivity.this.textViewWelcomeMessage.setText(data);
 					}
 				});
 
-				getVals.execute();
+				deleteMessage.execute();
 			}
 		});
 
@@ -56,14 +56,14 @@ public class MainActivity extends HttpActivity {
 			@Override
 			public void onClick(View v) {
 				UserChangePasswordModel model = new UserChangePasswordModel();
-				model.setOldAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				model.setNewAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-				model.setConfirmNewAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+				model.setOldAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+				model.setNewAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				model.setConfirmNewAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 				
 				Gson gson = new Gson();
 				String jsonString = gson.toJson(model);
 				
-				PutJsonTask regUser = new PutJsonTask(
+				HttpPutJsonTask regUser = new HttpPutJsonTask(
 						"http://wiredup.apphb.com/api/users/changepassword?sessionKey=1keyPpQOcOUxWMypnJpdblkiGCyvzOIphdvjIUWrdjnKEWNAQp", jsonString);
 				regUser.setOnSuccess(new IOnSuccess() {
 					@Override

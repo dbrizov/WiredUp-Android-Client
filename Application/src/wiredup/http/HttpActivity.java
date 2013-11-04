@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -19,12 +20,12 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 public class HttpActivity extends Activity {
-	protected class GetJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpGetJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private IOnSuccess onSuccess;
 		private IOnError onError;
 
-		public GetJsonTask(String requestUrl) {
+		public HttpGetJsonTask(String requestUrl) {
 			this.requestUrl = requestUrl;
 		}
 
@@ -72,13 +73,13 @@ public class HttpActivity extends Activity {
 		}
 	}
 
-	protected class PostJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpPostJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private String jsonString;
 		private IOnSuccess onSuccess;
 		private IOnError onError;
 
-		public PostJsonTask(String requestUrl, String jsonString) {
+		public HttpPostJsonTask(String requestUrl, String jsonString) {
 			this.requestUrl = requestUrl;
 			this.jsonString = jsonString;
 		}
@@ -133,13 +134,13 @@ public class HttpActivity extends Activity {
 		}
 	}
 
-	protected class PutJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpPutJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private String jsonString;
 		private IOnSuccess onSuccess;
 		private IOnError onError;
 
-		public PutJsonTask(String requestUrl, String jsonString) {
+		public HttpPutJsonTask(String requestUrl, String jsonString) {
 			this.requestUrl = requestUrl;
 			this.jsonString = jsonString;
 		}
@@ -168,6 +169,59 @@ public class HttpActivity extends Activity {
 
 			try {
 				HttpResponse response = client.execute(put);
+				String jsonData = HttpActivity.this
+						.getResponseContentAsString(response);
+				int statusCode = response.getStatusLine().getStatusCode();
+
+				responsePair.setJsonData(jsonData);
+				responsePair.setStatusCode(statusCode);
+
+				return responsePair;
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return responsePair;
+		}
+
+		@Override
+		protected void onPostExecute(ResponsePair responsePair) {
+			super.onPostExecute(responsePair);
+
+			HttpActivity.this.executeEvents(this.onSuccess, this.onError,
+					responsePair);
+		}
+	}
+
+	protected class HttpDeleteTask extends AsyncTask<Void, Void, ResponsePair> {
+		private String requestUrl;
+		private IOnSuccess onSuccess;
+		private IOnError onError;
+
+		public HttpDeleteTask(String requestUrl) {
+			this.requestUrl = requestUrl;
+		}
+
+		public void setOnSuccess(IOnSuccess onSuccess) {
+			this.onSuccess = onSuccess;
+		}
+
+		public void setOnEror(IOnError onError) {
+			this.onError = onError;
+		}
+
+		@Override
+		protected ResponsePair doInBackground(Void... params) {
+			HttpClient client = new DefaultHttpClient();
+			HttpDelete delete = new HttpDelete(this.requestUrl);
+			delete.addHeader("content-type", "application/json");
+
+			ResponsePair responsePair = new ResponsePair();
+
+			try {
+				HttpResponse response = client.execute(delete);
 				String jsonData = HttpActivity.this
 						.getResponseContentAsString(response);
 				int statusCode = response.getStatusLine().getStatusCode();
