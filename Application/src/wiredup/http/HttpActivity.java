@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
@@ -63,15 +66,81 @@ public class HttpActivity extends Activity {
 		protected void onPostExecute(ResponsePair responsePair) {
 			super.onPostExecute(responsePair);
 
-			String jsonData = responsePair.getJsonData();
-			int statusCode = responsePair.getStatusCode();
+			HttpActivity.this.executeEvents(this.onSuccess, this.onError,
+					responsePair);
+		}
+	}
 
-			if (statusCode / 100 == 4 || statusCode / 100 == 5
-					|| statusCode == 0) {
-				this.onError.performAction(jsonData);
-			} else {
-				this.onSuccess.performAction(jsonData);
+	protected class PostJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+		private String requestUrl;
+		private String jsonString;
+		private IOnSuccess onSuccess;
+		private IOnError onError;
+
+		public PostJsonTask(String requestUrl, String jsonString) {
+			this.requestUrl = requestUrl;
+			this.jsonString = jsonString;
+		}
+
+		public void setOnSuccess(IOnSuccess onSuccess) {
+			this.onSuccess = onSuccess;
+		}
+
+		public void setOnEror(IOnError onError) {
+			this.onError = onError;
+		}
+
+		@Override
+		protected ResponsePair doInBackground(Void... params) {
+			HttpClient client = new DefaultHttpClient();
+			HttpPost post = new HttpPost(this.requestUrl);
+			post.addHeader("content-type", "application/json");
+
+			try {
+				post.setEntity(new StringEntity(this.jsonString));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
 			}
+
+			ResponsePair responsePair = new ResponsePair();
+
+			try {
+				HttpResponse response = client.execute(post);
+				String jsonData = HttpActivity.this
+						.getResponseContentAsString(response);
+				int statusCode = response.getStatusLine().getStatusCode();
+
+				responsePair.setJsonData(jsonData);
+				responsePair.setStatusCode(statusCode);
+
+				return responsePair;
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return responsePair;
+		}
+
+		@Override
+		protected void onPostExecute(ResponsePair responsePair) {
+			super.onPostExecute(responsePair);
+
+			HttpActivity.this.executeEvents(this.onSuccess, this.onError,
+					responsePair);
+		}
+	}
+
+	private void executeEvents(IOnSuccess onSuccess, IOnError onError,
+			ResponsePair responsePair) {
+		String jsonData = responsePair.getJsonData();
+		int statusCode = responsePair.getStatusCode();
+
+		if (statusCode / 100 == 4 || statusCode / 100 == 5 || statusCode == 0) {
+			onError.performAction(jsonData);
+		} else {
+			onSuccess.performAction(jsonData);
 		}
 	}
 

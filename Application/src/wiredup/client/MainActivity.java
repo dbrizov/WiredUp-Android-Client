@@ -1,8 +1,11 @@
 package wiredup.client;
 
+import com.google.gson.Gson;
+
 import wiredup.http.HttpActivity;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.UserRegisterModel;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -51,7 +54,32 @@ public class MainActivity extends HttpActivity {
 		registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MainActivity.this.textViewWelcomeMessage.setText("");
+				UserRegisterModel user = new UserRegisterModel();
+				user.setFirstName("Kriso");
+				user.setLastName("Rizov");
+				user.setEmail("kbrizov@gmail.com");
+				user.setAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				user.setConfirmAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				
+				Gson gson = new Gson();
+				String jsonString = gson.toJson(user);
+				
+				PostJsonTask regUser = new PostJsonTask("http://wiredup.apphb.com/api/users/register", jsonString);
+				regUser.setOnSuccess(new IOnSuccess() {
+					@Override
+					public void performAction(String data) {
+						MainActivity.this.textViewWelcomeMessage.setText(data);
+					}
+				});
+				
+				regUser.setOnEror(new IOnError() {
+					@Override
+					public void performAction(String data) {
+						MainActivity.this.textViewWelcomeMessage.setText(data);
+					}
+				});
+				
+				regUser.execute();
 			}
 		});
 	}
