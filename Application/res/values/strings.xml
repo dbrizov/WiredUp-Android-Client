@@ -4,5 +4,8 @@
     <string name="app_name">WiredUp</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="welcome_message">Welcome to WiredUp</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
 
 </resources>
