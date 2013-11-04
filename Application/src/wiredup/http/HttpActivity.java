@@ -11,11 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
-public class HttpRequester {
-	public class GetJsonTask extends AsyncTask<Void, Void, HttpResponse> {
-
+public class HttpActivity extends Activity {
+	protected class GetJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private IOnSuccess onSuccess;
 		private IOnError onError;
@@ -33,37 +33,44 @@ public class HttpRequester {
 		}
 
 		@Override
-		protected HttpResponse doInBackground(Void... params) {
+		protected ResponsePair doInBackground(Void... params) {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(this.requestUrl);
 			get.addHeader("content-type", "application/json");
 
-			HttpResponse response = null;
+			ResponsePair responsePair = new ResponsePair();
 
 			try {
-				response = client.execute(get);
-				return response;
+				HttpResponse response = client.execute(get);
+				String jsonData = HttpActivity.this
+						.getResponseContentAsString(response);
+				int statusCode = response.getStatusLine().getStatusCode();
+
+				responsePair.setJsonData(jsonData);
+				responsePair.setStatusCode(statusCode);
+
+				return responsePair;
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			return response;
+			return responsePair;
 		}
 
 		@Override
-		protected void onPostExecute(HttpResponse response) {
-			super.onPostExecute(response);
+		protected void onPostExecute(ResponsePair responsePair) {
+			super.onPostExecute(responsePair);
 
-			String responseContentString = HttpRequester.this
-					.getResponseContentAsString(response);
+			String jsonData = responsePair.getJsonData();
+			int statusCode = responsePair.getStatusCode();
 
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode / 100 == 4 || statusCode / 100 == 5) {
-				this.onError.performAction(responseContentString);
+			if (statusCode / 100 == 4 || statusCode / 100 == 5
+					|| statusCode == 0) {
+				this.onError.performAction(jsonData);
 			} else {
-				this.onSuccess.performAction(responseContentString);
+				this.onSuccess.performAction(jsonData);
 			}
 		}
 	}
