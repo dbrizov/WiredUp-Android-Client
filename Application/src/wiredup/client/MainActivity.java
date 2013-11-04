@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import wiredup.http.HttpActivity;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.UserChangePasswordModel;
 import wiredup.models.UserRegisterModel;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,17 +55,16 @@ public class MainActivity extends HttpActivity {
 		registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				UserRegisterModel user = new UserRegisterModel();
-				user.setFirstName("Kriso");
-				user.setLastName("Rizov");
-				user.setEmail("kbrizov@gmail.com");
-				user.setAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				user.setConfirmAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				UserChangePasswordModel model = new UserChangePasswordModel();
+				model.setOldAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				model.setNewAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+				model.setConfirmNewAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 				
 				Gson gson = new Gson();
-				String jsonString = gson.toJson(user);
+				String jsonString = gson.toJson(model);
 				
-				PostJsonTask regUser = new PostJsonTask("http://wiredup.apphb.com/api/users/register", jsonString);
+				PutJsonTask regUser = new PutJsonTask(
+						"http://wiredup.apphb.com/api/users/changepassword?sessionKey=1keyPpQOcOUxWMypnJpdblkiGCyvzOIphdvjIUWrdjnKEWNAQp", jsonString);
 				regUser.setOnSuccess(new IOnSuccess() {
 					@Override
 					public void performAction(String data) {

@@ -11,6 +11,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -106,6 +107,67 @@ public class HttpActivity extends Activity {
 
 			try {
 				HttpResponse response = client.execute(post);
+				String jsonData = HttpActivity.this
+						.getResponseContentAsString(response);
+				int statusCode = response.getStatusLine().getStatusCode();
+
+				responsePair.setJsonData(jsonData);
+				responsePair.setStatusCode(statusCode);
+
+				return responsePair;
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return responsePair;
+		}
+
+		@Override
+		protected void onPostExecute(ResponsePair responsePair) {
+			super.onPostExecute(responsePair);
+
+			HttpActivity.this.executeEvents(this.onSuccess, this.onError,
+					responsePair);
+		}
+	}
+
+	protected class PutJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+		private String requestUrl;
+		private String jsonString;
+		private IOnSuccess onSuccess;
+		private IOnError onError;
+
+		public PutJsonTask(String requestUrl, String jsonString) {
+			this.requestUrl = requestUrl;
+			this.jsonString = jsonString;
+		}
+
+		public void setOnSuccess(IOnSuccess onSuccess) {
+			this.onSuccess = onSuccess;
+		}
+
+		public void setOnEror(IOnError onError) {
+			this.onError = onError;
+		}
+
+		@Override
+		protected ResponsePair doInBackground(Void... params) {
+			HttpClient client = new DefaultHttpClient();
+			HttpPut put = new HttpPut(this.requestUrl);
+			put.addHeader("content-type", "application/json");
+
+			try {
+				put.setEntity(new StringEntity(this.jsonString));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+
+			ResponsePair responsePair = new ResponsePair();
+
+			try {
+				HttpResponse response = client.execute(put);
 				String jsonData = HttpActivity.this
 						.getResponseContentAsString(response);
 				int statusCode = response.getStatusLine().getStatusCode();
