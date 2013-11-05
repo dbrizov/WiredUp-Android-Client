@@ -32,7 +32,7 @@ public class HttpRequester {
 			this.onSuccess = onSuccess;
 		}
 
-		public void setOnEror(IOnError onError) {
+		public void setOnError(IOnError onError) {
 			this.onError = onError;
 		}
 
@@ -87,7 +87,7 @@ public class HttpRequester {
 			this.onSuccess = onSuccess;
 		}
 
-		public void setOnEror(IOnError onError) {
+		public void setOnError(IOnError onError) {
 			this.onError = onError;
 		}
 
@@ -148,7 +148,7 @@ public class HttpRequester {
 			this.onSuccess = onSuccess;
 		}
 
-		public void setOnEror(IOnError onError) {
+		public void setOnError(IOnError onError) {
 			this.onError = onError;
 		}
 
@@ -207,7 +207,7 @@ public class HttpRequester {
 			this.onSuccess = onSuccess;
 		}
 
-		public void setOnEror(IOnError onError) {
+		public void setOnError(IOnError onError) {
 			this.onError = onError;
 		}
 
