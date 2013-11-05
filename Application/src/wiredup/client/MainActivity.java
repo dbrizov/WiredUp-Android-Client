@@ -6,7 +6,6 @@ import wiredup.http.HttpActivity;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserChangePasswordModel;
-import wiredup.models.UserRegisterModel;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
