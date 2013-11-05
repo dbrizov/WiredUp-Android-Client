@@ -6,10 +6,13 @@ public class PersistersUnitOfWork {
 	
 	public PersistersUnitOfWork(String rootUrl) {
 		this.rootUrl = rootUrl;
-		this.users = new UsersPersister(this.rootUrl);
 	}
 	
 	public UsersPersister getUsers() {
+		if (this.users == null) {
+			this.users = new UsersPersister(this.rootUrl);
+		}
+		
 		return this.users;
 	}
 }
