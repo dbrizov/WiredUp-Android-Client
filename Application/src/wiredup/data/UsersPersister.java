@@ -1,5 +1,6 @@
 package wiredup.data;
 
+import wiredup.client.WiredUpApp;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserLoginModel;
@@ -30,5 +31,15 @@ public class UsersPersister extends MainPersister {
 		post.setOnError(onError);
 		
 		post.execute();
+	}
+	
+	public void logout(IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%slogout?sessionKey=%s", this.rootUrl, WiredUpApp.getSessionKey());
+		
+		HttpPutJsonTask put = new HttpPutJsonTask(url, "{}");
+		put.setOnSuccess(onSuccess);
+		put.setOnError(onError);
+		
+		put.execute();
 	}
 }
