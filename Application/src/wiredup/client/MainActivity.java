@@ -28,9 +28,9 @@ public class MainActivity extends HttpActivity {
 			@Override
 			public void onClick(View v) {
 				UserRegisterModel model = new UserRegisterModel();
-				model.setFirstName("Denis");
+				model.setFirstName("Kriso");
 				model.setLastName("Rizov");
-				model.setEmail("d.b.rizov@gmail.com");
+				model.setEmail("k.b.rizov@gmail.com");
 				model.setAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 				model.setConfirmAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
@@ -51,8 +51,8 @@ public class MainActivity extends HttpActivity {
 					}
 				};
 
-				((WiredUpApp) MainActivity.this.getApplication()).getData()
-						.getUsers().register(model, onSuccess, onError);
+				WiredUpApp.getData().getUsers()
+						.register(model, onSuccess, onError);
 			}
 		});
 	}
