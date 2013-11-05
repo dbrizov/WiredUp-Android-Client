@@ -19,7 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 public class HttpRequester {
-	public class HttpGetJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpGetJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private IOnSuccess onSuccess;
 		private IOnError onError;
@@ -72,7 +72,7 @@ public class HttpRequester {
 		}
 	}
 
-	public class HttpPostJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpPostJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private String jsonString;
 		private IOnSuccess onSuccess;
@@ -133,7 +133,7 @@ public class HttpRequester {
 		}
 	}
 
-	public class HttpPutJsonTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpPutJsonTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private String jsonString;
 		private IOnSuccess onSuccess;
@@ -194,7 +194,7 @@ public class HttpRequester {
 		}
 	}
 
-	public class HttpDeleteTask extends AsyncTask<Void, Void, ResponsePair> {
+	protected class HttpDeleteTask extends AsyncTask<Void, Void, ResponsePair> {
 		private String requestUrl;
 		private IOnSuccess onSuccess;
 		private IOnError onError;

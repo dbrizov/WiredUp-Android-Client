@@ -1,25 +1,22 @@
 package wiredup.data;
 
-import com.google.gson.Gson;
+import wiredup.http.IOnError;
+import wiredup.http.IOnSuccess;
+import wiredup.models.UserRegisterModel;
 
-import wiredup.http.HttpRequester;
-
-public class UsersPersister {
-	private HttpRequester httpRequester;
-	private String rootUrl;
-	private Gson gson;
-	
-	public UsersPersister(String rootUrl, HttpRequester httpRequester, Gson gson) {
-		this.httpRequester = httpRequester;
-		this.rootUrl = rootUrl;
-		this.gson = gson;
+public class UsersPersister extends MainPersister {
+	public UsersPersister(String rootUrl) {
+		super(rootUrl + "users/");
 	}
 	
-	public String getRootUrl() {
-		return this.rootUrl;
-	}
-	
-	public void setRootUrl(String rootUrl) {
-		this.rootUrl = rootUrl;
+	public void register(UserRegisterModel model, IOnSuccess onSuccess, IOnError onError) {
+		String jsonData = this.gson.toJson(model);
+		String url = this.rootUrl + "register";
+		
+		HttpPostJsonTask post = new HttpPostJsonTask(url, jsonData);
+		post.setOnSuccess(onSuccess);
+		post.setOnEror(onError);
+		
+		post.execute();
 	}
 }

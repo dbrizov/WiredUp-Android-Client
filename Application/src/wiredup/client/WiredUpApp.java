@@ -1,21 +1,18 @@
 package wiredup.client;
 
-import wiredup.data.DataPersister;
-import wiredup.http.HttpRequester;
+import wiredup.data.PersistersUnitOfWork;
 import android.app.Application;
 
 public class WiredUpApp extends Application {
 	private static final String ROOT_URL = "http://wiredup.apphb.com/api/";
 	
-	private DataPersister dataPersister;
-	private HttpRequester httpRequester;
+	private PersistersUnitOfWork data;
 	
-	public DataPersister getData() {
-		if (this.dataPersister == null) {
-			this.httpRequester = new HttpRequester();
-			this.dataPersister = new DataPersister(ROOT_URL, this.httpRequester);
+	public PersistersUnitOfWork getData() {
+		if (this.data == null) {
+			this.data = new PersistersUnitOfWork(ROOT_URL);
 		}
 		
-		return this.dataPersister;
+		return this.data;
 	}
 }

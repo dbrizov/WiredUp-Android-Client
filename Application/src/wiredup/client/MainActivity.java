@@ -1,11 +1,9 @@
 package wiredup.client;
 
-import com.google.gson.Gson;
-
 import wiredup.http.HttpActivity;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.UserChangePasswordModel;
+import wiredup.models.UserRegisterModel;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -29,56 +27,32 @@ public class MainActivity extends HttpActivity {
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				HttpDeleteTask deleteMessage = new HttpDeleteTask(
-						"http://wiredup.apphb.com/api/messages/delete/2?sessionKey=1keyPpQOcOUxWMypnJpdblkiGCyvzOIphdvjIUWrdjnKEWNAQp");
-				deleteMessage.setOnSuccess(new IOnSuccess() {
-					@Override
-					public void performAction(String data) {
-						MainActivity.this.textViewWelcomeMessage.setText(data);
-					}
-				});
+				UserRegisterModel model = new UserRegisterModel();
+				model.setFirstName("Denis");
+				model.setLastName("Rizov");
+				model.setEmail("d.b.rizov@gmail.com");
+				model.setAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				model.setConfirmAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
-				deleteMessage.setOnEror(new IOnError() {
-					@Override
-					public void performAction(String data) {
-						MainActivity.this.textViewWelcomeMessage.setText(data);
-					}
-				});
+				IOnSuccess onSuccess = new IOnSuccess() {
 
-				deleteMessage.execute();
-			}
-		});
+					@Override
+					public void performAction(String data) {
+						MainActivity.this.textViewWelcomeMessage.setText(data);
+					}
+				};
 
-		Button registerButton = (Button) this
-				.findViewById(R.id.btn_showRegisterDialog);
-		registerButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				UserChangePasswordModel model = new UserChangePasswordModel();
-				model.setOldAuthCode("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-				model.setNewAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				model.setConfirmNewAuthCode("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				
-				Gson gson = new Gson();
-				String jsonString = gson.toJson(model);
-				
-				HttpPutJsonTask regUser = new HttpPutJsonTask(
-						"http://wiredup.apphb.com/api/users/changepassword?sessionKey=1keyPpQOcOUxWMypnJpdblkiGCyvzOIphdvjIUWrdjnKEWNAQp", jsonString);
-				regUser.setOnSuccess(new IOnSuccess() {
+				IOnError onError = new IOnError() {
+
 					@Override
 					public void performAction(String data) {
+
 						MainActivity.this.textViewWelcomeMessage.setText(data);
 					}
-				});
-				
-				regUser.setOnEror(new IOnError() {
-					@Override
-					public void performAction(String data) {
-						MainActivity.this.textViewWelcomeMessage.setText(data);
-					}
-				});
-				
-				regUser.execute();
+				};
+
+				((WiredUpApp) MainActivity.this.getApplication()).getData()
+						.getUsers().register(model, onSuccess, onError);
 			}
 		});
 	}
