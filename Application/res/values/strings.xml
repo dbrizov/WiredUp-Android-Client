@@ -7,5 +7,15 @@
     <string name="welcome_message">Welcome to WiredUp</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="cancel">Cancel</string>
+    
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    
+    <string name="fragment_register">Fragment Register</string>
+    <string name="fragment_login">Fragment Login</string>
 
 </resources>
