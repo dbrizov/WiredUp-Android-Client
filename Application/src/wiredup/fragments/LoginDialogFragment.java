@@ -25,11 +25,6 @@ public class LoginDialogFragment extends DialogFragment {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast toast = Toast.makeText(
-								LoginDialogFragment.this.getActivity(),
-								R.string.cancel, Toast.LENGTH_SHORT);
-
-						toast.show();
 					}
 				});
 
@@ -37,11 +32,6 @@ public class LoginDialogFragment extends DialogFragment {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast toast = Toast.makeText(
-								LoginDialogFragment.this.getActivity(),
-								R.string.login, Toast.LENGTH_SHORT);
-
-						toast.show();
 					}
 				});
 
