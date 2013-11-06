@@ -1,6 +1,6 @@
 package wiredup.data;
 
-import wiredup.client.WiredUpApp;
+import wiredup.activities.WiredUpApp;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserLoginModel;
