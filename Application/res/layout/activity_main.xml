@@ -5,4 +5,31 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
 
+    <TextView
+        android:id="@+id/tv_welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/welcome_message"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_showLoginDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_welcomeMessage"
+        android:layout_below="@+id/tv_welcomeMessage"
+        android:text="@string/login"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btn_showRegisterDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_showLoginDialog"
+        android:layout_below="@+id/btn_showLoginDialog"
+        android:text="@string/register"
+        android:textSize="25sp" />
+
 </RelativeLayout>

@@ -1,10 +1,10 @@
 package wiredup.data;
 
-import wiredup.activities.WiredUpApp;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserLoginModel;
 import wiredup.models.UserRegisterModel;
+import wiredup.utils.WiredUpApp;
 
 public class UsersPersister extends MainPersister {
 	public UsersPersister(String rootUrl) {

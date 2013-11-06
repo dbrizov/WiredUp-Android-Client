@@ -1,4 +1,4 @@
-package wiredup.activities;
+package wiredup.utils;
 
 import wiredup.data.PersistersUnitOfWork;
 
