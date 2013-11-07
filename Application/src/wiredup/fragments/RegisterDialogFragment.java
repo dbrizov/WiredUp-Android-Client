@@ -1,10 +1,19 @@
 package wiredup.fragments;
 
+import com.google.gson.Gson;
+
 import wiredup.client.R;
+import wiredup.http.IOnError;
+import wiredup.http.IOnSuccess;
+import wiredup.models.ServerResponseModel;
+import wiredup.models.UserRegisterModel;
+import wiredup.utils.Encryptor;
+import wiredup.utils.WiredUpApp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RegisterDialogFragment extends DialogFragment {
+	private static final int PASSWORD_MIN_LENGTH = 6;
+	
 	private EditText editTextFirstName;
 	private EditText editTextLastName;
 	private EditText editTextEmail;
@@ -45,16 +56,118 @@ public class RegisterDialogFragment extends DialogFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		AlertDialog dialog = (AlertDialog) this.getDialog();
+		final AlertDialog dialog = (AlertDialog) this.getDialog();
 		
 		Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
 		positiveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(RegisterDialogFragment.this.getActivity(), "toast", Toast.LENGTH_SHORT).show();
+				String firstName = RegisterDialogFragment.this.editTextFirstName.getText().toString();
+				String lastName = RegisterDialogFragment.this.editTextLastName.getText().toString();
+				String email = RegisterDialogFragment.this.editTextEmail.getText().toString();
+				String password = RegisterDialogFragment.this.editTextPassword.getText().toString();
+				String confirmPassword = RegisterDialogFragment.this.editTextConfirmPassword.getText().toString();
 				
-				//dialog.dismiss();
+				StringBuilder errorMessageBuilder = new StringBuilder();
+				if (!RegisterDialogFragment.this.isNameValid(firstName)) {
+					errorMessageBuilder.append("'First Name' is required\n");
+				}
+				
+				if (!RegisterDialogFragment.this.isNameValid(lastName)) {
+					errorMessageBuilder.append("'Last Name' is required\n");
+				}
+				
+				if (!RegisterDialogFragment.this.isEmailValid(email)) {
+					errorMessageBuilder.append("'Email' is invalid\n");
+				}
+				
+				if (!RegisterDialogFragment.this.isPasswordValid(password)) {
+					errorMessageBuilder.append(
+							String.format("'Password' must be at least %s characters\n", PASSWORD_MIN_LENGTH));
+				}
+				
+				if (!RegisterDialogFragment.this.arePasswordsEqual(password, confirmPassword)) {
+					errorMessageBuilder.append("'Passwords' don't match\n");
+				}
+				
+				if (errorMessageBuilder.length() != 0) {
+					Toast.makeText(
+							RegisterDialogFragment.this.getActivity(),
+							errorMessageBuilder.toString(),
+							Toast.LENGTH_LONG).show();
+				} else {
+					String sha1Password = Encryptor.sha1Hash(password);
+					
+					UserRegisterModel user = new UserRegisterModel();
+					user.setFirstName(firstName);
+					user.setLastName(lastName);
+					user.setEmail(email);
+					user.setAuthCode(sha1Password);
+					user.setConfirmAuthCode(sha1Password);
+					
+					IOnSuccess onSuccess = new IOnSuccess() {
+						@Override
+						public void performAction(String data) {
+							Log.d("debug", data);
+							
+							dialog.dismiss();
+						}
+					};
+					
+					IOnError onError = new IOnError() {
+						@Override
+						public void performAction(String data) {
+							Log.d("debug", data);
+							
+							Gson gson = new Gson();
+							ServerResponseModel response = gson.fromJson(data, ServerResponseModel.class);
+							
+							Toast.makeText(
+									RegisterDialogFragment.this.getActivity(),
+									response.getMessage(),
+									Toast.LENGTH_LONG).show();
+						}
+					};
+					
+					WiredUpApp.getData().getUsers().register(user, onSuccess, onError);
+				}
 			}
 		});
+	}
+	
+	private boolean isNameValid(String name) {
+		boolean isValid = true;
+		if (name == null || name.trim().length() == 0) {
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	private boolean isPasswordValid(String password) {
+		boolean isValid = true;
+		if (password == null || password.trim().length() < PASSWORD_MIN_LENGTH) {
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	private boolean arePasswordsEqual(String password, String confirmPassword) {
+		boolean areEqual = true;
+		if (password.compareTo(confirmPassword) != 0) {
+			areEqual = false;
+		}
+		
+		return areEqual;
+	}
+	
+	private boolean isEmailValid(String email) {
+		boolean isValid = true;
+		if (!email.matches("[a-zA-Z_.]+@[a-zA-Z_]+?\\.[a-zA-Z]{2,4}")) {
+			isValid = false;
+		}
+		
+		return isValid;
 	}
 }
