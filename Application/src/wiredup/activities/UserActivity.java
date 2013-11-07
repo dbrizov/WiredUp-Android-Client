@@ -1,18 +1,27 @@
 package wiredup.activities;
 
 import wiredup.client.R;
-import wiredup.client.R.layout;
-import wiredup.client.R.menu;
+import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class UserActivity extends Activity {
+	private TextView textViewUserInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user);
+		
+		this.textViewUserInfo = (TextView) this.findViewById(R.id.textView_userInfo);
+		
+		int userId = WiredUpApp.getUserId();
+		String userDisplayName = WiredUpApp.getUserDisplayName();
+		String sessionKey = WiredUpApp.getSessionKey();
+		
+		this.textViewUserInfo.setText(userId + " " + userDisplayName + " " + sessionKey);
 	}
 
 	@Override

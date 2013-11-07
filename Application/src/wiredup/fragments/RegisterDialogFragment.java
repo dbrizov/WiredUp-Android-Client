@@ -2,18 +2,20 @@ package wiredup.fragments;
 
 import com.google.gson.Gson;
 
+import wiredup.activities.UserActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.ServerResponseModel;
+import wiredup.models.UserLoggedModel;
 import wiredup.models.UserRegisterModel;
 import wiredup.utils.Encryptor;
 import wiredup.utils.WiredUpApp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -108,22 +110,14 @@ public class RegisterDialogFragment extends DialogFragment {
 					IOnSuccess onSuccess = new IOnSuccess() {
 						@Override
 						public void performAction(String data) {
-							Log.d("debug", data);
-							
-							dialog.dismiss();
+							RegisterDialogFragment.this.startUserActivity(data);
 						}
 					};
 					
 					IOnError onError = new IOnError() {
 						@Override
 						public void performAction(String data) {
-							Gson gson = new Gson();
-							ServerResponseModel response = gson.fromJson(data, ServerResponseModel.class);
-							
-							Toast.makeText(
-									RegisterDialogFragment.this.getActivity(),
-									response.getMessage(),
-									Toast.LENGTH_LONG).show();
+							RegisterDialogFragment.this.displayErrorMessage(data);
 						}
 					};
 					
@@ -131,6 +125,28 @@ public class RegisterDialogFragment extends DialogFragment {
 				}
 			}
 		});
+	}
+	
+	private void displayErrorMessage(String data) {
+		Gson gson = new Gson();
+		ServerResponseModel response = gson.fromJson(data, ServerResponseModel.class);
+		
+		Toast.makeText(
+				this.getActivity(),
+				response.getMessage(),
+				Toast.LENGTH_LONG).show();
+	}
+	
+	private void startUserActivity(String data) {
+		Gson gson = new Gson();
+		UserLoggedModel userLoggedModel = gson.fromJson(data, UserLoggedModel.class);
+		
+		WiredUpApp.setUserId(userLoggedModel.getId());
+		WiredUpApp.setUserDisplayName(userLoggedModel.getDisplayName());
+		WiredUpApp.setSessionKey(userLoggedModel.getSessionKey());
+		
+		Intent intent = new Intent(this.getActivity(), UserActivity.class);
+		this.getActivity().startActivity(intent);
 	}
 	
 	private boolean isNameValid(String name) {
