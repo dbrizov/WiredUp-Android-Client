@@ -17,5 +17,7 @@
     
     <string name="fragment_register">Fragment Register</string>
     <string name="fragment_login">Fragment Login</string>
+    
+    <string name="title_activity_user">UserActivity</string>
 
 </resources>
