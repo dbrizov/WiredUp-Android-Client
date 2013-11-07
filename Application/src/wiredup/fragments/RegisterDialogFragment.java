@@ -117,8 +117,6 @@ public class RegisterDialogFragment extends DialogFragment {
 					IOnError onError = new IOnError() {
 						@Override
 						public void performAction(String data) {
-							Log.d("debug", data);
-							
 							Gson gson = new Gson();
 							ServerResponseModel response = gson.fromJson(data, ServerResponseModel.class);
 							

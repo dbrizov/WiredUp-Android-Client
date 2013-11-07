@@ -1,15 +1,29 @@
 package wiredup.fragments;
 
+import com.google.gson.Gson;
+
 import wiredup.client.R;
+import wiredup.http.IOnError;
+import wiredup.http.IOnSuccess;
+import wiredup.models.ServerResponseModel;
+import wiredup.models.UserLoginModel;
+import wiredup.utils.Encryptor;
+import wiredup.utils.WiredUpApp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginDialogFragment extends DialogFragment {
+	private EditText editTextEmail;
+	private EditText editTextPassword;
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
@@ -17,24 +31,61 @@ public class LoginDialogFragment extends DialogFragment {
 		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 
 		View view = inflater.inflate(R.layout.dialog_fragment_login, null);
+		
+		this.editTextEmail = (EditText) view.findViewById(R.id.editText_email);
+		this.editTextPassword = (EditText) view.findViewById(R.id.editText_password);
+		
 		builder.setView(view);
 		builder.setTitle(R.string.login);
 
-		builder.setNegativeButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				});
-
-		builder.setPositiveButton(R.string.login,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				});
+		builder.setNegativeButton(R.string.cancel, null);
+		builder.setPositiveButton(R.string.login, null);
 
 		Dialog dialog = builder.create();
 		return dialog;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		final AlertDialog dialog = (AlertDialog) this.getDialog();
+		
+		Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+		positiveButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String email = LoginDialogFragment.this.editTextEmail.getText().toString();
+				String password = LoginDialogFragment.this.editTextPassword.getText().toString();
+				
+				String sha1Password = Encryptor.sha1Hash(password);
+				
+				UserLoginModel user = new UserLoginModel(email, sha1Password);
+				
+				IOnSuccess onSuccess = new IOnSuccess() {
+					@Override
+					public void performAction(String data) {
+						Log.d("debug", data);
+						
+						dialog.dismiss();
+					}
+				};
+				
+				IOnError onError = new IOnError() {
+					@Override
+					public void performAction(String data) {
+						Gson gson = new Gson();
+						ServerResponseModel response = gson.fromJson(data, ServerResponseModel.class);
+						
+						Toast.makeText(
+								LoginDialogFragment.this.getActivity(),
+								response.getMessage(),
+								Toast.LENGTH_LONG).show();
+					}
+				};
+				
+				WiredUpApp.getData().getUsers().login(user, onSuccess, onError);
+			}
+		});
 	}
 }
