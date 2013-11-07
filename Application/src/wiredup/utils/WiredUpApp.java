@@ -7,6 +7,8 @@ public class WiredUpApp {
 	
 	private static PersistersUnitOfWork data;
 	private static String sessionKey;
+	private static String userDisplayName;
+	private static int userId;
 	
 	public static PersistersUnitOfWork getData() {
 		if (WiredUpApp.data == null) {
@@ -22,5 +24,21 @@ public class WiredUpApp {
 	
 	public static void setSessionKey(String sessionKey) {
 		WiredUpApp.sessionKey = sessionKey;
+	}
+	
+	public static String getUserDisplayName() {
+		return WiredUpApp.userDisplayName;
+	}
+	
+	public static void setUserDisplayName(String displayName) {
+		WiredUpApp.userDisplayName = displayName;
+	}
+	
+	public static int getUserId() {
+		return WiredUpApp.userId;
+	}
+	
+	public static void setUserId(int id) {
+		WiredUpApp.userId = id;
 	}
 }
