@@ -32,12 +32,12 @@ public class LoginDialogFragment extends DialogFragment {
 				this.getActivity());
 		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 
-		View view = inflater.inflate(R.layout.dialog_fragment_login, null);
+		View rootView = inflater.inflate(R.layout.dialog_fragment_login, null);
 		
-		this.editTextEmail = (EditText) view.findViewById(R.id.editText_email);
-		this.editTextPassword = (EditText) view.findViewById(R.id.editText_password);
+		this.editTextEmail = (EditText) rootView.findViewById(R.id.editText_email);
+		this.editTextPassword = (EditText) rootView.findViewById(R.id.editText_password);
 		
-		builder.setView(view);
+		builder.setView(rootView);
 		builder.setTitle(R.string.login);
 
 		builder.setNegativeButton(R.string.cancel, null);

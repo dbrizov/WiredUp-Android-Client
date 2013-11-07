@@ -37,15 +37,15 @@ public class RegisterDialogFragment extends DialogFragment {
 				this.getActivity());
 		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 
-		View view = inflater.inflate(R.layout.dialog_fragment_register, null);
+		View rootView = inflater.inflate(R.layout.dialog_fragment_register, null);
 		
-		this.editTextFirstName = (EditText) view.findViewById(R.id.editText_firstName);
-		this.editTextLastName = (EditText) view.findViewById(R.id.editText_lastName);
-		this.editTextEmail = (EditText) view.findViewById(R.id.editText_email);
-		this.editTextPassword = (EditText) view.findViewById(R.id.editText_password);
-		this.editTextConfirmPassword = (EditText) view.findViewById(R.id.editText_confirmPassword);
+		this.editTextFirstName = (EditText) rootView.findViewById(R.id.editText_firstName);
+		this.editTextLastName = (EditText) rootView.findViewById(R.id.editText_lastName);
+		this.editTextEmail = (EditText) rootView.findViewById(R.id.editText_email);
+		this.editTextPassword = (EditText) rootView.findViewById(R.id.editText_password);
+		this.editTextConfirmPassword = (EditText) rootView.findViewById(R.id.editText_confirmPassword);
 		
-		builder.setView(view);
+		builder.setView(rootView);
 		builder.setTitle(R.string.register);
 
 		builder.setNegativeButton(R.string.cancel, null);
