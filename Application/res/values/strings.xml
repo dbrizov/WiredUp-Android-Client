@@ -15,9 +15,9 @@
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
     
-    <string name="fragment_register">Fragment Register</string>
-    <string name="fragment_login">Fragment Login</string>
+    <string name="fragment_register">FragmentRegister</string>
+    <string name="fragment_login">FragmentLogin</string>
     
-    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_user">User</string>
 
 </resources>

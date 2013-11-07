@@ -1,27 +1,27 @@
 package wiredup.activities;
 
 import wiredup.client.R;
-import wiredup.utils.WiredUpApp;
+import wiredup.pager.adapters.UserActivityPagerAdapter;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.widget.TextView;
 
-public class UserActivity extends Activity {
-	private TextView textViewUserInfo;
-
+public class UserActivity extends FragmentActivity {
+	private UserActivityPagerAdapter pagerAdapter;
+	private ViewPager pager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user);
 		
-		this.textViewUserInfo = (TextView) this.findViewById(R.id.textView_userInfo);
+		FragmentManager fragmentManaget = this.getSupportFragmentManager();
+		this.pagerAdapter = new UserActivityPagerAdapter(fragmentManaget);
 		
-		int userId = WiredUpApp.getUserId();
-		String userDisplayName = WiredUpApp.getUserDisplayName();
-		String sessionKey = WiredUpApp.getSessionKey();
-		
-		this.textViewUserInfo.setText(userId + " " + userDisplayName + " " + sessionKey);
+		this.pager = (ViewPager) this.findViewById(R.id.pager_user_activity);
+		this.pager.setAdapter(this.pagerAdapter);
 	}
 
 	@Override

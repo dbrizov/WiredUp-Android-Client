@@ -3,15 +3,15 @@ package wiredup.activities;
 import wiredup.client.R;
 import wiredup.fragments.LoginDialogFragment;
 import wiredup.fragments.RegisterDialogFragment;
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener {
 	private Button showLoginDiaog;
 	private Button showRegisterDialog;
 
@@ -44,15 +44,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void showRegisterDialog() {
 		RegisterDialogFragment registerDialog = new RegisterDialogFragment();
-		FragmentManager manager = this.getFragmentManager();
+		FragmentManager manager = this.getSupportFragmentManager();
 
-		registerDialog.show(manager, Integer.toString(R.string.fragment_register));
+		registerDialog.show(manager, this.getString(R.string.fragment_register));
 	}
 
 	private void showLoginDialog() {
 		LoginDialogFragment loginDialog = new LoginDialogFragment();
-		FragmentManager manager = this.getFragmentManager();
+		FragmentManager manager = this.getSupportFragmentManager();
 
-		loginDialog.show(manager, Integer.toString(R.string.fragment_login));
+		loginDialog.show(manager, this.getString(R.string.fragment_login));
 	}
 }
