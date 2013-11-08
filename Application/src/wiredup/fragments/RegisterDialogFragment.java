@@ -2,7 +2,7 @@ package wiredup.fragments;
 
 import com.google.gson.Gson;
 
-import wiredup.activities.UserActivity;
+import wiredup.activities.ProfileActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -110,7 +110,7 @@ public class RegisterDialogFragment extends DialogFragment {
 					IOnSuccess onSuccess = new IOnSuccess() {
 						@Override
 						public void performAction(String data) {
-							RegisterDialogFragment.this.startUserActivity(data);
+							RegisterDialogFragment.this.startProfileActivity(data);
 						}
 					};
 					
@@ -137,7 +137,7 @@ public class RegisterDialogFragment extends DialogFragment {
 				Toast.LENGTH_LONG).show();
 	}
 	
-	private void startUserActivity(String data) {
+	private void startProfileActivity(String data) {
 		Gson gson = new Gson();
 		UserLoggedModel userLoggedModel = gson.fromJson(data, UserLoggedModel.class);
 		
@@ -145,7 +145,7 @@ public class RegisterDialogFragment extends DialogFragment {
 		WiredUpApp.setUserDisplayName(userLoggedModel.getDisplayName());
 		WiredUpApp.setSessionKey(userLoggedModel.getSessionKey());
 		
-		Intent intent = new Intent(this.getActivity(), UserActivity.class);
+		Intent intent = new Intent(this.getActivity(), ProfileActivity.class);
 		this.getActivity().startActivity(intent);
 	}
 	

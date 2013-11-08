@@ -1,6 +1,6 @@
 package wiredup.fragments;
 
-import wiredup.activities.UserActivity;
+import wiredup.activities.ProfileActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -67,7 +67,7 @@ public class LoginDialogFragment extends DialogFragment {
 				IOnSuccess onSuccess = new IOnSuccess() {
 					@Override
 					public void performAction(String data) {
-						LoginDialogFragment.this.startUserActivity(data);
+						LoginDialogFragment.this.startProfileActivity(data);
 					}
 				};
 				
@@ -93,7 +93,7 @@ public class LoginDialogFragment extends DialogFragment {
 				Toast.LENGTH_LONG).show();
 	}
 	
-	private void startUserActivity(String data) {
+	private void startProfileActivity(String data) {
 		Gson gson = new Gson();
 		UserLoggedModel userLoggedModel = gson.fromJson(data, UserLoggedModel.class);
 		
@@ -101,7 +101,7 @@ public class LoginDialogFragment extends DialogFragment {
 		WiredUpApp.setUserDisplayName(userLoggedModel.getDisplayName());
 		WiredUpApp.setSessionKey(userLoggedModel.getSessionKey());
 		
-		Intent intent = new Intent(this.getActivity(), UserActivity.class);
+		Intent intent = new Intent(this.getActivity(), ProfileActivity.class);
 		this.getActivity().startActivity(intent);
 	}
 }

@@ -25,8 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="wiredup.activities.UserActivity"
-            android:label="@string/title_activity_user" >
+            android:name="wiredup.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 

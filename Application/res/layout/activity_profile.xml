@@ -1,9 +1,9 @@
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager_user_activity"
+    android:id="@+id/pager_profile_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wiredup.activities.UserActivity" >
+    tools:context="wiredup.activities.ProfileActivity" >
 
     <!--
     This title strip will display the currently visible page title, as well as the page
@@ -11,7 +11,7 @@
     -->
 
     <android.support.v4.view.PagerTitleStrip
-        android:id="@+id/pager_title_strip_user_activity"
+        android:id="@+id/pager_title_strip_profile_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

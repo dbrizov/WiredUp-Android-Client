@@ -20,7 +20,8 @@
     <string name="fragment_login">FragmentLogin</string>
     
     <string name="header_skills">Skills</string>
+    <string name="header_certificates">Certificates</string>
     
-    <string name="title_activity_user">User</string>
+    <string name="title_activity_profile">Profile</string>
 
 </resources>

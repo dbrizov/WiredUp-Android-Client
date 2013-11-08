@@ -1,19 +1,23 @@
 package wiredup.pager.adapters;
 
+import wiredup.fragments.CertificatesFragment;
 import wiredup.fragments.ConnectionsFragment;
 import wiredup.fragments.MessagesFragment;
 import wiredup.fragments.PostsFragment;
 import wiredup.fragments.ProfileFragment;
+import wiredup.fragments.SkillsFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class UserActivityPagerAdapter extends FragmentPagerAdapter {
-	private static final int PAGES_COUNT = 4;
+	private static final int PAGES_COUNT = 6;
 	private static final String MESSAGES_TITLE = "Messages";
 	private static final String PROFILE_TITLE = "Profile";
 	private static final String POSTS_TITLE = "Posts";
 	private static final String CONNECTIONS_TITLE = "Connections";
+	private static final String CERTIFICATES_TITLE = "Certificates";
+	private static final String SKILLS_TITLE = "Skills";
 
 	public UserActivityPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -31,10 +35,16 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 			fragment = new MessagesFragment();
 			break;
 		case 2:
-			fragment = new PostsFragment();
+			fragment = new ConnectionsFragment();
 			break;
 		case 3:
-			fragment = new ConnectionsFragment();
+			fragment = new SkillsFragment();
+			break;
+		case 4:
+			fragment = new CertificatesFragment();
+			break;
+		case 5:
+			fragment = new PostsFragment();
 			break;
 		}
 
@@ -58,10 +68,16 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 			pageTitle = MESSAGES_TITLE;
 			break;
 		case 2:
-			pageTitle = POSTS_TITLE;
+			pageTitle = CONNECTIONS_TITLE;
 			break;
 		case 3:
-			pageTitle = CONNECTIONS_TITLE;
+			pageTitle = SKILLS_TITLE;
+			break;
+		case 4:
+			pageTitle = CERTIFICATES_TITLE;
+			break;
+		case 5:
+			pageTitle = POSTS_TITLE;
 			break;
 		}
 
