@@ -14,8 +14,7 @@
         android:layout_height="@dimen/user_photo_width_hight"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/user_default_img"
-        android:src="@drawable/user" />
+        android:contentDescription="@string/user_default_img" />
 
     <TextView
         android:id="@+id/textView_userDisplayName"
@@ -47,5 +46,19 @@
 <!--         android:layout_height="1dp" -->
 <!--         android:layout_below="@+id/imageView_userPhoto" -->
 <!--         android:background="#000" /> -->
+
+    <TextView
+        android:id="@+id/textView_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView_userPhoto" />
+
+    <TextView
+        android:id="@+id/textView_languages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_about" />
 
 </RelativeLayout>

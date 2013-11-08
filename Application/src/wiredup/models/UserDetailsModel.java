@@ -5,6 +5,7 @@ public class UserDetailsModel {
 	private String email;
 	private byte[] photo;
 	private String country;
+	private String aboutMe;
 	private String languages;
 	
 	public String getDisplayName() {
@@ -37,6 +38,14 @@ public class UserDetailsModel {
 	
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	
+	public String getAboutMe() {
+		return this.aboutMe;
+	}
+	
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
 	}
 	
 	public String getLanguages() {
