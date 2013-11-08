@@ -3,6 +3,8 @@ package wiredup.utils;
 import wiredup.data.PersistersUnitOfWork;
 
 public class WiredUpApp {
+	public static final String USER_ID_BUNDLE_KEY = "userId";
+	
 	private static final String ROOT_URL = "http://wiredup.apphb.com/api/";
 	
 	private static PersistersUnitOfWork data;

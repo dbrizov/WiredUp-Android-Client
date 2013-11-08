@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AboutFragment extends Fragment {
+	private int userId;
 	private UserDetailsModel userDetailsModel;
 	private boolean isDataLoaded;
 
@@ -35,12 +36,15 @@ public class AboutFragment extends Fragment {
 
 		this.userDetailsModel = null;
 		this.isDataLoaded = false;
+
+		Bundle bundle = this.getArguments();
+		this.userId = bundle.getInt(WiredUpApp.USER_ID_BUNDLE_KEY);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		View rootLayoutView = inflater.inflate(R.layout.fragment_about,
 				container, false);
 
@@ -62,9 +66,6 @@ public class AboutFragment extends Fragment {
 		this.textViewLanguages = (TextView) rootLayoutView
 				.findViewById(R.id.textView_languages);
 
-		int userId = WiredUpApp.getUserId();
-		String sessionKey = WiredUpApp.getSessionKey();
-
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
@@ -81,8 +82,11 @@ public class AboutFragment extends Fragment {
 		};
 
 		if (!this.isDataLoaded) {
-			WiredUpApp.getData().getUsers()
-					.getDetails(userId, sessionKey, onSuccess, onError);
+			WiredUpApp
+					.getData()
+					.getUsers()
+					.getDetails(this.userId, WiredUpApp.getSessionKey(),
+							onSuccess, onError);
 		} else {
 			this.initializeViews();
 		}

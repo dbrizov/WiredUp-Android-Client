@@ -7,6 +7,8 @@ import wiredup.fragments.PostsFragment;
 import wiredup.fragments.AboutFragment;
 import wiredup.fragments.ProjectsFragment;
 import wiredup.fragments.SkillsFragment;
+import wiredup.utils.WiredUpApp;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -52,6 +54,11 @@ public class ProfileActivityPagerAdapter extends FragmentPagerAdapter {
 			fragment = new PostsFragment();
 			break;
 		}
+		
+		Bundle bundle = new Bundle();
+		bundle.putInt(WiredUpApp.USER_ID_BUNDLE_KEY, WiredUpApp.getUserId());
+		
+		fragment.setArguments(bundle);
 
 		return fragment;
 	}

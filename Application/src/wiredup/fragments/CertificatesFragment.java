@@ -24,17 +24,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class CertificatesFragment extends Fragment {
+	private int userId;
 	private boolean isDataLoaded;
 	private List<CertificateModel> certificates;
 
 	private ListView listViewCertificates;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		this.isDataLoaded = false;
 		this.certificates = null;
+		
+		Bundle bundle = this.getArguments();
+		this.userId = bundle.getInt(WiredUpApp.USER_ID_BUNDLE_KEY);
 	}
 
 	@Override
@@ -46,9 +50,6 @@ public class CertificatesFragment extends Fragment {
 
 		this.listViewCertificates = (ListView) rootLayoutView
 				.findViewById(R.id.listView_certificates);
-
-		int userId = WiredUpApp.getUserId();
-		String sessionKey = WiredUpApp.getSessionKey();
 
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
@@ -66,8 +67,11 @@ public class CertificatesFragment extends Fragment {
 		};
 
 		if (!this.isDataLoaded) {
-			WiredUpApp.getData().getCertificates()
-					.getAll(userId, sessionKey, onSuccess, onError);
+			WiredUpApp
+					.getData()
+					.getCertificates()
+					.getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess,
+							onError);
 		} else {
 			this.initializeListView();
 		}
@@ -77,8 +81,7 @@ public class CertificatesFragment extends Fragment {
 
 	private void loadCertificatesData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<CertificateModel>>() {
-		}.getType();
+		Type listType = new TypeToken<List<CertificateModel>>() {}.getType();
 
 		this.certificates = gson.fromJson(data, listType);
 		this.isDataLoaded = true;

@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class SkillsFragment extends Fragment {
+	private int userId;
 	private boolean isDataLoaded;
 	private List<SkillModel> skills;
 
@@ -35,6 +36,9 @@ public class SkillsFragment extends Fragment {
 
 		this.isDataLoaded = false;
 		this.skills = null;
+
+		Bundle bundle = this.getArguments();
+		this.userId = bundle.getInt(WiredUpApp.USER_ID_BUNDLE_KEY);
 	}
 
 	@Override
@@ -46,9 +50,6 @@ public class SkillsFragment extends Fragment {
 
 		this.listViewSkills = (ListView) rootLayoutView
 				.findViewById(R.id.listView_skills);
-
-		int userId = WiredUpApp.getUserId();
-		String sessionKey = WiredUpApp.getSessionKey();
 
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
@@ -66,8 +67,11 @@ public class SkillsFragment extends Fragment {
 		};
 
 		if (!this.isDataLoaded) {
-			WiredUpApp.getData().getSkills()
-					.getAll(userId, sessionKey, onSuccess, onError);
+			WiredUpApp
+					.getData()
+					.getSkills()
+					.getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess,
+							onError);
 		} else {
 			this.initializeListView();
 		}
@@ -81,7 +85,7 @@ public class SkillsFragment extends Fragment {
 
 		this.skills = gson.fromJson(data, listType);
 		this.isDataLoaded = true;
-		
+
 		Log.d("debug", "Skills Loaded");
 	}
 
