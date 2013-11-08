@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="DefaultLocale">
+        <ignore path="src/wiredup/data/CertificatesPersister.java" />
         <ignore path="src/wiredup/data/SkillsPersister.java" />
         <ignore path="src/wiredup/data/UsersPersister.java" />
     </issue>

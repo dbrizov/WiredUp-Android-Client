@@ -2,6 +2,7 @@ package wiredup.adapters;
 
 import java.util.List;
 
+import wiredup.client.R;
 import wiredup.models.CertificateModel;
 import android.app.Activity;
 import android.content.Context;
@@ -13,13 +14,13 @@ import android.widget.TextView;
 
 public class CertificatesAdapter extends BaseAdapter {
 	private Context context;
-	private int textViewRowId;
+	private int layoutId;
 	private List<CertificateModel> certificates;
 
-	public CertificatesAdapter(Context context, int textViewRowId,
+	public CertificatesAdapter(Context context, int layoutId,
 			List<CertificateModel> certificates) {
 		this.context = context;
-		this.textViewRowId = textViewRowId;
+		this.layoutId = layoutId;
 		this.certificates = certificates;
 	}
 
@@ -41,11 +42,14 @@ public class CertificatesAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
+		View rootLayoutView = inflater.inflate(this.layoutId, parent, false);
 		
-		TextView textViewRow = (TextView) inflater.inflate(this.textViewRowId, null);
-		textViewRow.setText(this.certificates.get(position).getName());
+		// Get the row
+		TextView textViewCertificate = (TextView) rootLayoutView
+				.findViewById(R.id.textView_certificate);
+		textViewCertificate.setText(this.certificates.get(position).getName());
 		
-		return textViewRow;
+		return rootLayoutView;
 	}
 
 }

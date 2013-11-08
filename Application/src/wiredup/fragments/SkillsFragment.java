@@ -34,6 +34,7 @@ public class SkillsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		this.isDataLoaded = false;
+		this.skills = null;
 	}
 
 	@Override
