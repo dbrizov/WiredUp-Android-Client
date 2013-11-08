@@ -19,10 +19,18 @@ import android.widget.Toast;
 
 public class ProfileFragment extends Fragment {
 	private UserDetailsModel userDetailsModel;
+	private boolean isDataLoaded;
 
 	private TextView textViewDisplayName;
 	private TextView textViewEmail;
 	private TextView textViewCountry;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		this.isDataLoaded = false;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,13 +48,11 @@ public class ProfileFragment extends Fragment {
 		int userId = WiredUpApp.getUserId();
 		String sessionKey = WiredUpApp.getSessionKey();
 
-		Log.d("debug", Integer.toString(userId));
-		Log.d("debug", sessionKey);
-
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
-				ProfileFragment.this.displayUserDetails(data);
+				ProfileFragment.this.loadUserDetails(data);
+				ProfileFragment.this.displayUserDetails();
 			}
 		};
 
@@ -57,16 +63,25 @@ public class ProfileFragment extends Fragment {
 			}
 		};
 
-		WiredUpApp.getData().getUsers()
-				.getDetails(userId, sessionKey, onSuccess, onError);
+		if (!this.isDataLoaded) {
+			WiredUpApp.getData().getUsers()
+					.getDetails(userId, sessionKey, onSuccess, onError);
+		} else {
+			this.displayUserDetails();
+		}
 
 		return rootView;
 	}
-
-	private void displayUserDetails(String data) {
+	
+	private void loadUserDetails(String data) {
 		Gson gson = new Gson();
 		this.userDetailsModel = gson.fromJson(data, UserDetailsModel.class);
+		this.isDataLoaded = true;
+		
+		Log.d("debug", "data loaded");
+	}
 
+	private void displayUserDetails() {
 		this.textViewDisplayName
 				.setText(this.userDetailsModel.getDisplayName());
 		this.textViewEmail.setText(this.userDetailsModel.getEmail());
