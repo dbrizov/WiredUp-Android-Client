@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView_userPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/user_photo_width_hight"
+        android:layout_height="@dimen/user_photo_width_hight"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/user_default_img"
@@ -20,27 +20,24 @@
         android:id="@+id/textView_userDisplayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView_userPhoto"
+        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageView_userPhoto"
-        android:text="Pesho"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textView_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView_userDisplayName"
         android:layout_below="@+id/textView_userDisplayName"
-        android:text="pesho@abv.bg"
+        android:layout_toRightOf="@+id/imageView_userPhoto"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/textView_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView_userPhoto"
-        android:layout_alignLeft="@+id/textView_email"
-        android:text="Germany"
+        android:layout_below="@+id/textView_email"
+        android:layout_toRightOf="@+id/imageView_userPhoto"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
