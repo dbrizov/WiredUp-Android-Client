@@ -40,25 +40,26 @@ public class AboutFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_profile, container,
-				false);
+		
+		View rootLayoutView = inflater.inflate(R.layout.fragment_about,
+				container, false);
 
-		this.imageViewPhoto = (ImageView) rootView
+		this.imageViewPhoto = (ImageView) rootLayoutView
 				.findViewById(R.id.imageView_userPhoto);
 
-		this.textViewDisplayName = (TextView) rootView
+		this.textViewDisplayName = (TextView) rootLayoutView
 				.findViewById(R.id.textView_userDisplayName);
 
-		this.textViewEmail = (TextView) rootView
+		this.textViewEmail = (TextView) rootLayoutView
 				.findViewById(R.id.textView_email);
 
-		this.textViewCountry = (TextView) rootView
+		this.textViewCountry = (TextView) rootLayoutView
 				.findViewById(R.id.textView_country);
 
-		this.textViewAbout = (TextView) rootView
+		this.textViewAbout = (TextView) rootLayoutView
 				.findViewById(R.id.textView_about);
 
-		this.textViewLanguages = (TextView) rootView
+		this.textViewLanguages = (TextView) rootLayoutView
 				.findViewById(R.id.textView_languages);
 
 		int userId = WiredUpApp.getUserId();
@@ -86,14 +87,14 @@ public class AboutFragment extends Fragment {
 			this.initializeViews();
 		}
 
-		return rootView;
+		return rootLayoutView;
 	}
 
 	private void loadUserDetailsData(String data) {
 		Gson gson = new Gson();
 		this.userDetailsModel = gson.fromJson(data, UserDetailsModel.class);
 		this.isDataLoaded = true;
-		
+
 		Log.d("debug", "About Loaded");
 	}
 
@@ -104,14 +105,15 @@ public class AboutFragment extends Fragment {
 			this.imageViewPhoto.setImageResource(R.drawable.default_user_image);
 		}
 
-		this.textViewDisplayName.setText(this.userDetailsModel.getDisplayName());
-		
+		this.textViewDisplayName
+				.setText(this.userDetailsModel.getDisplayName());
+
 		this.textViewEmail.setText(this.userDetailsModel.getEmail());
-		
+
 		this.textViewCountry.setText(this.userDetailsModel.getCountry());
-		
+
 		this.textViewAbout.setText(this.userDetailsModel.getAboutMe());
-		
+
 		this.textViewLanguages.setText(this.userDetailsModel.getLanguages());
 	}
 
