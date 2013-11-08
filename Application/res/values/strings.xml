@@ -19,6 +19,8 @@
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>
     
+    <string name="header_skills">Skills</string>
+    
     <string name="title_activity_user">User</string>
 
 </resources>

@@ -1,14 +1,16 @@
 package wiredup.models;
 
+import java.util.List;
+
 public class UserDetailsModel {
 	private String displayName;
 	private String email;
 	private byte[] photo;
 	private String country;
-	private String[] skills;
+	private List<String> skills;
 	private String languages;
-	private CertificateModel[] certificates;
-	private ProjectModel[] projects;
+	private List<CertificateModel> certificates;
+	private List<ProjectModel> projects;
 	
 	public String getDisplayName() {
 		return this.displayName;
@@ -42,14 +44,6 @@ public class UserDetailsModel {
 		this.country = country;
 	}
 	
-	public String[] getSkills() {
-		return this.skills;
-	}
-	
-	public void setSkills(String[] skills) {
-		this.skills = skills;
-	}
-	
 	public String getLanguages() {
 		return this.languages;
 	}
@@ -57,20 +51,28 @@ public class UserDetailsModel {
 	public void setLanguages(String languages) {
 		this.languages = languages;
 	}
-	
-	public CertificateModel[] getCertificates() {
+
+	public List<String> getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(List<String> skills) {
+		this.skills = skills;
+	}
+
+	public List<CertificateModel> getCertificates() {
 		return this.certificates;
 	}
-	
-	public void setCertificates(CertificateModel[] certificates) {
+
+	public void setCertificates(List<CertificateModel> certificates) {
 		this.certificates = certificates;
 	}
-	
-	public ProjectModel[] getProjects() {
+
+	public List<ProjectModel> getProjects() {
 		return this.projects;
 	}
-	
-	public void setProjects(ProjectModel[] projects) {
+
+	public void setProjects(List<ProjectModel> projects) {
 		this.projects = projects;
 	}
 }
