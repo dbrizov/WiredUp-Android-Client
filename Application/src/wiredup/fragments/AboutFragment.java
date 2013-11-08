@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ProfileFragment extends Fragment {
+public class AboutFragment extends Fragment {
 	private ImageView imageViewPhoto;
 	private TextView textViewDisplayName;
 	private TextView textViewEmail;
@@ -24,14 +24,14 @@ public class ProfileFragment extends Fragment {
 
 		this.imageViewPhoto = (ImageView) rootView
 				.findViewById(R.id.imageView_userPhoto);
-		
+
 		this.textViewDisplayName = (TextView) rootView
 				.findViewById(R.id.textView_userDisplayName);
 		this.textViewDisplayName.setText(WiredUpApp.getUserDisplayName());
-		
+
 		this.textViewEmail = (TextView) rootView
 				.findViewById(R.id.textView_email);
-		
+
 		this.textViewCountry = (TextView) rootView
 				.findViewById(R.id.textView_country);
 

@@ -4,22 +4,24 @@ import wiredup.fragments.CertificatesFragment;
 import wiredup.fragments.ConnectionsFragment;
 import wiredup.fragments.MessagesFragment;
 import wiredup.fragments.PostsFragment;
-import wiredup.fragments.ProfileFragment;
+import wiredup.fragments.AboutFragment;
+import wiredup.fragments.ProjectsFragment;
 import wiredup.fragments.SkillsFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class UserActivityPagerAdapter extends FragmentPagerAdapter {
-	private static final int PAGES_COUNT = 6;
+public class ProfileActivityPagerAdapter extends FragmentPagerAdapter {
+	private static final int PAGES_COUNT = 7;
 	private static final String MESSAGES_TITLE = "Messages";
-	private static final String PROFILE_TITLE = "Profile";
+	private static final String ABOUT_TITLE = "About";
 	private static final String POSTS_TITLE = "Posts";
 	private static final String CONNECTIONS_TITLE = "Connections";
 	private static final String CERTIFICATES_TITLE = "Certificates";
 	private static final String SKILLS_TITLE = "Skills";
+	private static final String PROJECTS_TITLE = "Projects";
 
-	public UserActivityPagerAdapter(FragmentManager fm) {
+	public ProfileActivityPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 
@@ -29,7 +31,7 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 		
 		switch (pageIndex) {
 		case 0:
-			fragment = new ProfileFragment();
+			fragment = new AboutFragment();
 			break;
 		case 1:
 			fragment = new MessagesFragment();
@@ -38,12 +40,15 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 			fragment = new ConnectionsFragment();
 			break;
 		case 3:
-			fragment = new SkillsFragment();
+			fragment = new ProjectsFragment();
 			break;
 		case 4:
-			fragment = new CertificatesFragment();
+			fragment = new SkillsFragment();
 			break;
 		case 5:
+			fragment = new CertificatesFragment();
+			break;
+		case 6:
 			fragment = new PostsFragment();
 			break;
 		}
@@ -62,7 +67,7 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 
 		switch (pageIndex) {
 		case 0:
-			pageTitle = PROFILE_TITLE;
+			pageTitle = ABOUT_TITLE;
 			break;
 		case 1:
 			pageTitle = MESSAGES_TITLE;
@@ -71,12 +76,15 @@ public class UserActivityPagerAdapter extends FragmentPagerAdapter {
 			pageTitle = CONNECTIONS_TITLE;
 			break;
 		case 3:
-			pageTitle = SKILLS_TITLE;
+			pageTitle = PROJECTS_TITLE;
 			break;
 		case 4:
-			pageTitle = CERTIFICATES_TITLE;
+			pageTitle = SKILLS_TITLE;
 			break;
 		case 5:
+			pageTitle = CERTIFICATES_TITLE;
+			break;
+		case 6:
 			pageTitle = POSTS_TITLE;
 			break;
 		}
