@@ -90,7 +90,7 @@ public class SkillsAdapter extends BaseAdapter {
 
 		builder.setTitle(R.string.are_you_sure);
 		
-		builder.setPositiveButton(R.string.yes,
+		builder.setPositiveButton(R.string.btn_yes,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -124,7 +124,7 @@ public class SkillsAdapter extends BaseAdapter {
 					}
 				});
 
-		builder.setNegativeButton(R.string.no, null);
+		builder.setNegativeButton(R.string.btn_no, null);
 
 		Dialog dialog = builder.create();
 		return dialog;

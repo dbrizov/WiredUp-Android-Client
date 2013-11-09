@@ -11,8 +11,10 @@
     <string name="user_default_img">User Defaulr Image</string>
     <string name="icon_delete_button">Delete Button</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="btn_add_skill">Add Skill</string>
     
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
