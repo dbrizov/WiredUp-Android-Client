@@ -41,15 +41,16 @@ public class CertificatesAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-		View rootLayoutView = inflater.inflate(this.layoutId, parent, false);
-		
-		// Get the row
-		TextView textViewCertificate = (TextView) rootLayoutView
-				.findViewById(R.id.textView_certificate);
+		View listRow = convertView;
+		if (listRow == null) {
+			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
+			listRow = inflater.inflate(this.layoutId, parent, false);
+		}
+
+		TextView textViewCertificate = (TextView) listRow.findViewById(R.id.textView_certificate);
 		textViewCertificate.setText(this.certificates.get(position).getName());
-		
-		return rootLayoutView;
+
+		return listRow;
 	}
 
 }

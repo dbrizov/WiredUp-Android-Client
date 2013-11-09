@@ -22,31 +22,33 @@ public class SkillsAdapter extends BaseAdapter {
 		this.layoutId = layoutId;
 		this.skills = skills;
 	}
-	
+
 	@Override
 	public int getCount() {
 		return this.skills.size();
 	}
-	
+
 	@Override
 	public Object getItem(int position) {
 		return this.skills.get(position);
 	}
-	
+
 	@Override
 	public long getItemId(int position) {
 		return this.skills.get(position).getId();
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ((Activity)this.context).getLayoutInflater();
-		View rootLayoutView = inflater.inflate(this.layoutId, parent, false);
-		
-		// Get the row
-		TextView textViewSkill = (TextView) rootLayoutView.findViewById(R.id.textView_skill);
+		View listRow = convertView;
+		if (listRow == null) {
+			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
+			listRow = inflater.inflate(this.layoutId, parent, false);
+		}
+
+		TextView textViewSkill = (TextView) listRow.findViewById(R.id.textView_skill);
 		textViewSkill.setText(this.skills.get(position).getName());
-		
-		return rootLayoutView;
+
+		return listRow;
 	}
 }
