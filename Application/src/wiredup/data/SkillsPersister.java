@@ -9,7 +9,7 @@ public class SkillsPersister extends MainPersister {
 		super(rootUrl + "skills/");
 	}
 
-	public void getAll(int userId, String sessionKey, IOnSuccess onSuccess,
+	public void getAllForUser(int userId, String sessionKey, IOnSuccess onSuccess,
 			IOnError onError) {
 		String url = String.format("%sall?userId=%d&sessionKey=%s",
 				this.rootUrl, userId, sessionKey);
@@ -18,6 +18,16 @@ public class SkillsPersister extends MainPersister {
 		get.setOnSuccess(onSuccess);
 		get.setOnError(onError);
 
+		get.execute();
+	}
+	
+	public void getAll(String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sall?sessionKey=%s", this.rootUrl, sessionKey);
+		
+		HttpGetJsonTask get = new HttpGetJsonTask(url);
+		get.setOnSuccess(onSuccess);
+		get.setOnError(onError);
+		
 		get.execute();
 	}
 

@@ -27,8 +27,6 @@ public class LoginDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				this.getActivity());
 		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 
 		View rootView = inflater.inflate(R.layout.dialog_fragment_login, null);
@@ -37,6 +35,9 @@ public class LoginDialogFragment extends DialogFragment {
 				.findViewById(R.id.editText_email);
 		this.editTextPassword = (EditText) rootView
 				.findViewById(R.id.editText_password);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				this.getActivity());
 
 		builder.setView(rootView);
 		builder.setTitle(R.string.login);

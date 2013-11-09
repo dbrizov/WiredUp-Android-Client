@@ -15,19 +15,23 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_add_skill">Add Skill</string>
+    <string name="btn_add">Add</string>
     
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_skill">Skill</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>
+    <string name="fragment_add_skill">FragmentAddSkill</string>
     
     <string name="header_skills">Skills</string>
     <string name="header_certificates">Certificates</string>
     
+    <string name="title_add_new_skill">Add new skill</string>
     <string name="title_activity_profile">Profile</string>
 
 </resources>

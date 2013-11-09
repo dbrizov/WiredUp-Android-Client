@@ -11,11 +11,14 @@ import wiredup.models.SkillModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -28,6 +31,7 @@ public class SkillsFragment extends Fragment {
 	private List<SkillModel> skills;
 
 	private ListView listViewSkills;
+	private Button btnAddSkill;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,29 +53,13 @@ public class SkillsFragment extends Fragment {
 
 		this.listViewSkills = (ListView) rootLayoutView
 				.findViewById(R.id.listView_skills);
+		this.btnAddSkill = (Button) rootLayoutView
+				.findViewById(R.id.btn_addSkill);
 
-		IOnSuccess onSuccess = new IOnSuccess() {
-			@Override
-			public void performAction(String data) {
-				SkillsFragment.this.loadSkillsData(data);
-				SkillsFragment.this.initializeListView();
-			}
-		};
-
-		IOnError onError = new IOnError() {
-			@Override
-			public void performAction(String data) {
-				ErrorNotifier.displayErrorMessage(
-						SkillsFragment.this.getActivity(), data);
-			}
-		};
+		this.attachEventForAddSkillButton();
 
 		if (!this.isDataLoaded) {
-			WiredUpApp
-					.getData()
-					.getSkills()
-					.getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess,
-							onError);
+			this.getDataFromServerAndInitializeListView();
 		} else {
 			this.initializeListView();
 		}
@@ -95,5 +83,45 @@ public class SkillsFragment extends Fragment {
 				R.layout.list_row_skill, this.skills);
 
 		this.listViewSkills.setAdapter(skillsAdapter);
+	}
+
+	private void getDataFromServerAndInitializeListView() {
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				SkillsFragment.this.loadSkillsData(data);
+				SkillsFragment.this.initializeListView();
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						SkillsFragment.this.getActivity(), data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getSkills()
+				.getAllForUser(this.userId, WiredUpApp.getSessionKey(),
+						onSuccess, onError);
+	}
+
+	private void attachEventForAddSkillButton() {
+		this.btnAddSkill.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SkillsFragment.this.showAddSkillDialog();
+			}
+		});
+	}
+
+	private void showAddSkillDialog() {
+		DialogFragment dialog = new AddSkillDialogFragment();
+		FragmentManager manager = this.getActivity().getSupportFragmentManager();
+
+		dialog.show(manager, this.getActivity().getString(R.string.fragment_add_skill));
 	}
 }

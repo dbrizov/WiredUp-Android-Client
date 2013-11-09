@@ -12,19 +12,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
-	private Button showLoginDiaog;
-	private Button showRegisterDialog;
+	private Button btnShowLoginDiaog;
+	private Button btnShowRegisterDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		this.showLoginDiaog = (Button) this.findViewById(R.id.btn_showLoginDialog);
-		this.showLoginDiaog.setOnClickListener(this);
+		this.btnShowLoginDiaog = (Button) this.findViewById(R.id.btn_showLoginDialog);
+		this.btnShowLoginDiaog.setOnClickListener(this);
 		
-		this.showRegisterDialog = (Button) this.findViewById(R.id.btn_showRegisterDialog);
-		this.showRegisterDialog.setOnClickListener(this);
+		this.btnShowRegisterDialog = (Button) this.findViewById(R.id.btn_showRegisterDialog);
+		this.btnShowRegisterDialog.setOnClickListener(this);
 	}
 
 	@Override

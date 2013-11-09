@@ -33,8 +33,6 @@ public class RegisterDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				this.getActivity());
 		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 
 		View rootView = inflater.inflate(R.layout.dialog_fragment_register,
@@ -50,6 +48,9 @@ public class RegisterDialogFragment extends DialogFragment {
 				.findViewById(R.id.editText_password);
 		this.editTextConfirmPassword = (EditText) rootView
 				.findViewById(R.id.editText_confirmPassword);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				this.getActivity());
 
 		builder.setView(rootView);
 		builder.setTitle(R.string.register);
