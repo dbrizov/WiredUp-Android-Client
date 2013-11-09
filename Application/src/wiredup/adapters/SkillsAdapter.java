@@ -9,7 +9,10 @@ import wiredup.models.SkillModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,32 +65,10 @@ public class SkillsAdapter extends BaseAdapter {
 				.findViewById(R.id.imageView_deleteButton);
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(final View v) {
-				int skillId = SkillsAdapter.this.skills.get(position).getId();
-				SkillModel model = new SkillModel();
-				model.setId(skillId);
-
-				IOnSuccess onSuccess = new IOnSuccess() {
-					@Override
-					public void performAction(String data) {
-						View row = (View) v.getParent();
-						SkillsAdapter.this.removeRowFromListView(row, position);
-					}
-				};
-
-				IOnError onError = new IOnError() {
-					@Override
-					public void performAction(String data) {
-						ErrorNotifier.displayErrorMessage(
-								SkillsAdapter.this.context, data);
-					}
-				};
-
-				WiredUpApp
-						.getData()
-						.getSkills()
-						.remove(model, WiredUpApp.getSessionKey(), onSuccess, onError);
-
+			public void onClick(final View imageViewDeleteButton) {
+				Dialog dialog = SkillsAdapter.this.createAlertDialog(
+						imageViewDeleteButton, position);
+				dialog.show();
 			}
 		});
 
@@ -101,5 +82,51 @@ public class SkillsAdapter extends BaseAdapter {
 				R.layout.list_row_skill, this.skills);
 
 		((ListView) listRow.getParent()).setAdapter(skillsAdapter);
+	}
+
+	private Dialog createAlertDialog(final View deleteButton, final int rowIndex) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				SkillsAdapter.this.context);
+
+		builder.setTitle(R.string.are_you_sure);
+		
+		builder.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						int skillId = SkillsAdapter.this.skills.get(rowIndex)
+								.getId();
+						SkillModel model = new SkillModel();
+						model.setId(skillId);
+
+						IOnSuccess onSuccess = new IOnSuccess() {
+							@Override
+							public void performAction(String data) {
+								View row = (View) deleteButton.getParent();
+								SkillsAdapter.this.removeRowFromListView(row,
+										rowIndex);
+							}
+						};
+
+						IOnError onError = new IOnError() {
+							@Override
+							public void performAction(String data) {
+								ErrorNotifier.displayErrorMessage(
+										SkillsAdapter.this.context, data);
+							}
+						};
+
+						WiredUpApp
+								.getData()
+								.getSkills()
+								.remove(model, WiredUpApp.getSessionKey(),
+										onSuccess, onError);
+					}
+				});
+
+		builder.setNegativeButton(R.string.no, null);
+
+		Dialog dialog = builder.create();
+		return dialog;
 	}
 }
