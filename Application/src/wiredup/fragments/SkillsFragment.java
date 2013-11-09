@@ -10,6 +10,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.SkillModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -29,6 +29,7 @@ public class SkillsFragment extends Fragment {
 	private int userId;
 	private boolean isDataLoaded;
 	private List<SkillModel> skills;
+	private SkillsAdapter skillsAdapter;
 
 	private ListView listViewSkills;
 	private Button btnAddSkill;
@@ -47,7 +48,6 @@ public class SkillsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		View rootLayoutView = inflater.inflate(R.layout.fragment_skills,
 				container, false);
 
@@ -61,10 +61,17 @@ public class SkillsFragment extends Fragment {
 		if (!this.isDataLoaded) {
 			this.getDataFromServerAndInitializeListView();
 		} else {
-			this.initializeListView();
+			this.initializeListView(this.getActivity(), this.skills);
 		}
 
 		return rootLayoutView;
+	}
+
+	private void initializeListView(Context context, List<SkillModel> skills) {
+		this.skillsAdapter = new SkillsAdapter(context,
+				R.layout.list_row_skill, skills);
+
+		this.listViewSkills.setAdapter(this.skillsAdapter);
 	}
 
 	private void loadSkillsData(String data) {
@@ -78,19 +85,14 @@ public class SkillsFragment extends Fragment {
 		Log.d("debug", "Skills Loaded");
 	}
 
-	private void initializeListView() {
-		ListAdapter skillsAdapter = new SkillsAdapter(this.getActivity(),
-				R.layout.list_row_skill, this.skills);
-
-		this.listViewSkills.setAdapter(skillsAdapter);
-	}
-
 	private void getDataFromServerAndInitializeListView() {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
 				SkillsFragment.this.loadSkillsData(data);
-				SkillsFragment.this.initializeListView();
+				SkillsFragment.this.initializeListView(
+						SkillsFragment.this.getActivity(),
+						SkillsFragment.this.skills);
 			}
 		};
 
@@ -120,8 +122,10 @@ public class SkillsFragment extends Fragment {
 
 	private void showAddSkillDialog() {
 		DialogFragment dialog = new AddSkillDialogFragment();
-		FragmentManager manager = this.getActivity().getSupportFragmentManager();
+		FragmentManager manager = this.getActivity()
+				.getSupportFragmentManager();
 
-		dialog.show(manager, this.getActivity().getString(R.string.fragment_add_skill));
+		dialog.show(manager,
+				this.getActivity().getString(R.string.fragment_add_skill));
 	}
 }

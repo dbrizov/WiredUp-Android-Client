@@ -31,7 +31,7 @@
     <string name="header_skills">Skills</string>
     <string name="header_certificates">Certificates</string>
     
-    <string name="title_add_new_skill">Add new skill</string>
+    <string name="title_add_new_skill">Add New Skill</string>
     <string name="title_activity_profile">Profile</string>
 
 </resources>

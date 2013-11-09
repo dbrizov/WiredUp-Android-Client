@@ -42,4 +42,15 @@ public class SkillsPersister extends MainPersister {
 		
 		put.execute();
 	}
+	
+	public void add(SkillModel model, String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sadd?sessionKey=%s", this.rootUrl, sessionKey);
+		String jsonData = this.gson.toJson(model);
+		
+		HttpPostJsonTask post = new HttpPostJsonTask(url, jsonData);
+		post.setOnSuccess(onSuccess);
+		post.setOnError(onError);
+		
+		post.execute();
+	}
 }

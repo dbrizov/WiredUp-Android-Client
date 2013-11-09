@@ -68,6 +68,7 @@ public class SkillsAdapter extends BaseAdapter {
 			public void onClick(final View imageViewDeleteButton) {
 				Dialog dialog = SkillsAdapter.this.createAlertDialog(
 						imageViewDeleteButton, position);
+				
 				dialog.show();
 			}
 		});
@@ -78,7 +79,7 @@ public class SkillsAdapter extends BaseAdapter {
 	private void removeRowFromListView(View listRow, int position) {
 		this.skills.remove(position);
 
-		ListAdapter skillsAdapter = new SkillsAdapter((Activity) this.context,
+		ListAdapter skillsAdapter = new SkillsAdapter(this.context,
 				R.layout.list_row_skill, this.skills);
 
 		((ListView) listRow.getParent()).setAdapter(skillsAdapter);
@@ -89,7 +90,7 @@ public class SkillsAdapter extends BaseAdapter {
 				SkillsAdapter.this.context);
 
 		builder.setTitle(R.string.are_you_sure);
-		
+
 		builder.setPositiveButton(R.string.btn_yes,
 				new DialogInterface.OnClickListener() {
 					@Override
