@@ -8,7 +8,7 @@ import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.CertificateModel;
-import wiredup.models.ServerResponseModel;
+import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,14 +28,14 @@ public class CertificatesFragment extends Fragment {
 	private List<CertificateModel> certificates;
 
 	private ListView listViewCertificates;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		this.isDataLoaded = false;
 		this.certificates = null;
-		
+
 		Bundle bundle = this.getArguments();
 		this.userId = bundle.getInt(WiredUpApp.USER_ID_BUNDLE_KEY);
 	}
@@ -62,7 +61,8 @@ public class CertificatesFragment extends Fragment {
 		IOnError onError = new IOnError() {
 			@Override
 			public void performAction(String data) {
-				CertificatesFragment.this.displayErrorMessage(data);
+				ErrorNotifier.displayErrorMessage(
+						CertificatesFragment.this.getActivity(), data);
 			}
 		};
 
@@ -81,7 +81,8 @@ public class CertificatesFragment extends Fragment {
 
 	private void loadCertificatesData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<CertificateModel>>() {}.getType();
+		Type listType = new TypeToken<List<CertificateModel>>() {
+		}.getType();
 
 		this.certificates = gson.fromJson(data, listType);
 		this.isDataLoaded = true;
@@ -95,14 +96,5 @@ public class CertificatesFragment extends Fragment {
 				this.certificates);
 
 		this.listViewCertificates.setAdapter(certificatesAdapter);
-	}
-
-	private void displayErrorMessage(String data) {
-		Gson gson = new Gson();
-		ServerResponseModel response = gson.fromJson(data,
-				ServerResponseModel.class);
-
-		Toast.makeText(this.getActivity(), response.getMessage(),
-				Toast.LENGTH_LONG).show();
 	}
 }

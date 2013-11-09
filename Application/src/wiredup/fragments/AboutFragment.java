@@ -1,12 +1,10 @@
 package wiredup.fragments;
 
-import com.google.gson.Gson;
-
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.ServerResponseModel;
 import wiredup.models.UserDetailsModel;
+import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class AboutFragment extends Fragment {
 	private int userId;
@@ -77,7 +76,8 @@ public class AboutFragment extends Fragment {
 		IOnError onError = new IOnError() {
 			@Override
 			public void performAction(String data) {
-				AboutFragment.this.displayErrorMessage(data);
+				ErrorNotifier.displayErrorMessage(
+						AboutFragment.this.getActivity(), data);
 			}
 		};
 
@@ -119,14 +119,5 @@ public class AboutFragment extends Fragment {
 		this.textViewAbout.setText(this.userDetailsModel.getAboutMe());
 
 		this.textViewLanguages.setText(this.userDetailsModel.getLanguages());
-	}
-
-	private void displayErrorMessage(String data) {
-		Gson gson = new Gson();
-		ServerResponseModel response = gson.fromJson(data,
-				ServerResponseModel.class);
-
-		Toast.makeText(this.getActivity(), response.getMessage(),
-				Toast.LENGTH_LONG).show();
 	}
 }

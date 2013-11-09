@@ -7,8 +7,8 @@ import wiredup.adapters.SkillsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.ServerResponseModel;
 import wiredup.models.SkillModel;
+import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,7 +61,8 @@ public class SkillsFragment extends Fragment {
 		IOnError onError = new IOnError() {
 			@Override
 			public void performAction(String data) {
-				SkillsFragment.this.displayErrorMessage(data);
+				ErrorNotifier.displayErrorMessage(
+						SkillsFragment.this.getActivity(), data);
 			}
 		};
 
@@ -81,7 +81,8 @@ public class SkillsFragment extends Fragment {
 
 	private void loadSkillsData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<SkillModel>>() {}.getType();
+		Type listType = new TypeToken<List<SkillModel>>() {
+		}.getType();
 
 		this.skills = gson.fromJson(data, listType);
 		this.isDataLoaded = true;
@@ -94,14 +95,5 @@ public class SkillsFragment extends Fragment {
 				R.layout.list_row_skill, this.skills);
 
 		this.listViewSkills.setAdapter(skillsAdapter);
-	}
-
-	private void displayErrorMessage(String data) {
-		Gson gson = new Gson();
-		ServerResponseModel response = gson.fromJson(data,
-				ServerResponseModel.class);
-
-		Toast.makeText(this.getActivity(), response.getMessage(),
-				Toast.LENGTH_LONG).show();
 	}
 }
