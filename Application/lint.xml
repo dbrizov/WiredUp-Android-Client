@@ -3,6 +3,7 @@
     <issue id="DefaultLocale">
         <ignore path="src/wiredup/data/CertificatesPersister.java" />
         <ignore path="src/wiredup/data/SkillsPersister.java" />
+        <ignore path="src/wiredup/data/UserPostsPersister.java" />
         <ignore path="src/wiredup/data/UsersPersister.java" />
     </issue>
 </lint>

@@ -141,8 +141,7 @@ public class SkillsFragment extends Fragment {
 
 	private void loadUserSkillsData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<SkillModel>>() {
-		}.getType();
+		Type listType = new TypeToken<List<SkillModel>>() {}.getType();
 
 		this.skillModels = gson.fromJson(data, listType);
 		this.isUserSkillsDataLoaded = true;

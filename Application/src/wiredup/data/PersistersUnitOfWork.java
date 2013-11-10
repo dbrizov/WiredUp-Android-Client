@@ -5,6 +5,7 @@ public class PersistersUnitOfWork {
 	private UsersPersister users;
 	private SkillsPersister skills;
 	private CertificatesPersister certificates;
+	private UserPostsPersister userPosts;
 	
 	public PersistersUnitOfWork(String rootUrl) {
 		this.rootUrl = rootUrl;
@@ -32,5 +33,13 @@ public class PersistersUnitOfWork {
 		}
 		
 		return this.certificates;
+	}
+	
+	public UserPostsPersister getUserPosts() {
+		if (this.userPosts == null) {
+			this.userPosts = new UserPostsPersister(this.rootUrl);
+		}
+		
+		return this.userPosts;
 	}
 }

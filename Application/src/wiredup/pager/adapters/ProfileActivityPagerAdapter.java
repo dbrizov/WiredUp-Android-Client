@@ -3,7 +3,7 @@ package wiredup.pager.adapters;
 import wiredup.fragments.CertificatesFragment;
 import wiredup.fragments.ConnectionsFragment;
 import wiredup.fragments.MessagesFragment;
-import wiredup.fragments.PostsFragment;
+import wiredup.fragments.UserPostsFragment;
 import wiredup.fragments.AboutFragment;
 import wiredup.fragments.ProjectsFragment;
 import wiredup.fragments.SkillsFragment;
@@ -51,7 +51,7 @@ public class ProfileActivityPagerAdapter extends FragmentPagerAdapter {
 			fragment = new CertificatesFragment();
 			break;
 		case 6:
-			fragment = new PostsFragment();
+			fragment = new UserPostsFragment();
 			break;
 		}
 		
