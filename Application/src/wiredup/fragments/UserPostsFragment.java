@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class UserPostsFragment extends Fragment {
@@ -50,7 +51,7 @@ public class UserPostsFragment extends Fragment {
 
 		this.listViewPosts = (ListView) rootLayoutView
 				.findViewById(R.id.listView_userPosts);
-		
+
 		if (!this.isPostsDataLoaded) {
 			this.getDataFromServerAndSetUpListView();
 		} else {
@@ -68,9 +69,8 @@ public class UserPostsFragment extends Fragment {
 	}
 
 	private void loadPostsData(String data) {
-		Gson gson = new Gson();
-		Type listType = new TypeToken<List<UserPostModel>>() {
-		}.getType();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<List<UserPostModel>>() {}.getType();
 
 		this.posts = gson.fromJson(data, listType);
 		this.isPostsDataLoaded = true;

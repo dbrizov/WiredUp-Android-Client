@@ -1,18 +1,18 @@
 package wiredup.models;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 public class UserPostModel {
 	private int id;
 	private String content;
 	private String postedBy;
-	private DateTime postDate;
+	private Date postDate;
 	
 	public UserPostModel() {
 		
 	}
 	
-	public UserPostModel(int id, String content, String postedBy, DateTime postDate) {
+	public UserPostModel(int id, String content, String postedBy, Date postDate) {
 		this.id = id;
 		this.content = content;
 		this.postedBy = postedBy;
@@ -43,11 +43,11 @@ public class UserPostModel {
 		this.postedBy = postedBy;
 	}
 
-	public DateTime getPostDate() {
+	public Date getPostDate() {
 		return this.postDate;
 	}
 
-	public void setPostDate(DateTime postDate) {
+	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
 }
