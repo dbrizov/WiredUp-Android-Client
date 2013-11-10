@@ -22,13 +22,13 @@ import android.widget.TextView;
 
 public class CertificatesAdapter extends BaseAdapter {
 	private Context context;
-	private int layoutId;
+	private int rowLayoutId;
 	private List<CertificateModel> certificates;
 
-	public CertificatesAdapter(Context context, int layoutId,
+	public CertificatesAdapter(Context context, int rowLayoutId,
 			List<CertificateModel> certificates) {
 		this.context = context;
-		this.layoutId = layoutId;
+		this.rowLayoutId = rowLayoutId;
 		this.certificates = certificates;
 	}
 
@@ -52,7 +52,7 @@ public class CertificatesAdapter extends BaseAdapter {
 		View listRow = convertView;
 		if (listRow == null) {
 			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-			listRow = inflater.inflate(this.layoutId, parent, false);
+			listRow = inflater.inflate(this.rowLayoutId, parent, false);
 		}
 
 		TextView textViewCertificate = (TextView) listRow.findViewById(R.id.textView_certificate);

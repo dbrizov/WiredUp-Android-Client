@@ -22,12 +22,12 @@ import android.widget.TextView;
 
 public class SkillsAdapter extends BaseAdapter {
 	private Context context;
-	private int layoutId;
+	private int rowLayoutId;
 	private List<SkillModel> skills;
 
-	public SkillsAdapter(Context context, int layoutId, List<SkillModel> skills) {
+	public SkillsAdapter(Context context, int rowLayoutId, List<SkillModel> skills) {
 		this.context = context;
-		this.layoutId = layoutId;
+		this.rowLayoutId = rowLayoutId;
 		this.skills = skills;
 	}
 
@@ -51,7 +51,7 @@ public class SkillsAdapter extends BaseAdapter {
 		View listRow = convertView;
 		if (listRow == null) {
 			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-			listRow = inflater.inflate(this.layoutId, parent, false);
+			listRow = inflater.inflate(this.rowLayoutId, parent, false);
 		}
 
 		TextView textViewSkill = (TextView) listRow.findViewById(R.id.textView_skill);
