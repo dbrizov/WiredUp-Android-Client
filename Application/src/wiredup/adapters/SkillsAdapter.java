@@ -18,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class SkillsAdapter extends BaseAdapter {
@@ -52,8 +50,7 @@ public class SkillsAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View listRow = convertView;
 		if (listRow == null) {
-			LayoutInflater inflater = ((Activity) this.context)
-					.getLayoutInflater();
+			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
 			listRow = inflater.inflate(this.layoutId, parent, false);
 		}
 
@@ -64,9 +61,9 @@ public class SkillsAdapter extends BaseAdapter {
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
-				Dialog dialog = SkillsAdapter.this.createDeleteSkillAlertDialog(
-						imageViewDeleteButton, position);
-				
+				Dialog dialog = SkillsAdapter.this
+						.createDeleteSkillAlertDialog(imageViewDeleteButton, position);
+
 				dialog.show();
 			}
 		});
@@ -77,14 +74,10 @@ public class SkillsAdapter extends BaseAdapter {
 	private void removeRowFromListView(View listRow, int position) {
 		this.skills.remove(position);
 		this.notifyDataSetChanged();
-
-		ListAdapter skillsAdapter = new SkillsAdapter(this.context,
-				R.layout.list_row_skill, this.skills);
-
-		((ListView) listRow.getParent()).setAdapter(skillsAdapter);
 	}
 
-	private Dialog createDeleteSkillAlertDialog(final View deleteButton, final int rowIndex) {
+	private Dialog createDeleteSkillAlertDialog(final View deleteButton,
+			final int rowIndex) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				SkillsAdapter.this.context);
 
@@ -103,7 +96,8 @@ public class SkillsAdapter extends BaseAdapter {
 							@Override
 							public void performAction(String data) {
 								View row = (View) deleteButton.getParent();
-								SkillsAdapter.this.removeRowFromListView(row, rowIndex);
+								SkillsAdapter.this.removeRowFromListView(row,
+										rowIndex);
 							}
 						};
 
