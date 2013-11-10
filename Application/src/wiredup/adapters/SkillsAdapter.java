@@ -66,7 +66,7 @@ public class SkillsAdapter extends BaseAdapter {
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
-				Dialog dialog = SkillsAdapter.this.createAlertDialog(
+				Dialog dialog = SkillsAdapter.this.createDeleteSkillAlertDialog(
 						imageViewDeleteButton, position);
 				
 				dialog.show();
@@ -85,7 +85,7 @@ public class SkillsAdapter extends BaseAdapter {
 		((ListView) listRow.getParent()).setAdapter(skillsAdapter);
 	}
 
-	private Dialog createAlertDialog(final View deleteButton, final int rowIndex) {
+	private Dialog createDeleteSkillAlertDialog(final View deleteButton, final int rowIndex) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				SkillsAdapter.this.context);
 
