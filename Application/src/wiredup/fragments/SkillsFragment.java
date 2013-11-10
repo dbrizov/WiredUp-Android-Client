@@ -67,6 +67,16 @@ public class SkillsFragment extends Fragment {
 		this.btnAddSkill = (Button) rootLayoutView
 				.findViewById(R.id.btn_addSkill);
 
+		this.btnAddSkill.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String skillName = SkillsFragment.this.autoCompleteSkillNames
+						.getText().toString();
+				
+				SkillsFragment.this.addNewSkill(skillName);
+			}
+		});
+
 		if (!(this.isUserSkillsDataLoaded && this.isAllSkillsDataLoaded)) {
 			this.getDataFromServerAndSetUpView();
 		} else {
@@ -74,6 +84,34 @@ public class SkillsFragment extends Fragment {
 		}
 
 		return rootLayoutView;
+	}
+
+	private void addNewSkill(String skillName) {
+		SkillModel model = new SkillModel();
+		model.setName(skillName);
+
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				Gson gson = new Gson();
+				SkillModel model = gson.fromJson(data, SkillModel.class);
+
+				SkillsFragment.this.skillModels.add(model);
+				SkillsFragment.this.listViewSkillsAdapter
+						.notifyDataSetChanged();
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						SkillsFragment.this.getActivity(), data);
+			}
+		};
+
+		WiredUpApp.getData().getSkills()
+				.add(model, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 
 	private void setUpListView(Context context, List<SkillModel> skills) {
@@ -111,7 +149,7 @@ public class SkillsFragment extends Fragment {
 		for (SkillModel model : models) {
 			this.skillNames.add(model.getName());
 		}
-		
+
 		this.isAllSkillsDataLoaded = true;
 
 		Log.d("debug", "AutoComplete Loaded");
