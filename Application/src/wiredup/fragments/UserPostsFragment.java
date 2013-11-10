@@ -25,6 +25,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class UserPostsFragment extends Fragment {
+	private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+	
 	private int userId;
 	private boolean isPostsDataLoaded;
 
@@ -69,7 +71,7 @@ public class UserPostsFragment extends Fragment {
 	}
 
 	private void loadPostsData(String data) {
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
 		Type listType = new TypeToken<List<UserPostModel>>() {}.getType();
 
 		this.posts = gson.fromJson(data, listType);
