@@ -57,12 +57,10 @@ public class SkillsAdapter extends BaseAdapter {
 			listRow = inflater.inflate(this.layoutId, parent, false);
 		}
 
-		TextView textViewSkill = (TextView) listRow
-				.findViewById(R.id.textView_skill);
+		TextView textViewSkill = (TextView) listRow.findViewById(R.id.textView_skill);
 		textViewSkill.setText(this.skills.get(position).getName());
 
-		ImageView deleteButton = (ImageView) listRow
-				.findViewById(R.id.imageView_deleteButton);
+		ImageView deleteButton = (ImageView) listRow.findViewById(R.id.imageView_deleteButton);
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
@@ -78,6 +76,7 @@ public class SkillsAdapter extends BaseAdapter {
 
 	private void removeRowFromListView(View listRow, int position) {
 		this.skills.remove(position);
+		this.notifyDataSetChanged();
 
 		ListAdapter skillsAdapter = new SkillsAdapter(this.context,
 				R.layout.list_row_skill, this.skills);
@@ -104,8 +103,7 @@ public class SkillsAdapter extends BaseAdapter {
 							@Override
 							public void performAction(String data) {
 								View row = (View) deleteButton.getParent();
-								SkillsAdapter.this.removeRowFromListView(row,
-										rowIndex);
+								SkillsAdapter.this.removeRowFromListView(row, rowIndex);
 							}
 						};
 

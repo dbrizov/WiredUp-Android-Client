@@ -74,6 +74,8 @@ public class SkillsFragment extends Fragment {
 						.getText().toString();
 				
 				SkillsFragment.this.addNewSkill(skillName);
+				
+				SkillsFragment.this.autoCompleteSkillNames.setText("");
 			}
 		});
 
@@ -96,7 +98,7 @@ public class SkillsFragment extends Fragment {
 				Gson gson = new Gson();
 				SkillModel model = gson.fromJson(data, SkillModel.class);
 
-				SkillsFragment.this.skillModels.add(model);
+				SkillsFragment.this.skillModels.add(0, model);
 				SkillsFragment.this.listViewSkillsAdapter
 						.notifyDataSetChanged();
 			}
