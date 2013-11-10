@@ -22,6 +22,8 @@
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_skill">Skill</string>
+    <string name="hint_certificate_name">Certificate Name</string>
+    <string name="hint_certificate_url">Url (optional)</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>
