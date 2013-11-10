@@ -72,9 +72,10 @@ public class SkillsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				String skillName = SkillsFragment.this.autoCompleteSkillNames
-						.getText().toString();
+						.getText().toString().trim();
 
-				if (skillName == null || skillName.trim().length() == 0) {
+				// Validate skill name
+				if (skillName == null || skillName.length() == 0) {
 					Toast.makeText(SkillsFragment.this.getActivity(),
 							"The skill field is required", Toast.LENGTH_LONG)
 							.show();
