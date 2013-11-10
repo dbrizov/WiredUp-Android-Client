@@ -10,6 +10,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.CertificateModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class CertificatesFragment extends Fragment {
 	private int userId;
-	private boolean isDataLoaded;
+	private boolean isCertificatesDataLoaded;
 	private List<CertificateModel> certificates;
 
 	private ListView listViewCertificates;
@@ -33,7 +34,7 @@ public class CertificatesFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.isDataLoaded = false;
+		this.isCertificatesDataLoaded = false;
 		this.certificates = null;
 
 		Bundle bundle = this.getArguments();
@@ -50,30 +51,10 @@ public class CertificatesFragment extends Fragment {
 		this.listViewCertificates = (ListView) rootLayoutView
 				.findViewById(R.id.listView_certificates);
 
-		IOnSuccess onSuccess = new IOnSuccess() {
-			@Override
-			public void performAction(String data) {
-				CertificatesFragment.this.loadCertificatesData(data);
-				CertificatesFragment.this.initializeListView();
-			}
-		};
-
-		IOnError onError = new IOnError() {
-			@Override
-			public void performAction(String data) {
-				ErrorNotifier.displayErrorMessage(
-						CertificatesFragment.this.getActivity(), data);
-			}
-		};
-
-		if (!this.isDataLoaded) {
-			WiredUpApp
-					.getData()
-					.getCertificates()
-					.getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess,
-							onError);
+		if (!this.isCertificatesDataLoaded) {
+			this.getCertificatesFromServerAndSetUpListView();
 		} else {
-			this.initializeListView();
+			this.setUpListView(this.getActivity(), this.certificates);
 		}
 
 		return rootLayoutView;
@@ -85,15 +66,41 @@ public class CertificatesFragment extends Fragment {
 		}.getType();
 
 		this.certificates = gson.fromJson(data, listType);
-		this.isDataLoaded = true;
+		this.isCertificatesDataLoaded = true;
 
 		Log.d("debug", "Certificates Loaded");
 	}
 
-	private void initializeListView() {
-		ListAdapter certificatesAdapter = new CertificatesAdapter(
-				this.getActivity(), R.layout.list_row_certificate,
-				this.certificates);
+	private void getCertificatesFromServerAndSetUpListView() {
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				CertificatesFragment.this.loadCertificatesData(data);
+				CertificatesFragment.this.setUpListView(
+						CertificatesFragment.this.getActivity(),
+						CertificatesFragment.this.certificates);
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						CertificatesFragment.this.getActivity(), data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getCertificates()
+				.getAllForUser(this.userId, WiredUpApp.getSessionKey(),
+						onSuccess, onError);
+	}
+
+	private void setUpListView(Context context,
+			List<CertificateModel> certificates) {
+		ListAdapter certificatesAdapter = new CertificatesAdapter(context,
+				R.layout.list_row_certificate, certificates);
 
 		this.listViewCertificates.setAdapter(certificatesAdapter);
 	}

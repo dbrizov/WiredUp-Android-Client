@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,10 +73,15 @@ public class SkillsFragment extends Fragment {
 			public void onClick(View v) {
 				String skillName = SkillsFragment.this.autoCompleteSkillNames
 						.getText().toString();
-				
-				SkillsFragment.this.addNewSkill(skillName);
-				
-				SkillsFragment.this.autoCompleteSkillNames.setText("");
+
+				if (skillName == null || skillName.trim().length() == 0) {
+					Toast.makeText(SkillsFragment.this.getActivity(),
+							"The skill field is required", Toast.LENGTH_LONG)
+							.show();
+				} else {
+					SkillsFragment.this.addNewSkill(skillName);
+					SkillsFragment.this.autoCompleteSkillNames.setText("");
+				}
 			}
 		});
 
@@ -83,6 +89,7 @@ public class SkillsFragment extends Fragment {
 			this.getDataFromServerAndSetUpView();
 		} else {
 			this.setUpListView(this.getActivity(), this.skillModels);
+			this.setUpAutoCompleteForSkills(this.getActivity(), this.skillNames);
 		}
 
 		return rootLayoutView;
