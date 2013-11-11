@@ -39,8 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/editText_languages"
-        android:ems="10"
-        android:hint="@string/hint_country" />
+        android:ems="10" />
 
     <Button
         android:id="@+id/btn_editProfile"
