@@ -204,7 +204,7 @@ public class EditProfileActivity extends FragmentActivity {
 				return middleIndex;
 			}
 		}
-
+		
 		return -1;
 	}
 }

@@ -8,7 +8,7 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="cancel">Cancel</string>
-    <string name="user_default_img">User Defaulr Image</string>
+    <string name="user_photo">User Photo</string>
     <string name="icon_delete_button">Delete Button</string>
     <string name="are_you_sure">Are you sure?</string>
     
@@ -16,6 +16,8 @@
     <string name="btn_no">No</string>
     <string name="btn_add">Add</string>
     <string name="btn_edit">Edit</string>
+    <string name="btn_pick_picture_from_galery">Pick From Galery</string>
+    <string name="btn_take_picture_from_camera">Take From Camera</string>
     
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>

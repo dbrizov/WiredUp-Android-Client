@@ -8,12 +8,22 @@
 <!--     android:paddingRight="@dimen/activity_horizontal_margin" -->
 <!--     android:paddingTop="@dimen/activity_vertical_margin" -->
 
+    <ImageView
+        android:id="@+id/imageView_userPhoto"
+        android:layout_width="@dimen/user_photo_width_hight"
+        android:layout_height="@dimen/user_photo_width_hight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/user_photo"
+        android:src="@drawable/default_user_image" />
+
     <EditText
         android:id="@+id/editText_aboutMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageView_userPhoto"
         android:ems="10"
         android:hint="@string/hint_about_me"
         android:inputType="textMultiLine" >
@@ -49,5 +59,23 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/spinner_country"
         android:text="@string/btn_edit" />
+
+    <Button
+        android:id="@+id/btn_pickPicture"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView_userPhoto"
+        android:text="@string/btn_pick_picture_from_galery" />
+
+    <Button
+        android:id="@+id/btn_takePicture"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btn_pickPicture"
+        android:text="@string/btn_take_picture_from_camera" />
 
 </RelativeLayout>

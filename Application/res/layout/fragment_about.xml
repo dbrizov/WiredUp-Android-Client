@@ -13,7 +13,7 @@
         android:layout_height="@dimen/user_photo_width_hight"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/user_default_img" />
+        android:contentDescription="@string/user_photo" />
 
     <TextView
         android:id="@+id/textView_userDisplayName"
