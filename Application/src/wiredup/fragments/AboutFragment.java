@@ -120,8 +120,14 @@ public class AboutFragment extends Fragment {
 
 		this.textViewCountry.setText(this.userDetailsModel.getCountry());
 
-		this.textViewAbout.setText(this.userDetailsModel.getAboutMe());
+		if (this.userDetailsModel.getAboutMe() != null
+				&& this.userDetailsModel.getAboutMe().length() != 0) {
+			this.textViewAbout.setText("About me: " + this.userDetailsModel.getAboutMe());
+		}
 
-		this.textViewLanguages.setText(this.userDetailsModel.getLanguages());
+		if (this.userDetailsModel.getLanguages() != null
+				&& this.userDetailsModel.getLanguages().length() != 0) {
+			this.textViewLanguages.setText("Languages: " + this.userDetailsModel.getLanguages());
+		}
 	}
 }

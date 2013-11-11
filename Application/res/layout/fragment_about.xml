@@ -40,13 +40,6 @@
         android:layout_toRightOf="@+id/imageView_userPhoto"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-<!--     <View -->
-<!--         android:id="@+id/hori" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="1dp" -->
-<!--         android:layout_below="@+id/imageView_userPhoto" -->
-<!--         android:background="#000" /> -->
-
     <TextView
         android:id="@+id/textView_about"
         android:layout_width="match_parent"
@@ -60,5 +53,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView_about" />
+    
+    <Button
+        android:id="@+id/btn_editProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/btn_edit"
+        android:layout_below="@+id/textView_languages" />
 
 </RelativeLayout>
