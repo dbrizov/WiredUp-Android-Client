@@ -2,6 +2,7 @@ package wiredup.data;
 
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.UserEditModel;
 import wiredup.models.UserLoginModel;
 import wiredup.models.UserRegisterModel;
 
@@ -49,11 +50,23 @@ public class UsersPersister extends MainPersister {
 			IOnError onError) {
 		String url = String.format("%sdetails?userId=%d&sessionKey=%s",
 				this.rootUrl, userId, sessionKey);
-		
+
 		HttpGetJsonTask get = new HttpGetJsonTask(url);
 		get.setOnSuccess(onSuccess);
 		get.setOnError(onError);
-		
+
 		get.execute();
+	}
+
+	public void edit(UserEditModel model, String sessionKey,
+			IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sedit?sessionKey=%s", this.rootUrl, sessionKey);
+		String jsonData = this.gson.toJson(model);
+		
+		HttpPutJsonTask put = new HttpPutJsonTask(url, jsonData);
+		put.setOnSuccess(onSuccess);
+		put.setOnError(onError);
+
+		put.execute();
 	}
 }

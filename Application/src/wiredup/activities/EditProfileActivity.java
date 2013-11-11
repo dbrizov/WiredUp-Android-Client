@@ -10,6 +10,7 @@ import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
 import wiredup.models.UserDetailsModel;
+import wiredup.models.UserEditModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
@@ -20,6 +21,8 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -35,6 +38,7 @@ public class EditProfileActivity extends FragmentActivity {
 	private EditText editTextAboutMe;
 	private EditText editTextLanguages;
 	private Spinner spinnerCountry;
+	private Button btnEditProfile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +48,29 @@ public class EditProfileActivity extends FragmentActivity {
 
 		this.countries = new ArrayList<CountryModel>();
 
+		// Initialize the views
 		this.editTextAboutMe = (EditText) this
 				.findViewById(R.id.editText_aboutMe);
 		this.editTextLanguages = (EditText) this
 				.findViewById(R.id.editText_languages);
-		this.spinnerCountry = (Spinner) this
-				.findViewById(R.id.spinner_country);
+		this.spinnerCountry = (Spinner) this.findViewById(R.id.spinner_country);
+		this.btnEditProfile = (Button) this.findViewById(R.id.btn_editProfile);
 
+		// Get the userDetailsModel extra from the Intent
 		Intent intent = this.getIntent();
 		this.userDetailsModel = (UserDetailsModel) intent
 				.getSerializableExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL);
+
+		// Set-Up the views
+		this.editTextAboutMe.setText(this.userDetailsModel.getAboutMe());
+		this.editTextLanguages.setText(this.userDetailsModel.getLanguages());
+
+		this.btnEditProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EditProfileActivity.this.editProfile();
+			}
+		});
 
 		if (!this.areCountriesLoaded) {
 			this.getCountriesFromDatabaseAndSetUpSpinner();
@@ -109,7 +126,8 @@ public class EditProfileActivity extends FragmentActivity {
 
 	private void loadCountries(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<CountryModel>>() {}.getType();
+		Type listType = new TypeToken<List<CountryModel>>() {
+		}.getType();
 
 		this.countries = gson.fromJson(data, listType);
 		this.areCountriesLoaded = true;
@@ -122,5 +140,43 @@ public class EditProfileActivity extends FragmentActivity {
 				R.layout.list_row_country, this.countries);
 
 		this.spinnerCountry.setAdapter(countriesAdapter);
+	}
+
+	private void editProfile() {
+		UserEditModel editModel = new UserEditModel();
+		editModel.setAboutMe(this.editTextAboutMe.getText().toString());
+		editModel.setLanguages(this.editTextLanguages.getText().toString());
+
+		int selectedItemPosition = this.spinnerCountry
+				.getSelectedItemPosition();
+		int countryId = (int) this.countriesAdapter
+				.getItemId(selectedItemPosition);
+
+		editModel.setCountryId(countryId);
+		editModel.setPhoto(null); // TODO make a byte[] from a picture from the file system
+		
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				EditProfileActivity.this.startProfileActivity();
+			}
+		};
+		
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(EditProfileActivity.this, data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getUsers()
+				.edit(editModel, WiredUpApp.getSessionKey(), onSuccess, onError);
+	}
+	
+	private void startProfileActivity() {
+		Intent intent = new Intent(this, ProfileActivity.class);
+		this.startActivity(intent);
 	}
 }
