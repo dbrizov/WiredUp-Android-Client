@@ -1,6 +1,10 @@
 package wiredup.activities;
 
+import java.util.List;
+
+import wiredup.adapters.edit.profile.CountriesAdapter;
 import wiredup.client.R;
+import wiredup.models.CountryModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.utils.Keys;
 import android.content.Intent;
@@ -15,6 +19,9 @@ import android.widget.EditText;
 
 public class EditProfileActivity extends FragmentActivity {
 	private UserDetailsModel userDetailsModel;
+	private List<CountryModel> countries; // Needed for the auto-complete
+	private CountriesAdapter countriesAdapter;
+	private boolean areCountriesLoaded;
 	
 	private EditText editTextAboutMe;
 	private EditText editTextLanguages;
@@ -53,5 +60,9 @@ public class EditProfileActivity extends FragmentActivity {
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void getCountriesFromDatabase() {
+		
 	}
 }

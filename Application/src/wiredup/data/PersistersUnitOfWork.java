@@ -6,6 +6,7 @@ public class PersistersUnitOfWork {
 	private SkillsPersister skills;
 	private CertificatesPersister certificates;
 	private UserPostsPersister userPosts;
+	private CountriesPersister countries;
 	
 	public PersistersUnitOfWork(String rootUrl) {
 		this.rootUrl = rootUrl;
@@ -41,5 +42,13 @@ public class PersistersUnitOfWork {
 		}
 		
 		return this.userPosts;
+	}
+	
+	public CountriesPersister getCountries() {
+		if (this.countries == null) {
+			this.countries = new CountriesPersister(this.rootUrl);
+		}
+		
+		return this.countries;
 	}
 }
