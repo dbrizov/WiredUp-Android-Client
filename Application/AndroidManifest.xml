@@ -28,6 +28,14 @@
             android:name="wiredup.activities.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name="wiredup.activities.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:parentActivityName="wiredup.activities.ProfileActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="wiredup.activities.ProfileActivity" />
+        </activity>
     </application>
 
 </manifest>

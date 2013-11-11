@@ -1,17 +1,20 @@
 package wiredup.fragments;
 
+import wiredup.activities.EditProfileActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserDetailsModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +31,7 @@ public class AboutFragment extends Fragment {
 	private TextView textViewCountry;
 	private TextView textViewAbout;
 	private TextView textViewLanguages;
+	private Button btnStartEditProfileActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,16 @@ public class AboutFragment extends Fragment {
 
 		this.textViewLanguages = (TextView) rootLayoutView
 				.findViewById(R.id.textView_languages);
+		
+		this.btnStartEditProfileActivity = (Button) rootLayoutView
+				.findViewById(R.id.btn_startEditProfileActivity);
+		
+		this.btnStartEditProfileActivity.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AboutFragment.this.startEditProfileActivity();
+			}
+		});
 
 		if (!this.isDataLoaded) {
 			this.getDataFromServerAndSetUpView();
@@ -72,6 +86,11 @@ public class AboutFragment extends Fragment {
 		}
 
 		return rootLayoutView;
+	}
+
+	private void startEditProfileActivity() {
+		Intent intent = new Intent(this.getActivity(), EditProfileActivity.class);
+		this.getActivity().startActivity(intent);
 	}
 
 	private void getDataFromServerAndSetUpView() {
