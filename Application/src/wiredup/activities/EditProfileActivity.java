@@ -185,6 +185,10 @@ public class EditProfileActivity extends FragmentActivity {
 	}
 	
 	private int findSelectedItemPosition(String countryName) {
+		if (countryName == null) {
+			return -1;
+		}
+		
 		int middleIndex;
 		int leftIndex = 0;
 		int rightIndex = this.countries.size() - 1;
