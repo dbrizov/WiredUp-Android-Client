@@ -15,7 +15,9 @@ import wiredup.utils.ErrorNotifier;
 import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -24,17 +26,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class EditProfileActivity extends FragmentActivity {
+	private static final int TAKE_PICTURE_FROM_CAMERA = 1;
+	private static final int PICK_PICTURE_FROM_GALERY = 2;
+
 	private UserDetailsModel userDetailsModel;
 	private List<CountryModel> countries; // Needed for the auto-complete
 	private CountriesAdapter countriesAdapter;
 	private boolean areCountriesLoaded;
+	private Bitmap userPhotoBitmap;
 
+	private ImageView imageViewUserPhoto;
+	private Button btnTakePictureFromCamera;
+	private Button btnPickPictureFromGalery;
 	private EditText editTextAboutMe;
 	private EditText editTextLanguages;
 	private Spinner spinnerCountry;
@@ -49,6 +59,9 @@ public class EditProfileActivity extends FragmentActivity {
 		this.countries = new ArrayList<CountryModel>();
 
 		// Initialize the views
+		this.imageViewUserPhoto = (ImageView) this.findViewById(R.id.imageView_userPhoto);
+		this.btnTakePictureFromCamera = (Button) this.findViewById(R.id.btn_takePictureFromCamera);
+		this.btnPickPictureFromGalery = (Button) this.findViewById(R.id.btn_pickPictureFromGalery);
 		this.editTextAboutMe = (EditText) this.findViewById(R.id.editText_aboutMe);
 		this.editTextLanguages = (EditText) this.findViewById(R.id.editText_languages);
 		this.spinnerCountry = (Spinner) this.findViewById(R.id.spinner_country);
@@ -70,10 +83,29 @@ public class EditProfileActivity extends FragmentActivity {
 			}
 		});
 
+		this.btnTakePictureFromCamera.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EditProfileActivity.this
+						.dispatchTakePictureIntent(TAKE_PICTURE_FROM_CAMERA);
+			}
+		});
+
 		if (!this.areCountriesLoaded) {
 			this.getCountriesFromDatabaseAndSetUpSpinner();
 		} else {
 			this.setUpSpinner();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		if (requestCode == TAKE_PICTURE_FROM_CAMERA) {
+			if (resultCode == RESULT_OK) {
+				this.setUpImageView(intent);
+			}
 		}
 	}
 
@@ -124,7 +156,8 @@ public class EditProfileActivity extends FragmentActivity {
 
 	private void loadCountries(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<CountryModel>>() {}.getType();
+		Type listType = new TypeToken<List<CountryModel>>() {
+		}.getType();
 
 		this.countries = gson.fromJson(data, listType);
 		this.areCountriesLoaded = true;
@@ -157,19 +190,21 @@ public class EditProfileActivity extends FragmentActivity {
 				.getItemId(selectedItemPosition);
 
 		editModel.setCountryId(countryId);
-		editModel.setPhoto(null); // TODO make a byte[] from a picture from the file system
-		
+		editModel.setPhoto(null); // TODO make a byte[] from a picture from the
+									// file system
+
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
 				EditProfileActivity.this.startProfileActivity();
 			}
 		};
-		
+
 		IOnError onError = new IOnError() {
 			@Override
 			public void performAction(String data) {
-				ErrorNotifier.displayErrorMessage(EditProfileActivity.this, data);
+				ErrorNotifier.displayErrorMessage(EditProfileActivity.this,
+						data);
 			}
 		};
 
@@ -178,17 +213,17 @@ public class EditProfileActivity extends FragmentActivity {
 				.getUsers()
 				.edit(editModel, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
-	
+
 	private void startProfileActivity() {
 		Intent intent = new Intent(this, ProfileActivity.class);
 		this.startActivity(intent);
 	}
-	
+
 	private int findSelectedItemPosition(String countryName) {
 		if (countryName == null) {
 			return -1;
 		}
-		
+
 		int middleIndex;
 		int leftIndex = 0;
 		int rightIndex = this.countries.size() - 1;
@@ -196,15 +231,28 @@ public class EditProfileActivity extends FragmentActivity {
 		while (leftIndex <= rightIndex) {
 			middleIndex = (rightIndex + leftIndex) / 2;
 
-			if (this.countries.get(middleIndex).getName().compareTo(countryName) < 0) {
+			if (this.countries.get(middleIndex).getName()
+					.compareTo(countryName) < 0) {
 				leftIndex = middleIndex + 1;
-			} else if (this.countries.get(middleIndex).getName().compareTo(countryName) > 0) {
+			} else if (this.countries.get(middleIndex).getName()
+					.compareTo(countryName) > 0) {
 				rightIndex = middleIndex - 1;
 			} else {
 				return middleIndex;
 			}
 		}
-		
+
 		return -1;
+	}
+
+	private void dispatchTakePictureIntent(int actionCode) {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takePictureIntent, actionCode);
+	}
+
+	private void setUpImageView(Intent intent) {
+		Bundle extras = intent.getExtras();
+		this.userPhotoBitmap = (Bitmap) extras.get("data");
+		this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
 	}
 }

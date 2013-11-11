@@ -61,7 +61,7 @@
         android:text="@string/btn_edit" />
 
     <Button
-        android:id="@+id/btn_pickPicture"
+        android:id="@+id/btn_pickPictureFromGalery"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,12 +70,12 @@
         android:text="@string/btn_pick_picture_from_galery" />
 
     <Button
-        android:id="@+id/btn_takePicture"
+        android:id="@+id/btn_takePictureFromCamera"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/btn_pickPicture"
+        android:layout_toRightOf="@+id/btn_pickPictureFromGalery"
         android:text="@string/btn_take_picture_from_camera" />
 
 </RelativeLayout>
