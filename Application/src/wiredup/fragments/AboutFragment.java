@@ -65,11 +65,21 @@ public class AboutFragment extends Fragment {
 		this.textViewLanguages = (TextView) rootLayoutView
 				.findViewById(R.id.textView_languages);
 
+		if (!this.isDataLoaded) {
+			this.getDataFromServerAndSetUpView();
+		} else {
+			this.setUpView();
+		}
+
+		return rootLayoutView;
+	}
+
+	private void getDataFromServerAndSetUpView() {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
 				AboutFragment.this.loadUserDetailsData(data);
-				AboutFragment.this.initializeViews();
+				AboutFragment.this.setUpView();
 			}
 		};
 
@@ -81,17 +91,11 @@ public class AboutFragment extends Fragment {
 			}
 		};
 
-		if (!this.isDataLoaded) {
-			WiredUpApp
-					.getData()
-					.getUsers()
-					.getDetails(this.userId, WiredUpApp.getSessionKey(),
-							onSuccess, onError);
-		} else {
-			this.initializeViews();
-		}
-
-		return rootLayoutView;
+		WiredUpApp
+				.getData()
+				.getUsers()
+				.getDetails(this.userId, WiredUpApp.getSessionKey(), onSuccess,
+						onError);
 	}
 
 	private void loadUserDetailsData(String data) {
@@ -102,7 +106,7 @@ public class AboutFragment extends Fragment {
 		Log.d("debug", "About Loaded");
 	}
 
-	private void initializeViews() {
+	private void setUpView() {
 		if (this.userDetailsModel.getPhoto() != null) {
 			// TODO Load photo from database
 		} else {
