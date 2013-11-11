@@ -32,9 +32,9 @@
         android:hint="@string/hint_languages"
         android:inputType="textMultiLine" />
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView_country"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/spinner_country"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/autoCompleteTextView_country"
+        android:layout_below="@+id/spinner_country"
         android:text="@string/btn_edit" />
 
 </RelativeLayout>

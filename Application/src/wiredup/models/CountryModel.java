@@ -3,11 +3,11 @@ package wiredup.models;
 public class CountryModel {
 	private int id;
 	private String name;
-	
+
 	public CountryModel() {
-		
+
 	}
-	
+
 	public CountryModel(int id, String name) {
 		this.id = id;
 		this.name = name;

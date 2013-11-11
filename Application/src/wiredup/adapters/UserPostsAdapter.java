@@ -1,4 +1,4 @@
-package wiredup.adapters.profile;
+package wiredup.adapters;
 
 import java.util.List;
 

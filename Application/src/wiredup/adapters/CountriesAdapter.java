@@ -1,4 +1,4 @@
-package wiredup.adapters.edit.profile;
+package wiredup.adapters;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ public class CountriesAdapter extends BaseAdapter {
 	private Context context;
 	private int rowLayoutId;
 	private List<CountryModel> countries;
-	
+
 	public CountriesAdapter(Context context, int rowLayoutId, List<CountryModel> countries) {
 		this.context = context;
 		this.rowLayoutId = rowLayoutId;
 		this.countries = countries;
 	}
-	
+
 	@Override
 	public int getCount() {
 		return this.countries.size();
@@ -44,9 +44,9 @@ public class CountriesAdapter extends BaseAdapter {
 			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
 			listRow = (TextView) inflater.inflate(this.rowLayoutId, parent, false);
 		}
-		
+
 		listRow.setText(this.countries.get(position).getName());
-		
+
 		return listRow;
 	}
 
