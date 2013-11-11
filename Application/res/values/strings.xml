@@ -25,6 +25,9 @@
     <string name="hint_skill">Skill</string>
     <string name="hint_certificate_name">Certificate Name</string>
     <string name="hint_certificate_url">Url (optional)</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_about_me">About Me</string>
+    <string name="hint_languages">Languages</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>
