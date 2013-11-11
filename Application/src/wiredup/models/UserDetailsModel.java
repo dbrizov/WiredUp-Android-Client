@@ -1,6 +1,12 @@
 package wiredup.models;
 
-public class UserDetailsModel {
+import java.io.Serializable;
+
+public class UserDetailsModel implements Serializable {
+	/**
+	 * Made it serializable in order to pass it as Intent Extra
+	 */
+	private static final long serialVersionUID = 1L;
 	private String displayName;
 	private String email;
 	private byte[] photo;
