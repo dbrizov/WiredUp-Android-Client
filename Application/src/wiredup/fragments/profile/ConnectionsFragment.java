@@ -1,4 +1,4 @@
-package wiredup.fragments;
+package wiredup.fragments.profile;
 
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;

@@ -1,8 +1,8 @@
 package wiredup.activities;
 
 import wiredup.client.R;
-import wiredup.fragments.LoginDialogFragment;
-import wiredup.fragments.RegisterDialogFragment;
+import wiredup.fragments.main.LoginDialogFragment;
+import wiredup.fragments.main.RegisterDialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;

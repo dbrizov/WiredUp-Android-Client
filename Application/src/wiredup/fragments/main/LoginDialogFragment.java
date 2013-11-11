@@ -1,4 +1,4 @@
-package wiredup.fragments;
+package wiredup.fragments.main;
 
 import wiredup.activities.ProfileActivity;
 import wiredup.client.R;

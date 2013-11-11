@@ -14,19 +14,19 @@ public class EditProfileActivity extends FragmentActivity {
 		setContentView(R.layout.activity_edit_profile);
 		
 		// Show the Up button in the action bar.
-		setupActionBar();
+		this.setupActionBar();
 	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.edit_profile, menu);
+		this.getMenuInflater().inflate(R.menu.edit_profile, menu);
 		return true;
 	}
 

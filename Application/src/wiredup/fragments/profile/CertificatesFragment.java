@@ -1,4 +1,4 @@
-package wiredup.fragments;
+package wiredup.fragments.profile;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
