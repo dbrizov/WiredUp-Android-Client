@@ -135,7 +135,7 @@ public class EditProfileActivity extends FragmentActivity {
 		this.spinnerCountry.setAdapter(countriesAdapter);
 
 		int selectedItemPosition = this
-				.findSelectedItemPosition(this.userDetailsModel.getCountry());
+				.findCountryPositionInTheSpinner(this.userDetailsModel.getCountry());
 
 		if (selectedItemPosition >= 0) {
 			this.spinnerCountry.setSelection(selectedItemPosition);
@@ -252,7 +252,7 @@ public class EditProfileActivity extends FragmentActivity {
 		// Convert the bitmap to byte array
 		if (this.userPhotoBitmap != null) {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			this.userPhotoBitmap.compress(CompressFormat.PNG, 100, stream);
+			this.userPhotoBitmap.compress(CompressFormat.JPEG, 10, stream);
 			
 			short[] signedByteArray = Encryptor.byteArrayToSignedByteArray(stream.toByteArray());
 			
@@ -285,7 +285,7 @@ public class EditProfileActivity extends FragmentActivity {
 		this.startActivity(intent);
 	}
 
-	private int findSelectedItemPosition(String countryName) {
+	private int findCountryPositionInTheSpinner(String countryName) {
 		if (countryName == null) {
 			return -1;
 		}
@@ -320,7 +320,6 @@ public class EditProfileActivity extends FragmentActivity {
 	private void dispatchPickPictureFromGalleryIntent(int requestCode) {
 		Intent pickPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
 		pickPictureIntent.setType("image/*");
-//		pickPictureIntent.setAction(Intent.ACTION_GET_CONTENT);
 		
 		this.startActivityForResult(pickPictureIntent, requestCode);
 	}

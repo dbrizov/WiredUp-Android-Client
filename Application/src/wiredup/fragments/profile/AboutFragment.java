@@ -12,6 +12,7 @@ import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -137,16 +138,8 @@ public class AboutFragment extends Fragment {
 	private void setUpView() {
 		// Set up the user photo
 		String userPhotoBase64String = this.userDetailsModel.getPhoto();
-		if (userPhotoBase64String != null) {
-			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
-
-			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
-					userPhotoByteArray, 0, userPhotoByteArray.length);
-
-			this.imageViewPhoto.setImageBitmap(userPhotoBitmap);
-		} else {
-			this.imageViewPhoto.setImageResource(R.drawable.default_user_image);
-		}
+		SetUpUserPhotoTask setUserPhoto = new SetUpUserPhotoTask();
+		setUserPhoto.execute(userPhotoBase64String);
 
 		// Set up the text-views
 		this.textViewDisplayName
@@ -166,6 +159,36 @@ public class AboutFragment extends Fragment {
 				&& this.userDetailsModel.getLanguages().length() != 0) {
 			this.textViewLanguages.setText("Languages: "
 					+ this.userDetailsModel.getLanguages());
+		}
+	}
+	
+	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			String userPhotoBase64String = params[0];
+			Bitmap userPhotoBitmap = null;
+			
+			if (userPhotoBase64String != null) {
+				byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
+
+				userPhotoBitmap = BitmapFactory.decodeByteArray(
+						userPhotoByteArray, 0, userPhotoByteArray.length);
+				
+				return userPhotoBitmap;
+			}
+			
+			return userPhotoBitmap;
+		}
+		
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			
+			if (result != null) {
+				AboutFragment.this.imageViewPhoto.setImageBitmap(result);
+			} else {
+				AboutFragment.this.imageViewPhoto.setImageResource(R.drawable.default_user_image);
+			}
 		}
 	}
 }
