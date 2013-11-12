@@ -18,6 +18,7 @@ import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -74,18 +75,30 @@ public class EditProfileActivity extends FragmentActivity {
 		Intent intent = this.getIntent();
 		this.userDetailsModel = (UserDetailsModel) intent
 				.getSerializableExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL);
+		
+		// Set-Up the user photo
+		String userPhotoBase64String = this.userDetailsModel.getPhoto();
+		if (userPhotoBase64String != null) {
+			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
+			
+			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
+					userPhotoByteArray, 0, userPhotoByteArray.length);
 
-		// Set-Up the views
+			this.imageViewUserPhoto.setImageBitmap(userPhotoBitmap);
+		}
+
+		// Set-Up the edit-text views
 		this.editTextAboutMe.setText(this.userDetailsModel.getAboutMe());
 		this.editTextLanguages.setText(this.userDetailsModel.getLanguages());
 
+		// Set-Up the buttons
 		this.btnEditProfile.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				EditProfileActivity.this.editProfile();
 			}
 		});
-
+		
 		this.btnTakePictureFromCamera.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -93,7 +106,8 @@ public class EditProfileActivity extends FragmentActivity {
 						.dispatchTakePictureIntent(TAKE_PICTURE_FROM_CAMERA);
 			}
 		});
-
+		
+		// Get data from the server
 		if (!this.areCountriesLoaded) {
 			this.getCountriesFromDatabaseAndSetUpSpinner();
 		} else {
