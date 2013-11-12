@@ -42,7 +42,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class EditProfileActivity extends FragmentActivity {
 	private static final int TAKE_PICTURE_FROM_CAMERA = 1;
-	private static final int PICK_PICTURE_FROM_GALERY = 2;
+	private static final int PICK_PICTURE_FROM_GALLERY = 2;
 
 	private UserDetailsModel userDetailsModel;
 	private List<CountryModel> countries; // Needed for the auto-complete
@@ -101,7 +101,7 @@ public class EditProfileActivity extends FragmentActivity {
 				this.setUpImageViewFromCameraIntentResult(intent);
 			}
 		}
-		else if (requestCode == PICK_PICTURE_FROM_GALERY) {
+		else if (requestCode == PICK_PICTURE_FROM_GALLERY) {
 			if (resultCode == RESULT_OK) {
 				this.setUpImageViewFromGalleyIntentResult(intent);
 			}
@@ -144,7 +144,7 @@ public class EditProfileActivity extends FragmentActivity {
 	}
 
 	private void setUpImageViewFromCameraIntentResult(Intent intent) {
-		SetUpImageViewFromCameraIntentResult task = new SetUpImageViewFromCameraIntentResult();
+		SetUpImageViewFromCameraIntentResultTask task = new SetUpImageViewFromCameraIntentResultTask();
 		task.execute(intent);
 	}
 	
@@ -184,7 +184,7 @@ public class EditProfileActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				EditProfileActivity.this
-						.dispatchPickPictureFromGalleryIntent(PICK_PICTURE_FROM_GALERY);
+						.dispatchPickPictureFromGalleryIntent(PICK_PICTURE_FROM_GALLERY);
 			}
 		});
 	}
@@ -346,6 +346,7 @@ public class EditProfileActivity extends FragmentActivity {
 				
 				// Compress the user photo and initialize the userPhotoUnsignedByteArray
 				EditProfileActivity.this.compressTheUserPhotoToUnsignedByteArray(userPhotoBitmap);
+				
 				return userPhotoBitmap;
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace();
@@ -364,7 +365,7 @@ public class EditProfileActivity extends FragmentActivity {
 		}
 	}
 	
-	private class SetUpImageViewFromCameraIntentResult extends AsyncTask<Intent, Void, Bitmap> {
+	private class SetUpImageViewFromCameraIntentResultTask extends AsyncTask<Intent, Void, Bitmap> {
 		@Override
 		protected Bitmap doInBackground(Intent... params) {
 			Intent intent = params[0];
