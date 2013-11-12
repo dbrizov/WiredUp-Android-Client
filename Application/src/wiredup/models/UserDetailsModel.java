@@ -9,7 +9,7 @@ public class UserDetailsModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String displayName;
 	private String email;
-	private byte[] photo;
+	private String photo; // Base64 String
 	private String country;
 	private String aboutMe;
 	private String languages;
@@ -30,11 +30,11 @@ public class UserDetailsModel implements Serializable {
 		this.email = email;
 	}
 	
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return this.photo;
 	}
 	
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 	

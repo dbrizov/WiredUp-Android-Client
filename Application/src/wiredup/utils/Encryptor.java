@@ -28,4 +28,26 @@ public class Encryptor {
 		
 		return hash;
 	}
+	
+	public static short[] byteArrayToSignedByteArray(byte[] array) {
+		int offset = 128;
+		
+		short[] result = new short[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = (short) (array[i] + offset);
+		}
+		
+		return result;
+	}
+	
+	public static byte[] signedByteArrayToByteArray(short[] array) {
+		int offset = 128;
+		
+		byte[] result = new byte[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = (byte) (array[i] - offset);
+		}
+		
+		return result;
+	}
 }

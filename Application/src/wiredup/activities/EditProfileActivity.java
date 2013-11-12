@@ -1,5 +1,6 @@
 package wiredup.activities;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,13 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.models.UserEditModel;
+import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -190,8 +193,16 @@ public class EditProfileActivity extends FragmentActivity {
 				.getItemId(selectedItemPosition);
 
 		editModel.setCountryId(countryId);
-		editModel.setPhoto(null); // TODO make a byte[] from a picture from the
-									// file system
+		
+		// Convert the bitmap to byte array
+		if (this.userPhotoBitmap != null) {
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			this.userPhotoBitmap.compress(CompressFormat.PNG, 100, stream);
+			
+			short[] signedByteArray = Encryptor.byteArrayToSignedByteArray(stream.toByteArray());
+			
+			editModel.setPhoto(signedByteArray);
+		}
 
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override

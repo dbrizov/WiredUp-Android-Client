@@ -3,14 +3,14 @@ package wiredup.models;
 public class UserEditModel {
 	private String languages;
 	private int countryId;
-	private byte[] photo;
+	private short[] photo;
 	private String aboutMe;
 	
 	public UserEditModel() {
 		
 	}
 	
-	public UserEditModel(String languages, int countryId, byte[] photo, String aboutMe) {
+	public UserEditModel(String languages, int countryId, short[] photo, String aboutMe) {
 		this.languages = languages;
 		this.countryId = countryId;
 		this.photo = photo;
@@ -33,11 +33,11 @@ public class UserEditModel {
 		this.countryId = countryId;
 	}
 
-	public byte[] getPhoto() {
+	public short[] getPhoto() {
 		return this.photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(short[] photo) {
 		this.photo = photo;
 	}
 

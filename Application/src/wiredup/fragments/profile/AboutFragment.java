@@ -1,5 +1,7 @@
 package wiredup.fragments.profile;
 
+import org.apache.commons.codec.binary.Base64;
+
 import wiredup.activities.EditProfileActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
@@ -9,6 +11,8 @@ import wiredup.utils.ErrorNotifier;
 import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -69,16 +73,17 @@ public class AboutFragment extends Fragment {
 
 		this.textViewLanguages = (TextView) rootLayoutView
 				.findViewById(R.id.textView_languages);
-		
+
 		this.btnStartEditProfileActivity = (Button) rootLayoutView
 				.findViewById(R.id.btn_startEditProfileActivity);
-		
-		this.btnStartEditProfileActivity.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				AboutFragment.this.startEditProfileActivity();
-			}
-		});
+
+		this.btnStartEditProfileActivity
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						AboutFragment.this.startEditProfileActivity();
+					}
+				});
 
 		if (!this.isDataLoaded) {
 			this.getDataFromServerAndSetUpView();
@@ -90,9 +95,11 @@ public class AboutFragment extends Fragment {
 	}
 
 	private void startEditProfileActivity() {
-		Intent intent = new Intent(this.getActivity(), EditProfileActivity.class);
-		intent.putExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL, this.userDetailsModel);
-		
+		Intent intent = new Intent(this.getActivity(),
+				EditProfileActivity.class);
+		intent.putExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL,
+				this.userDetailsModel);
+
 		this.getActivity().startActivity(intent);
 	}
 
@@ -129,12 +136,23 @@ public class AboutFragment extends Fragment {
 	}
 
 	private void setUpView() {
-		if (this.userDetailsModel.getPhoto() != null) {
-			// TODO Load photo from database
+		// Set up the user photo
+		byte[] userPhotoByteArray = Base64.decodeBase64(this.userDetailsModel.getPhoto().getBytes());
+		if (userPhotoByteArray != null) {
+			int offset = 128;
+			for (int i = 0; i < userPhotoByteArray.length; i++) {
+				userPhotoByteArray[i] -= offset;
+			}
+
+			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
+					userPhotoByteArray, 0, userPhotoByteArray.length);
+
+			this.imageViewPhoto.setImageBitmap(userPhotoBitmap);
 		} else {
 			this.imageViewPhoto.setImageResource(R.drawable.default_user_image);
 		}
 
+		// Set up the text-views
 		this.textViewDisplayName
 				.setText(this.userDetailsModel.getDisplayName());
 
@@ -144,12 +162,14 @@ public class AboutFragment extends Fragment {
 
 		if (this.userDetailsModel.getAboutMe() != null
 				&& this.userDetailsModel.getAboutMe().length() != 0) {
-			this.textViewAbout.setText("About me: " + this.userDetailsModel.getAboutMe());
+			this.textViewAbout.setText("About me: "
+					+ this.userDetailsModel.getAboutMe());
 		}
 
 		if (this.userDetailsModel.getLanguages() != null
 				&& this.userDetailsModel.getLanguages().length() != 0) {
-			this.textViewLanguages.setText("Languages: " + this.userDetailsModel.getLanguages());
+			this.textViewLanguages.setText("Languages: "
+					+ this.userDetailsModel.getLanguages());
 		}
 	}
 }
