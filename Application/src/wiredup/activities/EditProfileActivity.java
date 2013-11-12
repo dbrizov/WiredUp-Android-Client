@@ -10,7 +10,6 @@ import java.util.List;
 
 import wiredup.adapters.CountriesAdapter;
 import wiredup.client.R;
-import wiredup.fragments.profile.AboutFragment;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
@@ -22,8 +21,8 @@ import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -49,7 +48,7 @@ public class EditProfileActivity extends FragmentActivity {
 	private List<CountryModel> countries; // Needed for the auto-complete
 	private CountriesAdapter countriesAdapter;
 	private boolean areCountriesLoaded;
-	private Bitmap userPhotoBitmap;
+	private short[] userPhotoUnsignedByteArray;
 
 	private ImageView imageViewUserPhoto;
 	private Button btnTakePictureFromCamera;
@@ -145,24 +144,13 @@ public class EditProfileActivity extends FragmentActivity {
 	}
 
 	private void setUpImageViewFromCameraIntentResult(Intent intent) {
-		Bundle extras = intent.getExtras();
-		this.userPhotoBitmap = (Bitmap) extras.get("data");
-		
-		this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
+		SetUpImageViewFromCameraIntentResult task = new SetUpImageViewFromCameraIntentResult();
+		task.execute(intent);
 	}
 	
 	private void setUpImageViewFromGalleyIntentResult(Intent intent) {
-		try {
-			InputStream stream = getContentResolver().openInputStream(intent.getData());
-			this.userPhotoBitmap = BitmapFactory.decodeStream(stream);
-			stream.close();
-			
-			this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
-		} catch (FileNotFoundException fnfe) {
-			fnfe.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
+		SetUpImageViewFromGalleyIntentResultTask task = new SetUpImageViewFromGalleyIntentResultTask();
+		task.execute(intent);
 	}
 	
 	private void setUpImageView() {
@@ -245,14 +233,8 @@ public class EditProfileActivity extends FragmentActivity {
 
 		editModel.setCountryId(countryId);
 		
-		// Convert the bitmap to byte array
-		if (this.userPhotoBitmap != null) {
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			this.userPhotoBitmap.compress(CompressFormat.JPEG, 10, stream);
-			
-			short[] signedByteArray = Encryptor.byteArrayToSignedByteArray(stream.toByteArray());
-			
-			editModel.setPhoto(signedByteArray);
+		if (this.userPhotoUnsignedByteArray != null) {
+			editModel.setPhoto(this.userPhotoUnsignedByteArray);
 		}
 
 		IOnSuccess onSuccess = new IOnSuccess() {
@@ -348,5 +330,68 @@ public class EditProfileActivity extends FragmentActivity {
 				EditProfileActivity.this.imageViewUserPhoto.setImageResource(R.drawable.default_user_image);
 			}
 		}
+	}
+	
+	private class SetUpImageViewFromGalleyIntentResultTask extends AsyncTask<Intent, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(Intent... params) {
+			Intent intent = params[0];
+			Bitmap userPhotoBitmap = null;
+			
+			try {
+				// Convert the photo to bitmap
+				InputStream inputStream = getContentResolver().openInputStream(intent.getData());
+				userPhotoBitmap = BitmapFactory.decodeStream(inputStream);
+				inputStream.close();
+				
+				// Compress the user photo and initialize the userPhotoUnsignedByteArray
+				EditProfileActivity.this.compressTheUserPhotoToUnsignedByteArray(userPhotoBitmap);
+				return userPhotoBitmap;
+			} catch (FileNotFoundException fnfe) {
+				fnfe.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			
+			return userPhotoBitmap;
+		}
+		
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			
+			EditProfileActivity.this.imageViewUserPhoto.setImageBitmap(result);
+		}
+	}
+	
+	private class SetUpImageViewFromCameraIntentResult extends AsyncTask<Intent, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(Intent... params) {
+			Intent intent = params[0];
+			
+			// Convert the photo to bitmap
+			Bundle extras = intent.getExtras();
+			Bitmap userPhotoBitmap = (Bitmap) extras.get("data");
+			
+			// Compress the user photo and initialize the userPhotoUnsignedByteArray
+			EditProfileActivity.this.compressTheUserPhotoToUnsignedByteArray(userPhotoBitmap);
+			
+			return userPhotoBitmap;
+		}
+		
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			
+			EditProfileActivity.this.imageViewUserPhoto.setImageBitmap(result);
+		}
+	}
+	
+	private void compressTheUserPhotoToUnsignedByteArray(Bitmap userPhotoBitmap) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		userPhotoBitmap.compress(CompressFormat.JPEG, 10, outputStream);
+		
+		this.userPhotoUnsignedByteArray =
+				Encryptor.byteArrayToUnsignedByteArray(outputStream.toByteArray());
 	}
 }

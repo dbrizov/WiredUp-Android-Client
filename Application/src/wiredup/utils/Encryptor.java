@@ -48,7 +48,7 @@ public class Encryptor {
 	 * @param array - array of bytes
 	 * @return short array
 	 */
-	public static short[] byteArrayToSignedByteArray(byte[] array) {
+	public static short[] byteArrayToUnsignedByteArray(byte[] array) {
 		int offset = 128;
 		
 		short[] result = new short[array.length];
@@ -71,7 +71,7 @@ public class Encryptor {
 	 * @param array - array of bytes
 	 * @return short array
 	 */
-	public static byte[] signedByteArrayToByteArray(short[] array) {
+	public static byte[] unsignedByteArrayToByteArray(short[] array) {
 		int offset = 128;
 		
 		byte[] result = new byte[array.length];
