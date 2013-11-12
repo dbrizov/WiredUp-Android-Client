@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class Encryptor {
 	public static String sha1Hash(String toHash) {
 		String hash = null;
@@ -29,6 +31,14 @@ public class Encryptor {
 		return hash;
 	}
 	
+	// Let me explain why I need the next 2 functions.
+	// I am using MSSQL Server. In MSSQL server the images are
+	// represented with byte[] array (but a C# byte array, not java byte array).
+	// The Difference between them is that a single C# byte is unsigned [0, 255]
+	// and in Java it is signed [-128, 127]. In order to send bytes with values in range
+	// [0, 255] I have to send short array. (C# byte) = (Java byte) + 128. When I send
+	// the array I must first add 128 to all bytes in the array. When I get the array from the server
+	// I actually get C# byte array I need to convert it back to Java byte array.
 	public static short[] byteArrayToSignedByteArray(byte[] array) {
 		int offset = 128;
 		
@@ -39,7 +49,6 @@ public class Encryptor {
 		
 		return result;
 	}
-	
 	public static byte[] signedByteArrayToByteArray(short[] array) {
 		int offset = 128;
 		
@@ -49,5 +58,24 @@ public class Encryptor {
 		}
 		
 		return result;
+	}
+	
+	// The signedByteArrayToByteArray(short[] array) function is actually not
+	// used in the code. The thing is that the server sends a byte array (C# byte array)
+	// in the form of Base64 encoded string. I can decode the string easy but the thing is that
+	// I get unsigned bytes [0, 255]. When converting the Base64 string I break these bytes
+	// because they overflow. For example: if the server gives me a byte with value 128, that is
+	// actually a byte with value -127 in java (127 + 1 = -127) because of the overflow. To unbreak
+	// the bytes and with that whole image I need to overflow the bytes in the ther direction (left direction).
+	// I need to subtract 128 from the java bytes.
+	public static byte[] Base64StringToByteArray(String base64) {
+		byte[] byteArray = Base64.decodeBase64(base64.getBytes());
+		
+		int offset = 128;
+		for (int i = 0; i < byteArray.length; i++) {
+			byteArray[i] -= offset;
+		}
+		
+		return byteArray;
 	}
 }

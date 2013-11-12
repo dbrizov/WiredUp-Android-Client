@@ -1,12 +1,11 @@
 package wiredup.fragments.profile;
 
-import org.apache.commons.codec.binary.Base64;
-
 import wiredup.activities.EditProfileActivity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserDetailsModel;
+import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.Keys;
 import wiredup.utils.WiredUpApp;
@@ -137,12 +136,9 @@ public class AboutFragment extends Fragment {
 
 	private void setUpView() {
 		// Set up the user photo
-		byte[] userPhotoByteArray = Base64.decodeBase64(this.userDetailsModel.getPhoto().getBytes());
-		if (userPhotoByteArray != null) {
-			int offset = 128;
-			for (int i = 0; i < userPhotoByteArray.length; i++) {
-				userPhotoByteArray[i] -= offset;
-			}
+		String userPhotoBase64String = this.userDetailsModel.getPhoto();
+		if (userPhotoBase64String != null) {
+			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
 
 			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
 					userPhotoByteArray, 0, userPhotoByteArray.length);
