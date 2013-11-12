@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 public class AboutFragment extends Fragment {
 	private int userId;
 	private UserDetailsModel userDetailsModel;
+	private Bitmap userPhotoBitmap;
 	private boolean isDataLoaded;
 
 	private ImageView imageViewPhoto;
@@ -44,6 +45,7 @@ public class AboutFragment extends Fragment {
 
 		this.userDetailsModel = null;
 		this.isDataLoaded = false;
+		this.userPhotoBitmap = null;
 
 		Bundle bundle = this.getArguments();
 		this.userId = bundle.getInt(Keys.BUNDLE_KEY_USER_ID);
@@ -166,18 +168,20 @@ public class AboutFragment extends Fragment {
 		@Override
 		protected Bitmap doInBackground(String... params) {
 			String userPhotoBase64String = params[0];
-			Bitmap userPhotoBitmap = null;
-			
 			if (userPhotoBase64String != null) {
+				if (AboutFragment.this.userPhotoBitmap != null) {
+					return AboutFragment.this.userPhotoBitmap;
+				}
+				
 				byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
 
-				userPhotoBitmap = BitmapFactory.decodeByteArray(
+				AboutFragment.this.userPhotoBitmap = BitmapFactory.decodeByteArray(
 						userPhotoByteArray, 0, userPhotoByteArray.length);
 				
-				return userPhotoBitmap;
+				return AboutFragment.this.userPhotoBitmap;
 			}
 			
-			return userPhotoBitmap;
+			return AboutFragment.this.userPhotoBitmap;
 		}
 		
 		@Override

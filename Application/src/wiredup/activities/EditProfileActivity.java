@@ -10,6 +10,7 @@ import java.util.List;
 
 import wiredup.adapters.CountriesAdapter;
 import wiredup.client.R;
+import wiredup.fragments.profile.AboutFragment;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
@@ -23,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -165,14 +167,8 @@ public class EditProfileActivity extends FragmentActivity {
 	
 	private void setUpImageView() {
 		String userPhotoBase64String = this.userDetailsModel.getPhoto();
-		if (userPhotoBase64String != null) {
-			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
-			
-			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
-					userPhotoByteArray, 0, userPhotoByteArray.length);
-
-			this.imageViewUserPhoto.setImageBitmap(userPhotoBitmap);
-		}
+		SetUpUserPhotoTask setUserPhotoTask = new SetUpUserPhotoTask();
+		setUserPhotoTask.execute(userPhotoBase64String);
 	}
 	
 	private void setUpEditTextViews() {
@@ -322,5 +318,35 @@ public class EditProfileActivity extends FragmentActivity {
 		pickPictureIntent.setType("image/*");
 		
 		this.startActivityForResult(pickPictureIntent, requestCode);
+	}
+	
+	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			String userPhotoBase64String = params[0];
+			Bitmap userPhotoBitmap = null;
+			
+			if (userPhotoBase64String != null) {
+				byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
+
+				userPhotoBitmap = BitmapFactory.decodeByteArray(
+						userPhotoByteArray, 0, userPhotoByteArray.length);
+				
+				return userPhotoBitmap;
+			}
+			
+			return userPhotoBitmap;
+		}
+		
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			
+			if (result != null) {
+				EditProfileActivity.this.imageViewUserPhoto.setImageBitmap(result);
+			} else {
+				EditProfileActivity.this.imageViewUserPhoto.setImageResource(R.drawable.default_user_image);
+			}
+		}
 	}
 }
