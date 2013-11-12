@@ -1,6 +1,9 @@
 package wiredup.activities;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,38 +79,11 @@ public class EditProfileActivity extends FragmentActivity {
 		this.userDetailsModel = (UserDetailsModel) intent
 				.getSerializableExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL);
 		
-		// Set-Up the user photo
-		String userPhotoBase64String = this.userDetailsModel.getPhoto();
-		if (userPhotoBase64String != null) {
-			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
-			
-			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
-					userPhotoByteArray, 0, userPhotoByteArray.length);
-
-			this.imageViewUserPhoto.setImageBitmap(userPhotoBitmap);
-		}
-
-		// Set-Up the edit-text views
-		this.editTextAboutMe.setText(this.userDetailsModel.getAboutMe());
-		this.editTextLanguages.setText(this.userDetailsModel.getLanguages());
-
-		// Set-Up the buttons
-		this.btnEditProfile.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditProfileActivity.this.editProfile();
-			}
-		});
+		// Set-Up the views
+		this.setUpImageView();
+		this.setUpEditTextViews();
+		this.setUpButtons();
 		
-		this.btnTakePictureFromCamera.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditProfileActivity.this
-						.dispatchTakePictureIntent(TAKE_PICTURE_FROM_CAMERA);
-			}
-		});
-		
-		// Get data from the server
 		if (!this.areCountriesLoaded) {
 			this.getCountriesFromDatabaseAndSetUpSpinner();
 		} else {
@@ -121,16 +97,14 @@ public class EditProfileActivity extends FragmentActivity {
 
 		if (requestCode == TAKE_PICTURE_FROM_CAMERA) {
 			if (resultCode == RESULT_OK) {
-				this.setUpImageView(intent);
+				this.setUpImageViewFromCameraIntentResult(intent);
 			}
 		}
-	}
-
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		else if (requestCode == PICK_PICTURE_FROM_GALERY) {
+			if (resultCode == RESULT_OK) {
+				this.setUpImageViewFromGalleyIntentResult(intent);
+			}
+		}
 	}
 
 	@Override
@@ -148,6 +122,87 @@ public class EditProfileActivity extends FragmentActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void setupActionBar() {
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	private void setUpSpinner() {
+		this.countriesAdapter = new CountriesAdapter(this,
+				R.layout.list_row_country, this.countries);
+
+		this.spinnerCountry.setAdapter(countriesAdapter);
+
+		int selectedItemPosition = this
+				.findSelectedItemPosition(this.userDetailsModel.getCountry());
+
+		if (selectedItemPosition >= 0) {
+			this.spinnerCountry.setSelection(selectedItemPosition);
+		}
+	}
+
+	private void setUpImageViewFromCameraIntentResult(Intent intent) {
+		Bundle extras = intent.getExtras();
+		this.userPhotoBitmap = (Bitmap) extras.get("data");
+		
+		this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
+	}
+	
+	private void setUpImageViewFromGalleyIntentResult(Intent intent) {
+		try {
+			InputStream stream = getContentResolver().openInputStream(intent.getData());
+			this.userPhotoBitmap = BitmapFactory.decodeStream(stream);
+			stream.close();
+			
+			this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private void setUpImageView() {
+		String userPhotoBase64String = this.userDetailsModel.getPhoto();
+		if (userPhotoBase64String != null) {
+			byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
+			
+			Bitmap userPhotoBitmap = BitmapFactory.decodeByteArray(
+					userPhotoByteArray, 0, userPhotoByteArray.length);
+
+			this.imageViewUserPhoto.setImageBitmap(userPhotoBitmap);
+		}
+	}
+	
+	private void setUpEditTextViews() {
+		this.editTextAboutMe.setText(this.userDetailsModel.getAboutMe());
+		this.editTextLanguages.setText(this.userDetailsModel.getLanguages());
+	}
+	
+	private void setUpButtons() {
+		this.btnEditProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EditProfileActivity.this.editProfile();
+			}
+		});
+		
+		this.btnTakePictureFromCamera.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EditProfileActivity.this
+						.dispatchTakePictureFromCameraIntent(TAKE_PICTURE_FROM_CAMERA);
+			}
+		});
+		
+		this.btnPickPictureFromGalery.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EditProfileActivity.this
+						.dispatchPickPictureFromGalleryIntent(PICK_PICTURE_FROM_GALERY);
+			}
+		});
 	}
 
 	private void getCountriesFromDatabaseAndSetUpSpinner() {
@@ -180,20 +235,6 @@ public class EditProfileActivity extends FragmentActivity {
 		this.areCountriesLoaded = true;
 
 		Log.d("debug", "Countries Loaded");
-	}
-
-	private void setUpSpinner() {
-		this.countriesAdapter = new CountriesAdapter(this,
-				R.layout.list_row_country, this.countries);
-
-		this.spinnerCountry.setAdapter(countriesAdapter);
-
-		int selectedItemPosition = this
-				.findSelectedItemPosition(this.userDetailsModel.getCountry());
-
-		if (selectedItemPosition >= 0) {
-			this.spinnerCountry.setSelection(selectedItemPosition);
-		}
 	}
 
 	private void editProfile() {
@@ -270,14 +311,17 @@ public class EditProfileActivity extends FragmentActivity {
 		return -1;
 	}
 
-	private void dispatchTakePictureIntent(int actionCode) {
+	private void dispatchTakePictureFromCameraIntent(int requestCode) {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(takePictureIntent, actionCode);
+		
+		this.startActivityForResult(takePictureIntent, requestCode);
 	}
-
-	private void setUpImageView(Intent intent) {
-		Bundle extras = intent.getExtras();
-		this.userPhotoBitmap = (Bitmap) extras.get("data");
-		this.imageViewUserPhoto.setImageBitmap(this.userPhotoBitmap);
+	
+	private void dispatchPickPictureFromGalleryIntent(int requestCode) {
+		Intent pickPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		pickPictureIntent.setType("image/*");
+//		pickPictureIntent.setAction(Intent.ACTION_GET_CONTENT);
+		
+		this.startActivityForResult(pickPictureIntent, requestCode);
 	}
 }
