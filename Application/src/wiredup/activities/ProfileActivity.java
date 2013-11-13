@@ -3,12 +3,10 @@ package wiredup.activities;
 import wiredup.client.R;
 import wiredup.pager.adapters.ProfileActivityPagerAdapter;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
-public class ProfileActivity extends FragmentActivity {
+public class ProfileActivity extends OptionsMenuActivity {
 	private ProfileActivityPagerAdapter pagerAdapter;
 	private ViewPager pager;
 
@@ -22,11 +20,5 @@ public class ProfileActivity extends FragmentActivity {
 
 		this.pager = (ViewPager) this.findViewById(R.id.pager_profile_activity);
 		this.pager.setAdapter(this.pagerAdapter);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		this.getMenuInflater().inflate(R.menu.options_menu, menu);
-		return true;
 	}
 }
