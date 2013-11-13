@@ -15,9 +15,9 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.models.UserEditModel;
+import wiredup.utils.BundleKeys;
 import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,7 +26,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -39,7 +38,7 @@ import android.widget.Spinner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class EditProfileActivity extends FragmentActivity {
+public class EditProfileActivity extends OptionsMenuActivity {
 	private static final int TAKE_PICTURE_FROM_CAMERA = 1;
 	private static final int PICK_PICTURE_FROM_GALLERY = 2;
 

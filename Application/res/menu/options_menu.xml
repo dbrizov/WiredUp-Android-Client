@@ -7,5 +7,11 @@
         android:icon="@drawable/ic_search"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/title_search"/>
+    
+    <item
+        android:id="@+id/menu_item_home"
+        android:icon="@drawable/ic_home"
+        android:showAsAction="always"
+        android:title="@string/title_home" />
 
 </menu>
