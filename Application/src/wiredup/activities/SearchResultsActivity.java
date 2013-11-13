@@ -1,5 +1,6 @@
 package wiredup.activities;
 
+import wiredup.client.R;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,14 +8,16 @@ import android.os.Bundle;
 public class SearchResultsActivity extends OptionsMenuActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_search_results);
+		
+		this.handleIntent(this.getIntent());
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
-		super.onNewIntent(intent);
+		this.setIntent(intent);
+		this.handleIntent(intent);
 	}
 
 	private void handleIntent(Intent intent) {
