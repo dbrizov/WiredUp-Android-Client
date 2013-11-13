@@ -5,6 +5,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.UserEditModel;
 import wiredup.models.UserLoginModel;
 import wiredup.models.UserRegisterModel;
+import wiredup.models.UserSearchModel;
 
 public class UsersPersister extends MainPersister {
 	public UsersPersister(String rootUrl) {
@@ -60,13 +61,26 @@ public class UsersPersister extends MainPersister {
 
 	public void edit(UserEditModel model, String sessionKey,
 			IOnSuccess onSuccess, IOnError onError) {
-		String url = String.format("%sedit?sessionKey=%s", this.rootUrl, sessionKey);
+		String url = String.format("%sedit?sessionKey=%s", this.rootUrl,
+				sessionKey);
 		String jsonData = this.gson.toJson(model);
-		
+
 		HttpPutJsonTask put = new HttpPutJsonTask(url, jsonData);
 		put.setOnSuccess(onSuccess);
 		put.setOnError(onError);
 
 		put.execute();
+	}
+
+	public void search(UserSearchModel model, String sessionKey,
+			IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%ssearch?sessionKey=%s", this.rootUrl, sessionKey);
+		String jsonData = this.gson.toJson(model);
+
+		HttpPostJsonTask post = new HttpPostJsonTask(url, jsonData);
+		post.setOnSuccess(onSuccess);
+		post.setOnError(onError);
+
+		post.execute();
 	}
 }
