@@ -17,7 +17,7 @@ import wiredup.models.UserDetailsModel;
 import wiredup.models.UserEditModel;
 import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.Keys;
+import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -77,7 +77,7 @@ public class EditProfileActivity extends FragmentActivity {
 		// Get the userDetailsModel extra from the Intent
 		Intent intent = this.getIntent();
 		this.userDetailsModel = (UserDetailsModel) intent
-				.getSerializableExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL);
+				.getSerializableExtra(BundleKeys.USER_DETAILS_MODEL);
 		
 		// Set-Up the views
 		this.setUpImageView();

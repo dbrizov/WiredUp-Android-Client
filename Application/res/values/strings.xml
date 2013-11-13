@@ -44,5 +44,6 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_edit_profile">Edit Profile</string>
     <string name="title_activity_search_results">Search Results</string>
+    <string name="title_activity_user">User</string>
 
 </resources>

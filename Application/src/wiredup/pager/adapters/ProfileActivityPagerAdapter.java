@@ -7,7 +7,7 @@ import wiredup.fragments.profile.MessagesFragment;
 import wiredup.fragments.profile.ProjectsFragment;
 import wiredup.fragments.profile.SkillsFragment;
 import wiredup.fragments.profile.UserPostsFragment;
-import wiredup.utils.Keys;
+import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,7 +57,7 @@ public class ProfileActivityPagerAdapter extends FragmentPagerAdapter {
 		}
 		
 		Bundle bundle = new Bundle();
-		bundle.putInt(Keys.BUNDLE_KEY_USER_ID, WiredUpApp.getUserId());
+		bundle.putInt(BundleKeys.USER_ID, WiredUpApp.getUserId());
 		
 		fragment.setArguments(bundle);
 

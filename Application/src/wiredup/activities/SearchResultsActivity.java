@@ -10,10 +10,13 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.UserModel;
 import wiredup.models.UserSearchModel;
 import wiredup.utils.ErrorNotifier;
+import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -83,5 +86,19 @@ public class SearchResultsActivity extends OptionsMenuActivity {
 	private void setUpListView() {
 		this.usersAdapter = new UsersAdapter(this, R.layout.list_row_user, this.users);
 		this.listViewUsers.setAdapter(this.usersAdapter);
+		
+		this.listViewUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row, int positoin, long userId) {
+				SearchResultsActivity.this.startUserActivity((int) userId);
+			}
+		});
+	}
+	
+	private void startUserActivity(int userId) {
+		Intent intent = new Intent(this, UserActivity.class);
+		intent.putExtra(BundleKeys.USER_ID, userId);
+		
+		this.startActivity(intent);
 	}
 }

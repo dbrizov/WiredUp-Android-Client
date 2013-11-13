@@ -1,6 +1,6 @@
 package wiredup.fragments.profile;
 
-import wiredup.utils.Keys;
+import wiredup.utils.BundleKeys;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ public class ProjectsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(Keys.BUNDLE_KEY_USER_ID);
+		this.userId = bundle.getInt(BundleKeys.USER_ID);
 	}
 	
 	@Override

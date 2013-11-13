@@ -7,7 +7,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.UserDetailsModel;
 import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.Keys;
+import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -48,7 +48,7 @@ public class AboutFragment extends Fragment {
 		this.userPhotoBitmap = null;
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(Keys.BUNDLE_KEY_USER_ID);
+		this.userId = bundle.getInt(BundleKeys.USER_ID);
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class AboutFragment extends Fragment {
 	private void startEditProfileActivity() {
 		Intent intent = new Intent(this.getActivity(),
 				EditProfileActivity.class);
-		intent.putExtra(Keys.INTENT_KEY_USER_DETAILS_MODEL,
+		intent.putExtra(BundleKeys.USER_DETAILS_MODEL,
 				this.userDetailsModel);
 
 		this.getActivity().startActivity(intent);
