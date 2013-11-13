@@ -62,13 +62,19 @@ public class UsersAdapter extends BaseAdapter {
 		
 		// Set up the user photo
 		this.imageViewUserPhoto = (ImageView) listRow.findViewById(R.id.imageView_userPhoto);
-		SetUpUserPhotoTask setUpUserPhotoTask = new SetUpUserPhotoTask();
+		SetUpUserPhotoTask setUpUserPhotoTask = new SetUpUserPhotoTask(this.imageViewUserPhoto);
 		setUpUserPhotoTask.execute(userModel.getPhoto());
 		
 		return listRow;
 	}
 	
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
+		private ImageView userPhoto;
+		
+		public SetUpUserPhotoTask(ImageView userPhoto) {
+			this.userPhoto = userPhoto;
+		}
+		
 		@Override
 		protected Bitmap doInBackground(String... params) {
 			String userPhotoBase64String = params[0];
@@ -91,7 +97,7 @@ public class UsersAdapter extends BaseAdapter {
 			super.onPostExecute(result);
 			
 			if (result != null) {
-				UsersAdapter.this.imageViewUserPhoto.setImageBitmap(result);
+				this.userPhoto.setImageBitmap(result);
 			}
 		}
 	}
