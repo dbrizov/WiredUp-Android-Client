@@ -6,7 +6,6 @@ import wiredup.fragments.main.RegisterDialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,12 +24,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		
 		this.btnShowRegisterDialog = (Button) this.findViewById(R.id.btn_showRegisterDialog);
 		this.btnShowRegisterDialog.setOnClickListener(this);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 	@Override

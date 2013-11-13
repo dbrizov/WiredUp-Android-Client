@@ -29,7 +29,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -106,12 +105,6 @@ public class EditProfileActivity extends FragmentActivity {
 				this.setUpImageViewFromGalleyIntentResult(intent);
 			}
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		this.getMenuInflater().inflate(R.menu.edit_profile, menu);
-		return true;
 	}
 
 	@Override

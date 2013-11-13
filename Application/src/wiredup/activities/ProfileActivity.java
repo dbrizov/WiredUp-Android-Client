@@ -26,7 +26,7 @@ public class ProfileActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.profile, menu);
+		this.getMenuInflater().inflate(R.menu.options_menu, menu);
 		return true;
 	}
 }
