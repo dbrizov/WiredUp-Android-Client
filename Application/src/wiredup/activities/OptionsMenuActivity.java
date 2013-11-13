@@ -36,7 +36,7 @@ public class OptionsMenuActivity extends FragmentActivity {
 			this.startProfileActivity();
 			return true;
 		default:
-			return false;
+			return super.onOptionsItemSelected(item);
 		}
 	}
 	
