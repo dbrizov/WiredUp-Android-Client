@@ -152,8 +152,7 @@ public class SkillsFragment extends Fragment {
 
 	private void loadAllSkillsData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<SkillModel>>() {
-		}.getType();
+		Type listType = new TypeToken<List<SkillModel>>() {}.getType();
 
 		List<SkillModel> models = gson.fromJson(data, listType);
 		for (SkillModel model : models) {
