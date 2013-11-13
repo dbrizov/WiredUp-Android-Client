@@ -1,10 +1,10 @@
-package wiredup.fragments.profile;
+package wiredup.fragments.profile.activity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import wiredup.adapters.UserPostsAdapter;
+import wiredup.adapters.ProfileActivityUserPostsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -32,7 +32,7 @@ public class UserPostsFragment extends Fragment {
 	private boolean isPostsDataLoaded;
 
 	private List<UserPostModel> posts;
-	private UserPostsAdapter postsAdapter;
+	private ProfileActivityUserPostsAdapter postsAdapter;
 
 	private ListView listViewPosts;
 
@@ -49,7 +49,7 @@ public class UserPostsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootLayoutView = inflater.inflate(R.layout.fragment_user_posts,
+		View rootLayoutView = inflater.inflate(R.layout.fragment_user_posts_profile_activity,
 				container, false);
 
 		this.listViewPosts = (ListView) rootLayoutView
@@ -65,8 +65,8 @@ public class UserPostsFragment extends Fragment {
 	}
 
 	private void setUpListView(Context context, List<UserPostModel> posts) {
-		this.postsAdapter = new UserPostsAdapter(context,
-				R.layout.list_row_user_post, posts);
+		this.postsAdapter = new ProfileActivityUserPostsAdapter(context,
+				R.layout.list_row_user_post_profile_activity, posts);
 
 		this.listViewPosts.setAdapter(this.postsAdapter);
 	}

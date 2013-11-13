@@ -1,12 +1,12 @@
 package wiredup.pager.adapters;
 
-import wiredup.fragments.profile.AboutFragment;
-import wiredup.fragments.profile.CertificatesFragment;
-import wiredup.fragments.profile.ConnectionsFragment;
-import wiredup.fragments.profile.MessagesFragment;
-import wiredup.fragments.profile.ProjectsFragment;
-import wiredup.fragments.profile.SkillsFragment;
-import wiredup.fragments.profile.UserPostsFragment;
+import wiredup.fragments.profile.activity.AboutFragment;
+import wiredup.fragments.profile.activity.CertificatesFragment;
+import wiredup.fragments.profile.activity.ConnectionsFragment;
+import wiredup.fragments.profile.activity.MessagesFragment;
+import wiredup.fragments.profile.activity.ProjectsFragment;
+import wiredup.fragments.profile.activity.SkillsFragment;
+import wiredup.fragments.profile.activity.UserPostsFragment;
 import wiredup.utils.BundleKeys;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;

@@ -1,10 +1,10 @@
-package wiredup.fragments.profile;
+package wiredup.fragments.profile.activity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import wiredup.adapters.SkillsAdapter;
+import wiredup.adapters.ProfileActivitySkillsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -34,7 +34,7 @@ public class SkillsFragment extends Fragment {
 	private boolean isAllSkillsDataLoaded;
 
 	private List<SkillModel> skillModels;
-	private SkillsAdapter listViewSkillsAdapter;
+	private ProfileActivitySkillsAdapter listViewSkillsAdapter;
 
 	private List<String> skillNames;
 	private ArrayAdapter<String> autoCompleteSkillNamesAdapter;
@@ -57,7 +57,7 @@ public class SkillsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootLayoutView = inflater.inflate(R.layout.fragment_skills,
+		View rootLayoutView = inflater.inflate(R.layout.fragment_skills_profile_activity,
 				container, false);
 
 		this.listViewSkills = (ListView) rootLayoutView
@@ -126,8 +126,8 @@ public class SkillsFragment extends Fragment {
 	}
 
 	private void setUpListView(Context context, List<SkillModel> skills) {
-		this.listViewSkillsAdapter = new SkillsAdapter(context,
-				R.layout.list_row_skill, skills);
+		this.listViewSkillsAdapter = new ProfileActivitySkillsAdapter(context,
+				R.layout.list_row_skill_profile_activity, skills);
 
 		this.listViewSkills.setAdapter(this.listViewSkillsAdapter);
 	}

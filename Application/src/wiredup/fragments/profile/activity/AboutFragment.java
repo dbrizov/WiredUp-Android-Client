@@ -1,4 +1,4 @@
-package wiredup.fragments.profile;
+package wiredup.fragments.profile.activity;
 
 import wiredup.activities.EditProfileActivity;
 import wiredup.client.R;
@@ -55,7 +55,7 @@ public class AboutFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootLayoutView = inflater.inflate(R.layout.fragment_about,
+		View rootLayoutView = inflater.inflate(R.layout.fragment_about_profile_activity,
 				container, false);
 
 		this.imageViewPhoto = (ImageView) rootLayoutView

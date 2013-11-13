@@ -5,7 +5,7 @@ import java.util.List;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.CertificateModel;
+import wiredup.models.SkillModel;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.app.Activity;
@@ -20,31 +20,30 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CertificatesAdapter extends BaseAdapter {
+public class ProfileActivitySkillsAdapter extends BaseAdapter {
 	private Context context;
 	private int rowLayoutId;
-	private List<CertificateModel> certificates;
+	private List<SkillModel> skills;
 
-	public CertificatesAdapter(Context context, int rowLayoutId,
-			List<CertificateModel> certificates) {
+	public ProfileActivitySkillsAdapter(Context context, int rowLayoutId, List<SkillModel> skills) {
 		this.context = context;
 		this.rowLayoutId = rowLayoutId;
-		this.certificates = certificates;
+		this.skills = skills;
 	}
 
 	@Override
 	public int getCount() {
-		return this.certificates.size();
+		return this.skills.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return this.certificates.get(position);
+		return this.skills.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return this.certificates.get(position).getId();
+		return this.skills.get(position).getId();
 	}
 
 	@Override
@@ -55,14 +54,14 @@ public class CertificatesAdapter extends BaseAdapter {
 			listRow = inflater.inflate(this.rowLayoutId, parent, false);
 		}
 
-		TextView textViewCertificate = (TextView) listRow.findViewById(R.id.textView_certificate);
-		textViewCertificate.setText(this.certificates.get(position).getName());
+		TextView textViewSkill = (TextView) listRow.findViewById(R.id.textView_skill);
+		textViewSkill.setText(this.skills.get(position).getName());
 
 		ImageView deleteButton = (ImageView) listRow.findViewById(R.id.imageView_deleteButton);
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
-				Dialog dialog = CertificatesAdapter.this
+				Dialog dialog = ProfileActivitySkillsAdapter.this
 						.createDeleteSkillAlertDialog(imageViewDeleteButton, position);
 
 				dialog.show();
@@ -71,16 +70,16 @@ public class CertificatesAdapter extends BaseAdapter {
 
 		return listRow;
 	}
-	
+
 	private void removeRowFromListView(View listRow, int position) {
-		this.certificates.remove(position);
+		this.skills.remove(position);
 		this.notifyDataSetChanged();
 	}
 
 	private Dialog createDeleteSkillAlertDialog(final View deleteButton,
 			final int rowIndex) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
-				CertificatesAdapter.this.context);
+				ProfileActivitySkillsAdapter.this.context);
 
 		builder.setTitle(R.string.are_you_sure);
 
@@ -88,15 +87,17 @@ public class CertificatesAdapter extends BaseAdapter {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						int certificateId = CertificatesAdapter.this.certificates
-								.get(rowIndex).getId();
+						int skillId = ProfileActivitySkillsAdapter.this.skills.get(rowIndex)
+								.getId();
+						SkillModel model = new SkillModel();
+						model.setId(skillId);
 
 						IOnSuccess onSuccess = new IOnSuccess() {
 							@Override
 							public void performAction(String data) {
 								View row = (View) deleteButton.getParent();
-								CertificatesAdapter.this.removeRowFromListView(
-										row, rowIndex);
+								ProfileActivitySkillsAdapter.this.removeRowFromListView(row,
+										rowIndex);
 							}
 						};
 
@@ -104,16 +105,15 @@ public class CertificatesAdapter extends BaseAdapter {
 							@Override
 							public void performAction(String data) {
 								ErrorNotifier.displayErrorMessage(
-										CertificatesAdapter.this.context, data);
+										ProfileActivitySkillsAdapter.this.context, data);
 							}
 						};
 
 						WiredUpApp
 								.getData()
-								.getCertificates()
-								.delete(certificateId,
-										WiredUpApp.getSessionKey(), onSuccess,
-										onError);
+								.getSkills()
+								.remove(model, WiredUpApp.getSessionKey(),
+										onSuccess, onError);
 					}
 				});
 

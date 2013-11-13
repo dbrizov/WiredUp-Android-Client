@@ -1,10 +1,10 @@
-package wiredup.fragments.profile;
+package wiredup.fragments.profile.activity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import wiredup.adapters.CertificatesAdapter;
+import wiredup.adapters.ProfileActivityCertificatesAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -32,7 +32,7 @@ public class CertificatesFragment extends Fragment {
 	private int userId;
 	private boolean isCertificatesDataLoaded;
 	private List<CertificateModel> certificates;
-	private CertificatesAdapter certificatesAdapter;
+	private ProfileActivityCertificatesAdapter certificatesAdapter;
 
 	private ListView listViewCertificates;
 	private EditText editTextCertificateName;
@@ -53,7 +53,7 @@ public class CertificatesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootLayoutView = inflater.inflate(R.layout.fragment_certificates,
+		View rootLayoutView = inflater.inflate(R.layout.fragment_certificates_profile_activity,
 				container, false);
 
 		this.listViewCertificates = (ListView) rootLayoutView
@@ -164,8 +164,8 @@ public class CertificatesFragment extends Fragment {
 
 	private void setUpListView(Context context,
 			List<CertificateModel> certificates) {
-		this.certificatesAdapter = new CertificatesAdapter(context,
-				R.layout.list_row_certificate, certificates);
+		this.certificatesAdapter = new ProfileActivityCertificatesAdapter(context,
+				R.layout.list_row_certificate_profile_activity, certificates);
 
 		this.listViewCertificates.setAdapter(this.certificatesAdapter);
 	}

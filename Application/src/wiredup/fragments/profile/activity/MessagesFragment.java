@@ -1,4 +1,4 @@
-package wiredup.fragments.profile;
+package wiredup.fragments.profile.activity;
 
 import wiredup.utils.BundleKeys;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ConnectionsFragment extends Fragment {
+public class MessagesFragment extends Fragment {
 	private int userId;
 	
 	@Override

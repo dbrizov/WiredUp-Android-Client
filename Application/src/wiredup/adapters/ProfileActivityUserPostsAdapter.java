@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class UserPostsAdapter extends BaseAdapter {
+public class ProfileActivityUserPostsAdapter extends BaseAdapter {
 	private Context context;
 	private int rowLayoutId;
 	private List<UserPostModel> posts;
 
-	public UserPostsAdapter(Context context, int rowLayoutId,
+	public ProfileActivityUserPostsAdapter(Context context, int rowLayoutId,
 			List<UserPostModel> posts) {
 		this.context = context;
 		this.rowLayoutId = rowLayoutId;
