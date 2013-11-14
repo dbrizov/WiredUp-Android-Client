@@ -54,20 +54,20 @@ public class SkillsFragment extends Fragment {
 		
 		// Set up the listView
 		if (!this.isDataLoaded) {
-			this.getDataFromServerAndSetUpListView();
+			this.getDataFromServerAndSetUpSkillsListView();
 		} else {
-			this.setUpListView();
+			this.setUpSkillsListView();
 		}
 
 		return rootLayoutView;
 	}
 
-	private void getDataFromServerAndSetUpListView() {
+	private void getDataFromServerAndSetUpSkillsListView() {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
 				SkillsFragment.this.loadSkillsData(data);
-				SkillsFragment.this.setUpListView();
+				SkillsFragment.this.setUpSkillsListView();
 			}
 		};
 		
@@ -96,7 +96,7 @@ public class SkillsFragment extends Fragment {
 		Log.d("debug", "Skills Loaded");
 	}
 	
-	private void setUpListView() {
+	private void setUpSkillsListView() {
 		this.skillsAdapter = new UserActivitySkillsAdapter(this.getActivity(),
 				R.layout.list_row_skill_user_activity, this.skills);
 		
