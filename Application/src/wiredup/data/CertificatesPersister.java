@@ -36,13 +36,26 @@ public class CertificatesPersister extends MainPersister {
 
 	public void add(CertificateAddModel model, String sessioKey,
 			IOnSuccess onSuccess, IOnError onError) {
-		String url = String.format("%sadd?sessionKey=%s", this.rootUrl, sessioKey);
+		String url = String.format("%sadd?sessionKey=%s", this.rootUrl,
+				sessioKey);
 		String jsonData = this.gson.toJson(model);
-		
+
 		HttpPostJsonTask post = new HttpPostJsonTask(url, jsonData);
 		post.setOnSuccess(onSuccess);
 		post.setOnError(onError);
-		
+
 		post.execute();
+	}
+
+	public void getDetails(int certificateId, String sessionKey,
+			IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sdetails/%d?sessionKey=%s", this.rootUrl,
+				certificateId, sessionKey);
+		
+		HttpGetJsonTask get = new HttpGetJsonTask(url);
+		get.setOnSuccess(onSuccess);
+		get.setOnError(onError);
+
+		get.execute();
 	}
 }
