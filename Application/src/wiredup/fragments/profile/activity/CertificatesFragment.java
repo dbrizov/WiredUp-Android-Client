@@ -133,7 +133,7 @@ public class CertificatesFragment extends Fragment {
 		this.certificates = gson.fromJson(data, listType);
 		this.isCertificatesDataLoaded = true;
 
-		Log.d("debug", "Certificates Loaded");
+		Log.d("debug", "Profile Certificates Loaded");
 	}
 
 	private void getCertificatesFromServerAndSetUpListView() {

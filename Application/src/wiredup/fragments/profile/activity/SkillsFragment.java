@@ -147,7 +147,7 @@ public class SkillsFragment extends Fragment {
 		this.skillModels = gson.fromJson(data, listType);
 		this.isUserSkillsDataLoaded = true;
 
-		Log.d("debug", "User Skills Loaded");
+		Log.d("debug", "Profile User Skills Loaded");
 	}
 
 	private void loadAllSkillsData(String data) {

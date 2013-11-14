@@ -78,7 +78,7 @@ public class UserPostsFragment extends Fragment {
 		this.posts = gson.fromJson(data, listType);
 		this.isPostsDataLoaded = true;
 
-		Log.d("debug", "Posts Loaded");
+		Log.d("debug", "Profile Posts Loaded");
 	}
 
 	private void getDataFromServerAndSetUpListView() {

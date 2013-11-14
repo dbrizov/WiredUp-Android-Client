@@ -55,9 +55,10 @@ public class AboutFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootLayoutView = inflater.inflate(R.layout.fragment_about_profile_activity,
-				container, false);
+		View rootLayoutView = inflater.inflate(
+				R.layout.fragment_about_profile_activity, container, false);
 
+		// Find the sub-views
 		this.imageViewPhoto = (ImageView) rootLayoutView
 				.findViewById(R.id.imageView_userPhoto);
 
@@ -99,8 +100,7 @@ public class AboutFragment extends Fragment {
 	private void startEditProfileActivity() {
 		Intent intent = new Intent(this.getActivity(),
 				EditProfileActivity.class);
-		intent.putExtra(BundleKeys.USER_DETAILS_MODEL,
-				this.userDetailsModel);
+		intent.putExtra(BundleKeys.USER_DETAILS_MODEL, this.userDetailsModel);
 
 		this.getActivity().startActivity(intent);
 	}
@@ -134,7 +134,7 @@ public class AboutFragment extends Fragment {
 		this.userDetailsModel = gson.fromJson(data, UserDetailsModel.class);
 		this.isDataLoaded = true;
 
-		Log.d("debug", "About Loaded");
+		Log.d("debug", "Profile About Loaded");
 	}
 
 	private void setUpView() {
@@ -163,7 +163,7 @@ public class AboutFragment extends Fragment {
 					+ this.userDetailsModel.getLanguages());
 		}
 	}
-	
+
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
 		@Override
 		protected Bitmap doInBackground(String... params) {
@@ -172,26 +172,29 @@ public class AboutFragment extends Fragment {
 				if (AboutFragment.this.userPhotoBitmap != null) {
 					return AboutFragment.this.userPhotoBitmap;
 				}
-				
-				byte[] userPhotoByteArray = Encryptor.Base64StringToByteArray(userPhotoBase64String);
 
-				AboutFragment.this.userPhotoBitmap = BitmapFactory.decodeByteArray(
-						userPhotoByteArray, 0, userPhotoByteArray.length);
-				
+				byte[] userPhotoByteArray = Encryptor
+						.Base64StringToByteArray(userPhotoBase64String);
+
+				AboutFragment.this.userPhotoBitmap = BitmapFactory
+						.decodeByteArray(userPhotoByteArray, 0,
+								userPhotoByteArray.length);
+
 				return AboutFragment.this.userPhotoBitmap;
 			}
-			
+
 			return AboutFragment.this.userPhotoBitmap;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Bitmap result) {
 			super.onPostExecute(result);
-			
+
 			if (result != null) {
 				AboutFragment.this.imageViewPhoto.setImageBitmap(result);
 			} else {
-				AboutFragment.this.imageViewPhoto.setImageResource(R.drawable.default_user_image);
+				AboutFragment.this.imageViewPhoto
+						.setImageResource(R.drawable.default_user_image);
 			}
 		}
 	}
