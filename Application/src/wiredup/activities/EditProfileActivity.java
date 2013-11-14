@@ -15,7 +15,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.CountryModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.models.UserEditModel;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
@@ -76,7 +76,7 @@ public class EditProfileActivity extends OptionsMenuActivity {
 		// Get the userDetailsModel extra from the Intent
 		Intent intent = this.getIntent();
 		this.userDetailsModel = (UserDetailsModel) intent
-				.getSerializableExtra(BundleKeys.USER_DETAILS_MODEL);
+				.getSerializableExtra(BundleKey.USER_DETAILS_MODEL);
 		
 		// Set-Up the views
 		this.setUpImageView();

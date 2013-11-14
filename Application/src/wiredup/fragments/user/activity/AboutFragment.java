@@ -6,7 +6,7 @@ import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserDetailsModel;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.Encryptor;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
@@ -43,7 +43,7 @@ public class AboutFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class AboutFragment extends Fragment {
 		this.userDetailsModel = gson.fromJson(data, UserDetailsModel.class);
 		this.isDataLoaded = true;
 
-		Log.d("debug", "User About Loaded");
+		Log.d("debug", "About Loaded");
 	}
 	
 	private void setUpView() {

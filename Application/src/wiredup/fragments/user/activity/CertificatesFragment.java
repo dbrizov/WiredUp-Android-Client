@@ -4,20 +4,23 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import wiredup.activities.CertificateDetailsActivity;
 import wiredup.adapters.UserActivityCertificatesAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.CertificateModel;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -36,7 +39,7 @@ public class CertificatesFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 
 		this.certificates = new ArrayList<CertificateModel>();
 		this.isDataLoaded = false;
@@ -102,7 +105,25 @@ public class CertificatesFragment extends Fragment {
 		this.certificatesAdapter = new UserActivityCertificatesAdapter(
 				this.getActivity(),
 				R.layout.list_row_certificate_user_activity, this.certificates);
-		
+
 		this.listViewCertificates.setAdapter(this.certificatesAdapter);
+
+		this.listViewCertificates
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long certificateId) {
+						CertificatesFragment.this
+								.startCertificateDetailsActivity((int) certificateId);
+					}
+				});
+	}
+
+	private void startCertificateDetailsActivity(int certificateId) {
+		Intent intent = new Intent(this.getActivity(),
+				CertificateDetailsActivity.class);
+		intent.putExtra(BundleKey.CERTIFICATE_ID, certificateId);
+
+		this.startActivity(intent);
 	}
 }

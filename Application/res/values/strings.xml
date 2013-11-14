@@ -48,5 +48,6 @@
     <string name="title_activity_edit_profile">Edit Profile</string>
     <string name="title_activity_search_results">Search Results</string>
     <string name="title_activity_user">User</string>
+    <string name="title_activity_certificate_details">Certificate Details</string>
 
 </resources>

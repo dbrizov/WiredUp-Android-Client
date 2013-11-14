@@ -10,7 +10,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.UserModel;
 import wiredup.models.UserSearchModel;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.WiredUpApp;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -97,7 +97,7 @@ public class SearchResultsActivity extends OptionsMenuActivity {
 	
 	private void startUserActivity(int userId) {
 		Intent intent = new Intent(this, UserActivity.class);
-		intent.putExtra(BundleKeys.USER_ID, userId);
+		intent.putExtra(BundleKey.USER_ID, userId);
 		
 		this.startActivity(intent);
 	}

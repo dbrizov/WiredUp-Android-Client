@@ -11,7 +11,7 @@ import wiredup.http.IOnSuccess;
 import wiredup.models.CertificateAddModel;
 import wiredup.models.CertificateModel;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.WiredUpApp;
 import android.content.Context;
 import android.os.Bundle;
@@ -46,7 +46,7 @@ public class CertificatesFragment extends Fragment {
 		this.certificates = new ArrayList<CertificateModel>();
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class CertificatesFragment extends Fragment {
 		this.certificates = gson.fromJson(data, listType);
 		this.isCertificatesDataLoaded = true;
 
-		Log.d("debug", "Profile Certificates Loaded");
+		Log.d("debug", "Certificates Loaded");
 	}
 
 	private void getCertificatesFromServerAndSetUpListView() {

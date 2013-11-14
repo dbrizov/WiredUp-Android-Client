@@ -2,7 +2,7 @@ package wiredup.activities;
 
 import wiredup.client.R;
 import wiredup.pager.adapters.UserActivityPagerAdapter;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -16,7 +16,7 @@ public class UserActivity extends OptionsMenuActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user);
 		
-		int userId = this.getIntent().getExtras().getInt(BundleKeys.USER_ID);
+		int userId = this.getIntent().getExtras().getInt(BundleKey.USER_ID);
 		
 		FragmentManager fragmentManager = this.getSupportFragmentManager();
 		this.pagerAdapter = new UserActivityPagerAdapter(fragmentManager, userId);

@@ -65,6 +65,11 @@
             android:name="wiredup.activities.UserActivity"
             android:label="@string/title_activity_user" >
         </activity>
+        
+        <activity
+            android:name="wiredup.activities.CertificateDetailsActivity"
+            android:label="@string/title_activity_certificate_details" >
+        </activity>
     </application>
 
 </manifest>

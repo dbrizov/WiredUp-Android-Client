@@ -10,7 +10,7 @@ import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.SkillModel;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.WiredUpApp;
 import android.content.Context;
 import android.os.Bundle;
@@ -51,7 +51,7 @@ public class SkillsFragment extends Fragment {
 		this.skillNames = new ArrayList<String>();
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class SkillsFragment extends Fragment {
 		this.skillModels = gson.fromJson(data, listType);
 		this.isUserSkillsDataLoaded = true;
 
-		Log.d("debug", "Profile User Skills Loaded");
+		Log.d("debug", "Skills Loaded");
 	}
 
 	private void loadAllSkillsData(String data) {
@@ -161,7 +161,7 @@ public class SkillsFragment extends Fragment {
 
 		this.isAllSkillsDataLoaded = true;
 
-		Log.d("debug", "AutoComplete Loaded");
+		Log.d("debug", "Skills AutoComplete Loaded");
 	}
 
 	private void getDataFromServerAndSetUpView() {

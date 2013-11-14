@@ -12,7 +12,7 @@ import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.SkillModel;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class SkillsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 
 		this.skills = new ArrayList<SkillModel>();
 		this.isDataLoaded = false;

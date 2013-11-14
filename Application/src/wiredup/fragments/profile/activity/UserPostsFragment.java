@@ -10,7 +10,7 @@ import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.UserPostModel;
 import wiredup.utils.ErrorNotifier;
-import wiredup.utils.BundleKeys;
+import wiredup.utils.BundleKey;
 import wiredup.utils.WiredUpApp;
 import android.content.Context;
 import android.os.Bundle;
@@ -43,7 +43,7 @@ public class UserPostsFragment extends Fragment {
 		this.posts = new ArrayList<UserPostModel>();
 
 		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKeys.USER_ID);
+		this.userId = bundle.getInt(BundleKey.USER_ID);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class UserPostsFragment extends Fragment {
 		this.posts = gson.fromJson(data, listType);
 		this.isPostsDataLoaded = true;
 
-		Log.d("debug", "Profile Posts Loaded");
+		Log.d("debug", "Posts Loaded");
 	}
 
 	private void getDataFromServerAndSetUpListView() {
