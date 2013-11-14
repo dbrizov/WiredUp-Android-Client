@@ -24,8 +24,6 @@ public class OptionsMenuActivity extends FragmentActivity {
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(this
 				.getComponentName()));
 
-		searchView.setSubmitButtonEnabled(true);
-
 		return true;
 	}
 	
