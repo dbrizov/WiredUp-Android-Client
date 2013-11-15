@@ -49,7 +49,7 @@ public class MessagesFragment extends Fragment {
 		this.tabHost = null;
 	}
 	
-	public void getMessagesFromServer() {
+	private void getMessagesFromServer() {
 		
 	}
 }
