@@ -1,9 +1,6 @@
 package wiredup.fragments.profile.activity;
 
 import wiredup.utils.BundleKey;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -13,6 +10,10 @@ import android.view.ViewGroup;
 
 public class MessagesFragment extends Fragment {
 	private int userId;
+	private String allMessagesAsJsonString;
+	private String sentMessagesAsJsonString;
+	private String receivedMessagesAsJsonString;
+	
 	private FragmentTabHost tabHost;
 
 	@Override
@@ -46,5 +47,9 @@ public class MessagesFragment extends Fragment {
 	public void onDestroyView() {
 		super.onDestroyView();
 		this.tabHost = null;
+	}
+	
+	public void getMessagesFromServer() {
+		
 	}
 }
