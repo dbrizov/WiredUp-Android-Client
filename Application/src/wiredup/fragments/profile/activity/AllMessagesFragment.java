@@ -61,6 +61,7 @@ public class AllMessagesFragment extends Fragment {
 			@Override
 			public void performAction(String data) {
 				AllMessagesFragment.this.loadMessagesData(data);
+				AllMessagesFragment.this.setUpListView();
 			}
 		};
 
@@ -83,7 +84,7 @@ public class AllMessagesFragment extends Fragment {
 		this.allMessages = gson.fromJson(data, listType);
 		this.isDataLoaded = true;
 
-		Log.d("debug", "AllMessages Loaded");
+		Log.d("debug", "All Messages Loaded");
 	}
 	
 	private void setUpListView() {
