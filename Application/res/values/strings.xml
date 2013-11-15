@@ -11,6 +11,7 @@
     <string name="user_photo">User Photo</string>
     <string name="icon_delete_button">Delete Button</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="send">Send</string>
     
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
@@ -34,14 +35,17 @@
     <string name="hint_about_me">About Me</string>
     <string name="hint_languages">Languages</string>
     <string name="hint_search">Search users</string>
+    <string name="hint_message_content">Content</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>
     <string name="fragment_add_skill">FragmentAddSkill</string>
+    <string name="fragment_send_message">FragmentSendMessage</string>
     
     <string name="header_skills">Skills</string>
     <string name="header_certificates">Certificates</string>
     
+    <string name="title_new_message">New Message</string>
     <string name="title_add_new_skill">Add New Skill</string>
     <string name="title_search">Search</string>
     <string name="title_home">Home</string>

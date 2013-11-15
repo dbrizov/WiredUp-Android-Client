@@ -7,6 +7,7 @@ public class PersistersUnitOfWork {
 	private CertificatesPersister certificates;
 	private UserPostsPersister userPosts;
 	private CountriesPersister countries;
+	private MessagesPersister messages;
 	
 	public PersistersUnitOfWork(String rootUrl) {
 		this.rootUrl = rootUrl;
@@ -50,5 +51,13 @@ public class PersistersUnitOfWork {
 		}
 		
 		return this.countries;
+	}
+	
+	public MessagesPersister getMessages() {
+		if (this.messages == null) {
+			this.messages = new MessagesPersister(this.rootUrl);
+		}
+		
+		return this.messages;
 	}
 }

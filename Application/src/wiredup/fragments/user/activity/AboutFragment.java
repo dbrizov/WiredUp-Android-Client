@@ -1,7 +1,5 @@
 package wiredup.fragments.user.activity;
 
-import com.google.gson.Gson;
-
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -15,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 public class AboutFragment extends Fragment {
 	private int userId;
@@ -145,7 +146,8 @@ public class AboutFragment extends Fragment {
 					+ this.userDetailsModel.getLanguages());
 		}
 		
-		// TODO Set up the buttons
+		// Set up the buttons
+		this.setUpSendMessageButton();
 	}
 	
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
@@ -181,5 +183,26 @@ public class AboutFragment extends Fragment {
 						.setImageResource(R.drawable.default_user_image);
 			}
 		}
+	}
+	
+	private void setUpSendMessageButton() {
+		this.btnSendMessage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AboutFragment.this.showSendMessageDialog();
+			}
+		});
+	}
+	
+	private void showSendMessageDialog() {
+		SendMessageDialogFragment dialog = new SendMessageDialogFragment();
+		
+		Bundle bundle = new Bundle();
+		bundle.putInt(BundleKey.RECEIVER_ID, this.userId);
+		
+		dialog.setArguments(bundle);
+		
+		FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
+		dialog.show(fragmentManager, this.getString(R.string.fragment_send_message));
 	}
 }
