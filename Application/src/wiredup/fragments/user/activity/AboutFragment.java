@@ -148,6 +148,7 @@ public class AboutFragment extends Fragment {
 		
 		// Set up the buttons
 		this.setUpSendMessageButton();
+		// TODO set up the "Send Connection Request" buton
 	}
 	
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
