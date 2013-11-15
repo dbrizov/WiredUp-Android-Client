@@ -5,7 +5,9 @@ import java.util.Date;
 public class MessageModel {
 	private int id;
 	private String content;
+	private int senderId;
 	private String senderName;
+	private int receiverId;
 	private String receiverName;
 	private Date postDate;
 	
@@ -28,6 +30,14 @@ public class MessageModel {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public int getSenderId() {
+		return this.senderId;
+	}
+	
+	public void setSenderId(int senderId) {
+		this.senderId = senderId;
+	}
 
 	public String getSenderName() {
 		return this.senderName;
@@ -35,6 +45,14 @@ public class MessageModel {
 
 	public void setSenderName(String senderName) {
 		this.senderName = senderName;
+	}
+	
+	public int getReceiverId() {
+		return this.receiverId;
+	}
+	
+	public void setReceiverId(int receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public String getReceiverName() {

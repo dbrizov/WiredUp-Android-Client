@@ -43,6 +43,14 @@ public class MessagesAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return this.messages.get(position).getId();
 	}
+	
+	public int getSenderId(int position) {
+		return this.messages.get(position).getSenderId();
+	}
+	
+	public int getReceiverId(int position) {
+		return this.messages.get(position).getReceiverId();
+	}
 
 	@SuppressLint("SimpleDateFormat")
 	@Override
