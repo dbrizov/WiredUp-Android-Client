@@ -60,7 +60,9 @@ public class ProfileActivity extends OptionsMenuActivity {
 			@Override
 			public void performAction(String data) {
 				if (data.length() > 2) {
-					// The server return a non empty json array (The string "[]" is an empty json array)
+					// The user has connection requests
+					// The server returns a non-empty json array (The string "[]" is an empty json array)
+					// That is why I check for data.length() > 2
 					ProfileActivity.this.connectionRequestsAsJsonString = data;
 					inflater.inflate(R.menu.menu_item_connection_requests, menu);
 				}
