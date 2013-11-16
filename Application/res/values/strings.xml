@@ -49,6 +49,7 @@
     <string name="title_add_new_skill">Add New Skill</string>
     <string name="title_search">Search</string>
     <string name="title_home">Home</string>
+    <string name="title_connection_requests">Connection requests</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_edit_profile">Edit Profile</string>
     <string name="title_activity_search_results">Search Results</string>

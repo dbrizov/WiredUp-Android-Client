@@ -3,7 +3,7 @@ package wiredup.fragments.user.activity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.ConnectionRequestModel;
+import wiredup.models.ConnectionRequestSendModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.utils.BundleKey;
 import wiredup.utils.Encryptor;
@@ -201,7 +201,7 @@ public class AboutFragment extends Fragment {
 		this.btnSendConnectionRequest.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ConnectionRequestModel connectionRequestModel = new ConnectionRequestModel(
+				ConnectionRequestSendModel connectionRequestModel = new ConnectionRequestSendModel(
 						AboutFragment.this.userId);
 				
 				IOnSuccess onSuccess = new IOnSuccess() {

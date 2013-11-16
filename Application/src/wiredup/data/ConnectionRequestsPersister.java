@@ -2,7 +2,7 @@ package wiredup.data;
 
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
-import wiredup.models.ConnectionRequestModel;
+import wiredup.models.ConnectionRequestSendModel;
 
 public class ConnectionRequestsPersister extends MainPersister {
 	public ConnectionRequestsPersister(String rootUrl) {
@@ -16,7 +16,7 @@ public class ConnectionRequestsPersister extends MainPersister {
 	 * @param onSuccess - onSuccess event handler
 	 * @param onError - onError event handler
 	 */
-	public void send(ConnectionRequestModel model, String sessionKey,
+	public void send(ConnectionRequestSendModel model, String sessionKey,
 			IOnSuccess onSuccess, IOnError onError) {
 		String url = String.format("%ssend?sessionKey=%s", this.rootUrl,
 				sessionKey);
