@@ -5,7 +5,9 @@ import wiredup.pager.adapters.ProfileActivityPagerAdapter;
 import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
 public class ProfileActivity extends OptionsMenuActivity {
 	private ProfileActivityPagerAdapter pagerAdapter;
@@ -21,5 +23,16 @@ public class ProfileActivity extends OptionsMenuActivity {
 
 		this.viewPager = (ViewPager) this.findViewById(R.id.pager_profile_activity);
 		this.viewPager.setAdapter(this.pagerAdapter);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }
