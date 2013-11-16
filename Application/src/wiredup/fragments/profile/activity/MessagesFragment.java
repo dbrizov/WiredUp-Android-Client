@@ -12,11 +12,6 @@ public class MessagesFragment extends Fragment {
 	private FragmentTabHost tabHost;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.tabHost = new FragmentTabHost(this.getActivity());
