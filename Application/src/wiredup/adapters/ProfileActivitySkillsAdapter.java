@@ -83,39 +83,38 @@ public class ProfileActivitySkillsAdapter extends BaseAdapter {
 
 		builder.setTitle(R.string.are_you_sure);
 
-		builder.setPositiveButton(R.string.btn_yes,
-				new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				int skillId = ProfileActivitySkillsAdapter.this.skills.get(rowIndex)
+						.getId();
+				SkillModel model = new SkillModel();
+				model.setId(skillId);
+
+				IOnSuccess onSuccess = new IOnSuccess() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						int skillId = ProfileActivitySkillsAdapter.this.skills.get(rowIndex)
-								.getId();
-						SkillModel model = new SkillModel();
-						model.setId(skillId);
-
-						IOnSuccess onSuccess = new IOnSuccess() {
-							@Override
-							public void performAction(String data) {
-								View row = (View) deleteButton.getParent();
-								ProfileActivitySkillsAdapter.this.removeRowFromListView(row,
-										rowIndex);
-							}
-						};
-
-						IOnError onError = new IOnError() {
-							@Override
-							public void performAction(String data) {
-								ErrorNotifier.displayErrorMessage(
-										ProfileActivitySkillsAdapter.this.context, data);
-							}
-						};
-
-						WiredUpApp
-								.getData()
-								.getSkills()
-								.remove(model, WiredUpApp.getSessionKey(),
-										onSuccess, onError);
+					public void performAction(String data) {
+						View row = (View) deleteButton.getParent();
+						ProfileActivitySkillsAdapter.this.removeRowFromListView(row,
+								rowIndex);
 					}
-				});
+				};
+
+				IOnError onError = new IOnError() {
+					@Override
+					public void performAction(String data) {
+						ErrorNotifier.displayErrorMessage(
+								ProfileActivitySkillsAdapter.this.context, data);
+					}
+				};
+
+				WiredUpApp
+						.getData()
+						.getSkills()
+						.remove(model, WiredUpApp.getSessionKey(),
+								onSuccess, onError);
+			}
+		});
 
 		builder.setNegativeButton(R.string.btn_no, null);
 
