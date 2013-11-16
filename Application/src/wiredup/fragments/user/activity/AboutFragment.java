@@ -3,6 +3,7 @@ package wiredup.fragments.user.activity;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.ConnectionRequestModel;
 import wiredup.models.UserDetailsModel;
 import wiredup.utils.BundleKey;
 import wiredup.utils.Encryptor;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -148,7 +150,7 @@ public class AboutFragment extends Fragment {
 		
 		// Set up the buttons
 		this.setUpSendMessageButton();
-		// TODO set up the "Send Connection Request" buton
+		this.setUpConnectionRequestButton();
 	}
 	
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
@@ -191,6 +193,41 @@ public class AboutFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				AboutFragment.this.showSendMessageDialog();
+			}
+		});
+	}
+	
+	private void setUpConnectionRequestButton() {
+		this.btnSendConnectionRequest.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ConnectionRequestModel connectionRequestModel = new ConnectionRequestModel(
+						AboutFragment.this.userId);
+				
+				IOnSuccess onSuccess = new IOnSuccess() {
+					@Override
+					public void performAction(String data) {
+						// Show "Connection request sent" message
+						Toast.makeText(
+								AboutFragment.this.getActivity(),
+								"Connection request send",
+								Toast.LENGTH_LONG).show();
+					}
+				};
+				
+				IOnError onError = new IOnError() {
+					@Override
+					public void performAction(String data) {
+						ErrorNotifier.displayErrorMessage(
+								AboutFragment.this.getActivity(), data);
+					}
+				};
+
+				WiredUpApp
+						.getData()
+						.getConnectionRequests()
+						.send(connectionRequestModel,
+								WiredUpApp.getSessionKey(), onSuccess, onError);
 			}
 		});
 	}

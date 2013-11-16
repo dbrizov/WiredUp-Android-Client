@@ -1,17 +1,17 @@
 package wiredup.models;
 
 public class ConnectionRequestModel {
-	private int receivedId;
+	private int receiverId;
 	
 	public ConnectionRequestModel(int receiverId) {
-		this.receivedId = receiverId;
+		this.receiverId = receiverId;
 	}
 
-	public int getReceivedId() {
-		return this.receivedId;
+	public int getReceiverId() {
+		return this.receiverId;
 	}
 
-	public void setReceivedId(int receivedId) {
-		this.receivedId = receivedId;
+	public void setReceiverId(int receivedId) {
+		this.receiverId = receivedId;
 	}
 }
