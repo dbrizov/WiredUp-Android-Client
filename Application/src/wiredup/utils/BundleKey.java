@@ -9,4 +9,5 @@ public class BundleKey {
 	public static final String CERTIFICATE_ID = "certificateId";
 	public static final String RECEIVER_ID = "receiverId";
 	public static final String RECEIVER_NAME = "receiverName";
+	public static final String CONNECTION_REQUESTS = "connectionRequests";
 }

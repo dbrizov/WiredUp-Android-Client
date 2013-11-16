@@ -4,13 +4,14 @@ import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.pager.adapters.ProfileActivityPagerAdapter;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,7 +47,7 @@ public class ProfileActivity extends OptionsMenuActivity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.menu_item_connection_requests:
-			Log.d("debug", this.connectionRequestsAsJsonString);
+			this.startConnectionRequestsActivity();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -78,5 +79,12 @@ public class ProfileActivity extends OptionsMenuActivity {
 		
 		WiredUpApp.getData().getConnectionRequests()
 				.getAll(WiredUpApp.getSessionKey(), onSuccess, onError);
+	}
+	
+	private void startConnectionRequestsActivity() {
+		Intent intent = new Intent(this, ConnectionRequestsActivity.class);
+		intent.putExtra(BundleKey.CONNECTION_REQUESTS, this.connectionRequestsAsJsonString);
+		
+		this.startActivity(intent);
 	}
 }
