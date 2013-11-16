@@ -55,5 +55,6 @@
     <string name="title_activity_search_results">Search Results</string>
     <string name="title_activity_user">User</string>
     <string name="title_activity_certificate_details">Certificate Details</string>
+    <string name="title_activity_connection_requests">Connection Requests</string>
 
 </resources>
