@@ -237,6 +237,7 @@ public class AboutFragment extends Fragment {
 		
 		Bundle bundle = new Bundle();
 		bundle.putInt(BundleKey.RECEIVER_ID, this.userId);
+		bundle.putString(BundleKey.RECEIVER_NAME, this.userDetailsModel.getDisplayName());
 		
 		dialog.setArguments(bundle);
 		

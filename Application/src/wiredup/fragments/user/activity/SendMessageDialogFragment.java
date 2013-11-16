@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 public class SendMessageDialogFragment extends DialogFragment {
 	private int receiverId;
+	private String receiverName;
 	private EditText editTextMessageContent;
 
 	@Override
@@ -28,13 +29,14 @@ public class SendMessageDialogFragment extends DialogFragment {
 				null);
 		
 		this.receiverId = this.getArguments().getInt(BundleKey.RECEIVER_ID);
+		this.receiverName = this.getArguments().getString(BundleKey.RECEIVER_NAME);
 
 		this.editTextMessageContent = (EditText) rootView
 				.findViewById(R.id.editText_messageContent);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
 		builder.setView(rootView);
-		builder.setTitle(R.string.title_new_message);
+		builder.setTitle("To " + this.receiverName);
 		builder.setNegativeButton(R.string.cancel, null);
 		builder.setPositiveButton(R.string.send, null);
 
