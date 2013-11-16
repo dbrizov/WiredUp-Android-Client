@@ -7,6 +7,7 @@
     <string name="welcome_message">Welcome to WiredUp</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="user_photo">User Photo</string>
     <string name="icon_delete_button">Delete Button</string>
