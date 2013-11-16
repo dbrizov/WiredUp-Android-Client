@@ -7,20 +7,20 @@
         android:id="@+id/textView_senderName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:layout_alignBottom="@+id/imageView_cancelButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView_cancelButton"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_toLeftOf="@+id/imageView_acceptButton"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
         android:id="@+id/imageView_acceptButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView_senderName"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imageView_cancelButton"
+        android:clickable="true"
         android:contentDescription="@string/accept"
         android:src="@drawable/accept_button_selector" />
 
@@ -28,8 +28,10 @@
         android:id="@+id/imageView_cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/textView_senderName"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
         android:contentDescription="@string/cancel"
         android:src="@drawable/cancel_button_selector" />
 
