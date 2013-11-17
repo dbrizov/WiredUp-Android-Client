@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,6 +67,8 @@ public class ProfileActivity extends OptionsMenuActivity {
 					// That is why I check for data.length() > 2
 					ProfileActivity.this.connectionRequestsAsJsonString = data;
 					inflater.inflate(R.menu.menu_item_connection_requests, menu);
+					
+					Log.d("debug", "Connection Requests Loaded");
 				}
 			}
 		};

@@ -84,7 +84,7 @@ private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 		this.receivedMessages = gson.fromJson(data, listType);
 		this.isDataLoaded = true;
 
-		Log.d("debug", "All Messages Loaded");
+		Log.d("debug", "Received Messages Loaded");
 	}
 	
 	private void setUpListView() {
