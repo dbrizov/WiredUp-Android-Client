@@ -4,19 +4,23 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import wiredup.activities.MessageDetailsActivity;
 import wiredup.adapters.MessagesAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.MessageModel;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -92,5 +96,24 @@ private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 				R.layout.list_row_message, this.receivedMessages);
 
 		this.listViewReceivedMessages.setAdapter(this.receivedMessagesAdapter);
+		
+		this.listViewReceivedMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row,
+					int rowIndex, long messageId) {
+				MessageModel messageModel =
+						(MessageModel) ReceivedMessagesFragment.this.receivedMessagesAdapter.getItem(rowIndex);
+				
+				ReceivedMessagesFragment.this
+						.startMessageDetailsActivity(messageModel);
+			}
+		});
+	}
+	
+	private void startMessageDetailsActivity(MessageModel messageModel) {
+		Intent intent = new Intent(this.getActivity(), MessageDetailsActivity.class);
+		intent.putExtra(BundleKey.MESSAGE_MODEL, messageModel);
+		
+		this.startActivity(intent);
 	}
 }

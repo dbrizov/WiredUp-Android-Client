@@ -10,4 +10,5 @@ public class BundleKey {
 	public static final String RECEIVER_ID = "receiverId";
 	public static final String RECEIVER_NAME = "receiverName";
 	public static final String CONNECTION_REQUESTS = "connectionRequests";
+	public static final String MESSAGE_MODEL = "messageId";
 }

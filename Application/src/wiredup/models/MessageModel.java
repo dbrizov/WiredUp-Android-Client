@@ -1,8 +1,15 @@
 package wiredup.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageModel {
+public class MessageModel implements Serializable {
+	/**
+	 * The message model is Serializable, because that way I can pass it
+	 * to and intent as a Serializable extra
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String content;
 	private int senderId;

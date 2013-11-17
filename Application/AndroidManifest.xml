@@ -79,6 +79,11 @@
             android:name="wiredup.activities.ConnectionRequestsActivity"
             android:label="@string/title_connection_requests" >
         </activity>
+        
+        <activity
+            android:name="wiredup.activities.MessageDetailsActivity"
+            android:label="@string/title_activity_message_details" >
+        </activity>
     </application>
 
 </manifest>
