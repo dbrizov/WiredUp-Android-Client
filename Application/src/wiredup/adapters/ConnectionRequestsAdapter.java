@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConnectionRequestsAdapter extends BaseAdapter {
 	private Context context;
@@ -87,6 +88,12 @@ public class ConnectionRequestsAdapter extends BaseAdapter {
 			public void performAction(String data) {
 				ConnectionRequestsAdapter.this.connectionRequests.remove(rowIndex);
 				ConnectionRequestsAdapter.this.notifyDataSetChanged();
+				
+				String senderDisplayName = ConnectionRequestsAdapter.this.connectionRequests
+						.get(rowIndex).getSenderDisplayName();
+				Toast.makeText(ConnectionRequestsAdapter.this.context,
+						senderDisplayName + " is now your connection",
+						Toast.LENGTH_LONG).show();
 			}
 		};
 
@@ -113,6 +120,10 @@ public class ConnectionRequestsAdapter extends BaseAdapter {
 			public void performAction(String data) {
 				ConnectionRequestsAdapter.this.connectionRequests.remove(rowIndex);
 				ConnectionRequestsAdapter.this.notifyDataSetChanged();
+
+				Toast.makeText(ConnectionRequestsAdapter.this.context,
+						"Connection request successfully declined",
+						Toast.LENGTH_LONG).show();
 			}
 		};
 
