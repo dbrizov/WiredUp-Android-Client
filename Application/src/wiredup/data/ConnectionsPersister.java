@@ -15,7 +15,7 @@ public class ConnectionsPersister extends MainPersister {
 	 * @param onError - onError event handler
 	 */
 	public void getAll(String sessionKey, IOnSuccess onSuccess, IOnError onError) {
-		String url = String.format("%sll?sessionKey=%s", this.rootUrl, sessionKey);
+		String url = String.format("%sall?sessionKey=%s", this.rootUrl, sessionKey);
 		
 		HttpGetJsonTask get = new HttpGetJsonTask(url);
 		get.setOnSuccess(onSuccess);

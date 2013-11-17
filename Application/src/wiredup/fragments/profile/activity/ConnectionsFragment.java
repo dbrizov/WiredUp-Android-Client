@@ -1,26 +1,93 @@
 package wiredup.fragments.profile.activity;
 
-import wiredup.utils.BundleKey;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import wiredup.adapters.ConnetionsAdapter;
+import wiredup.client.R;
+import wiredup.http.IOnError;
+import wiredup.http.IOnSuccess;
+import wiredup.models.ConnectionModel;
+import wiredup.utils.ErrorNotifier;
+import wiredup.utils.WiredUpApp;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ConnectionsFragment extends Fragment {
-	private int userId;
+	private List<ConnectionModel> connections;
+	private boolean isDataLoaded;
 	
+	private ListView listViewConnections;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Bundle bundle = this.getArguments();
-		this.userId = bundle.getInt(BundleKey.USER_ID);
+		this.connections = new ArrayList<ConnectionModel>();
+		this.isDataLoaded = false;
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+		View rootView = inflater.inflate(R.layout.fragment_connections, container, false);
+		
+		// Find the list view
+		this.listViewConnections = (ListView) rootView.findViewById(R.id.listView_connections);
+		
+		// Set up the list view
+		if (!this.isDataLoaded) {
+			this.getDataFromServerAndSetUpListView();
+		} else {
+			this.setUpListView();
+		}
+		
+		return rootView;
+	}
+	
+	private void setUpListView() {
+		ConnetionsAdapter adapter = new ConnetionsAdapter(this.getActivity(),
+				R.layout.list_row_connection, this.connections);
+
+		this.listViewConnections.setAdapter(adapter);
+	}
+	
+	private void loadConnectionsData(String data) {
+		Gson gson = new Gson();
+		Type listType = new TypeToken<List<ConnectionModel>>() {}.getType();
+
+		this.connections = gson.fromJson(data, listType);
+		this.isDataLoaded = true;
+
+		Log.d("debug", "Connections Loaded");
+	}
+	
+	private void getDataFromServerAndSetUpListView() {
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				ConnectionsFragment.this.loadConnectionsData(data);
+				ConnectionsFragment.this.setUpListView();
+			}
+		};
+		
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						ConnectionsFragment.this.getActivity(), data);
+			}
+		};
+		
+		WiredUpApp.getData().getConnections().getAll(WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 }
