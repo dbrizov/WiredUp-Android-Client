@@ -3,10 +3,17 @@ package wiredup.adapters;
 import java.util.List;
 
 import wiredup.client.R;
+import wiredup.http.IOnError;
+import wiredup.http.IOnSuccess;
 import wiredup.models.ConnectionModel;
 import wiredup.utils.Encryptor;
+import wiredup.utils.ErrorNotifier;
+import wiredup.utils.WiredUpApp;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -48,7 +55,7 @@ public class ConnetionsAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View listRow = convertView;
 		if (listRow == null) {
 			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
@@ -71,11 +78,53 @@ public class ConnetionsAdapter extends BaseAdapter {
 		imageViewDeleteConnectionButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Delete the connection
+				ConnetionsAdapter.this.showDeleteConnectionDialog(position);
 			}
 		});
 		
 		return listRow;
+	}
+	
+	private void deleteConnection(final int rowIndex) {
+		int connectionId = (int) ConnetionsAdapter.this.getItemId(rowIndex);
+
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				ConnetionsAdapter.this.connections.remove(rowIndex);
+				ConnetionsAdapter.this.notifyDataSetChanged();
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						ConnetionsAdapter.this.context, data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getConnections()
+				.delete(connectionId, WiredUpApp.getSessionKey(), onSuccess,
+						onError);
+	}
+	
+	private void showDeleteConnectionDialog(final int rowIndex) {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConnetionsAdapter.this.context);
+		
+		dialogBuilder.setTitle(R.string.are_you_sure);
+		dialogBuilder.setNegativeButton(R.string.btn_no, null);
+		dialogBuilder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				ConnetionsAdapter.this.deleteConnection(rowIndex);
+			}
+		});
+		
+		Dialog dialog = dialogBuilder.create();
+		dialog.show();
 	}
 	
 	private class SetUpUserPhotoTask extends AsyncTask<String, Void, Bitmap> {
