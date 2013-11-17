@@ -8,19 +8,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import wiredup.activities.MessageDetailsActivity;
 import wiredup.adapters.MessagesAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.MessageModel;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class SentMessagesFragment extends Fragment {
@@ -92,5 +96,24 @@ private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 				R.layout.list_row_message, this.sentMessages);
 
 		this.listViewSentMessages.setAdapter(this.sentMessagesAdapter);
+		
+		this.listViewSentMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row,
+					int rowIndex, long messageId) {
+				MessageModel messageModel =
+						(MessageModel) SentMessagesFragment.this.sentMessagesAdapter.getItem(rowIndex);
+				
+				SentMessagesFragment.this
+						.startMessageDetailsActivity(messageModel);
+			}
+		});
+	}
+	
+	private void startMessageDetailsActivity(MessageModel messageModel) {
+		Intent intent = new Intent(this.getActivity(), MessageDetailsActivity.class);
+		intent.putExtra(BundleKey.MESSAGE_MODEL, messageModel);
+		
+		this.startActivity(intent);
 	}
 }

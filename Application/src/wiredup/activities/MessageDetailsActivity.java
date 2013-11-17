@@ -2,10 +2,12 @@ package wiredup.activities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import wiredup.client.R;
 import wiredup.fragments.user.activity.SendMessageDialogFragment;
 import wiredup.models.MessageModel;
 import wiredup.utils.BundleKey;
+import wiredup.utils.WiredUpApp;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,7 @@ public class MessageDetailsActivity extends OptionsMenuActivity {
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	
 	private TextView textViewSenderName;
+	private TextView textViewReceiverName;
 	private TextView textViewMessageContent;
 	private TextView textViewPostDate;
 	private Button btnMessageReply;
@@ -34,6 +37,9 @@ public class MessageDetailsActivity extends OptionsMenuActivity {
 		this.textViewSenderName = (TextView) this.findViewById(R.id.textView_senderName);
 		this.textViewSenderName.setText("From: " + messageModel.getSenderName());
 		
+		this.textViewReceiverName = (TextView) this.findViewById(R.id.textView_receiverName);
+		this.textViewReceiverName.setText("To: " + messageModel.getReceiverName());
+		
 		this.textViewMessageContent = (TextView) this.findViewById(R.id.textView_messageContent);
 		this.textViewMessageContent.setText(messageModel.getContent());
 		
@@ -43,16 +49,21 @@ public class MessageDetailsActivity extends OptionsMenuActivity {
 		this.textViewPostDate.setText(postDateAsString);
 		
 		this.btnMessageReply = (Button) this.findViewById(R.id.btn_messageReply);
-		this.btnMessageReply.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// The receiver of the message will be the
-				// sender of the messageModel
-				MessageDetailsActivity.this.showSendMessageDialog(
-						messageModel.getSenderId(),
-						messageModel.getSenderName());
-			}
-		});
+		if (WiredUpApp.getUserDisplayName().equals(messageModel.getSenderName())) {
+			// The current logged user is the sender of the message
+			this.btnMessageReply.setVisibility(View.GONE);
+		} else {
+			this.btnMessageReply.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// The receiver of the message will be the
+					// sender of the messageModel
+					MessageDetailsActivity.this.showSendMessageDialog(
+							messageModel.getSenderId(),
+							messageModel.getSenderName());
+				}
+			});
+		}
 	}
 	
 	private void showSendMessageDialog(int receiverId, String receiverName) {
