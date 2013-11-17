@@ -210,7 +210,7 @@ public class AboutFragment extends Fragment {
 						// Show "Connection request sent" message
 						Toast.makeText(
 								AboutFragment.this.getActivity(),
-								"Connection request send",
+								"Connection request sent",
 								Toast.LENGTH_LONG).show();
 					}
 				};

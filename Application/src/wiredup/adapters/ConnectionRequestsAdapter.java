@@ -86,13 +86,13 @@ public class ConnectionRequestsAdapter extends BaseAdapter {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
-				ConnectionRequestsAdapter.this.connectionRequests.remove(rowIndex);
+				ConnectionRequestModel removedConnectionRequest = 
+						ConnectionRequestsAdapter.this.connectionRequests.remove(rowIndex);
 				ConnectionRequestsAdapter.this.notifyDataSetChanged();
 				
-				String senderDisplayName = ConnectionRequestsAdapter.this.connectionRequests
-						.get(rowIndex).getSenderDisplayName();
+				String senderDisplayName = removedConnectionRequest.getSenderDisplayName();
 				Toast.makeText(ConnectionRequestsAdapter.this.context,
-						senderDisplayName + " is now your connection",
+						String.format("Connection with %s created", senderDisplayName),
 						Toast.LENGTH_LONG).show();
 			}
 		};
