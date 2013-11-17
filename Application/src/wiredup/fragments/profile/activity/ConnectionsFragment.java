@@ -4,19 +4,23 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import wiredup.activities.UserActivity;
 import wiredup.adapters.ConnetionsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
 import wiredup.models.ConnectionModel;
+import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -55,10 +59,18 @@ public class ConnectionsFragment extends Fragment {
 	}
 	
 	private void setUpListView() {
-		ConnetionsAdapter adapter = new ConnetionsAdapter(this.getActivity(),
+		final ConnetionsAdapter adapter = new ConnetionsAdapter(this.getActivity(),
 				R.layout.list_row_connection, this.connections);
 
 		this.listViewConnections.setAdapter(adapter);
+		
+		this.listViewConnections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row, int rowIndex, long connectionId) {
+				int userId = adapter.getUserId(rowIndex);
+				ConnectionsFragment.this.startUserActivity(userId);
+			}
+		});
 	}
 	
 	private void loadConnectionsData(String data) {
@@ -89,5 +101,12 @@ public class ConnectionsFragment extends Fragment {
 		};
 		
 		WiredUpApp.getData().getConnections().getAll(WiredUpApp.getSessionKey(), onSuccess, onError);
+	}
+	
+	private void startUserActivity(int userId) {
+		Intent intent = new Intent(this.getActivity(), UserActivity.class);
+		intent.putExtra(BundleKey.USER_ID, userId);
+		
+		this.startActivity(intent);
 	}
 }

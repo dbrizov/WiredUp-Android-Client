@@ -89,7 +89,7 @@ public class SearchResultsActivity extends OptionsMenuActivity {
 		
 		this.listViewUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View row, int positoin, long userId) {
+			public void onItemClick(AdapterView<?> parent, View row, int position, long userId) {
 				SearchResultsActivity.this.startUserActivity((int) userId);
 			}
 		});
