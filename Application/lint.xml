@@ -4,6 +4,7 @@
         <ignore path="src/wiredup/adapters/edit/profile/CountriesAdapter.java" />
         <ignore path="src/wiredup/data/CertificatesPersister.java" />
         <ignore path="src/wiredup/data/ConnectionRequestsPersister.java" />
+        <ignore path="src/wiredup/data/ConnectionsPersister.java" />
         <ignore path="src/wiredup/data/SkillsPersister.java" />
         <ignore path="src/wiredup/data/UserPostsPersister.java" />
         <ignore path="src/wiredup/data/UsersPersister.java" />
