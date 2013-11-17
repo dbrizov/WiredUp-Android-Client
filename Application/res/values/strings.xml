@@ -13,6 +13,7 @@
     <string name="icon_delete_button">Delete Button</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="send">Send</string>
+    <string name="delete_connection_button">Delete Connection</string>
     
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
