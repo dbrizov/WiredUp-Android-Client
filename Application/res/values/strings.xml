@@ -25,6 +25,7 @@
     <string name="btn_send_message">Send Message</string>
     <string name="btn_send_connection_request">Send Connection Request</string>
     <string name="btn_see_certificate">See Certificate</string>
+    <string name="btn_see_project">See Project</string>
     
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>

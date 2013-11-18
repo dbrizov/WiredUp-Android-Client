@@ -77,7 +77,10 @@ public class ProjectsFragment extends Fragment {
 			}
 		};
 		
-		WiredUpApp.getData().getProjects().getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess, onError);
+		WiredUpApp
+				.getData()
+				.getProjects()
+				.getAll(this.userId, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 	
 	private void loadProjectsData(String data) {
@@ -99,7 +102,6 @@ public class ProjectsFragment extends Fragment {
 		
 		this.listViewProjects.setAdapter(adapter);
 		this.listViewProjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View row, int rowIndex, long projectId) {
 				ProjectsFragment.this.startProjectDetailsActivity((int) projectId);
