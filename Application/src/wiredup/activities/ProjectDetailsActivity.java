@@ -1,7 +1,5 @@
 package wiredup.activities;
 
-import com.google.gson.Gson;
-
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -9,10 +7,14 @@ import wiredup.models.ProjectDetailsModel;
 import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 public class ProjectDetailsActivity extends OptionsMenuActivity {
 	private ProjectDetailsModel projectDetailsModel;
@@ -41,9 +43,7 @@ public class ProjectDetailsActivity extends OptionsMenuActivity {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
-				ProjectDetailsActivity.this.projectDetailsModel =
-						ProjectDetailsActivity.this.parseProjectDetailsJsonString(data);
-				
+				ProjectDetailsActivity.this.loadProjectDetailsData(data);
 				ProjectDetailsActivity.this.setUpView();
 			}
 		};
@@ -62,21 +62,38 @@ public class ProjectDetailsActivity extends OptionsMenuActivity {
 				.getDetails(projectId, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 	
-	private ProjectDetailsModel parseProjectDetailsJsonString(String jsonData) {
+	private void loadProjectDetailsData(String jsonData) {
 		Gson gson = new Gson();
-		return gson.fromJson(jsonData, ProjectDetailsModel.class);
+		this.projectDetailsModel = 
+				gson.fromJson(jsonData, ProjectDetailsModel.class);
 	}
 	
 	private void setUpView() {
-		this.textViewProjectName
-			.setText(this.projectDetailsModel.getName());
+		String projectName = this.projectDetailsModel.getName();
+		this.textViewProjectName.setText(projectName);
 		
-		this.textViewProjectDescription
-			.setText("Descriotion: " + this.projectDetailsModel.getDescription());
+		String projectDescription = this.projectDetailsModel.getDescription();
+		this.textViewProjectDescription.setText("Descriotion: " + projectDescription);
 		
-		this.textViewProjectUrl
-			.setText("Url: " + this.projectDetailsModel.getUrl());
+		final String projectUrl = this.projectDetailsModel.getUrl();
+		this.textViewProjectUrl.setText("Url: " + projectUrl);
 
-		// TODO Set up the button
+		if (projectUrl == null || projectUrl.length() == 0) {
+			this.btnSeeProject.setEnabled(false);
+		} else {
+			this.btnSeeProject.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ProjectDetailsActivity.this.startBrowser(projectUrl);
+				}
+			});
+		}
+	}
+	
+	private void startBrowser(String url) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+
+		this.startActivity(intent);
 	}
 }
