@@ -162,7 +162,7 @@ public class ProjectsFragment extends Fragment {
 				Gson gson = new Gson();
 				ProjectModel projectModel = gson.fromJson(data, ProjectModel.class);
 				
-				ProjectsFragment.this.projects.add(projectModel);
+				ProjectsFragment.this.projects.add(0, projectModel);
 				ProjectsFragment.this.projectsAdapter.notifyDataSetChanged();
 				
 				ProjectsFragment.this.editTextProjectName.setText("");
