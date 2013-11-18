@@ -93,4 +93,21 @@ public class MessagesPersister extends MainPersister {
 
 		get.execute();
 	}
+	
+	/**
+	 * Deletes a specified message. The user can delete only his messages
+	 * @param messageId - The id of the message in the database
+	 * @param sessionKey - The sessionKey of the current user
+	 * @param onSuccess - onSuccess event handler
+	 * @param onError - onError event handler
+	 */
+	public void delete(int messageId, String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format(String.format("%sdelete/%d?sessionKey=%s", this.rootUrl, messageId, sessionKey));
+		
+		HttpDeleteTask delete = new HttpDeleteTask(url);
+		delete.setOnSuccess(onSuccess);
+		delete.setOnError(onError);
+		
+		delete.execute();
+	}
 }

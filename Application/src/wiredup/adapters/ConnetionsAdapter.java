@@ -114,7 +114,7 @@ public class ConnetionsAdapter extends BaseAdapter {
 	private void showDeleteConnectionDialog(final int rowIndex) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConnetionsAdapter.this.context);
 		
-		dialogBuilder.setTitle(R.string.are_you_sure);
+		dialogBuilder.setTitle("Delete this connection?");
 		dialogBuilder.setNegativeButton(R.string.btn_no, null);
 		dialogBuilder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
 			@Override

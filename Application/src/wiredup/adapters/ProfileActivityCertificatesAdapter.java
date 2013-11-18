@@ -63,7 +63,7 @@ public class ProfileActivityCertificatesAdapter extends BaseAdapter {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
 				Dialog dialog = ProfileActivityCertificatesAdapter.this
-						.createDeleteSkillAlertDialog(imageViewDeleteButton, position);
+						.createDeleteSkillAlertDialog(position);
 
 				dialog.show();
 			}
@@ -71,55 +71,49 @@ public class ProfileActivityCertificatesAdapter extends BaseAdapter {
 
 		return listRow;
 	}
-	
-	private void removeRowFromListView(View listRow, int position) {
-		this.certificates.remove(position);
-		this.notifyDataSetChanged();
-	}
 
-	private Dialog createDeleteSkillAlertDialog(final View deleteButton,
-			final int rowIndex) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				ProfileActivityCertificatesAdapter.this.context);
+	private Dialog createDeleteSkillAlertDialog(final int rowIndex) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
-		builder.setTitle(R.string.are_you_sure);
+		builder.setTitle("Delete this certificate?");
 
-		builder.setPositiveButton(R.string.btn_yes,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						int certificateId = ProfileActivityCertificatesAdapter.this.certificates
-								.get(rowIndex).getId();
-
-						IOnSuccess onSuccess = new IOnSuccess() {
-							@Override
-							public void performAction(String data) {
-								View row = (View) deleteButton.getParent();
-								ProfileActivityCertificatesAdapter.this.removeRowFromListView(
-										row, rowIndex);
-							}
-						};
-
-						IOnError onError = new IOnError() {
-							@Override
-							public void performAction(String data) {
-								ErrorNotifier.displayErrorMessage(
-										ProfileActivityCertificatesAdapter.this.context, data);
-							}
-						};
-
-						WiredUpApp
-								.getData()
-								.getCertificates()
-								.delete(certificateId,
-										WiredUpApp.getSessionKey(), onSuccess,
-										onError);
-					}
-				});
+		builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				ProfileActivityCertificatesAdapter.this.deleteCertificate(rowIndex);
+			}
+		});
 
 		builder.setNegativeButton(R.string.btn_no, null);
 
 		Dialog dialog = builder.create();
 		return dialog;
+	}
+	
+	private void deleteCertificate(final int rowIndex) {
+		int certificateId = this.certificates.get(rowIndex).getId();
+
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				ProfileActivityCertificatesAdapter.this.certificates.remove(rowIndex);
+				ProfileActivityCertificatesAdapter.this.notifyDataSetChanged();
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						ProfileActivityCertificatesAdapter.this.context, data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getCertificates()
+				.delete(certificateId,
+						WiredUpApp.getSessionKey(), onSuccess,
+						onError);
 	}
 }

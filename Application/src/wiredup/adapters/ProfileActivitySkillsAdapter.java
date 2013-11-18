@@ -62,7 +62,7 @@ public class ProfileActivitySkillsAdapter extends BaseAdapter {
 			@Override
 			public void onClick(final View imageViewDeleteButton) {
 				Dialog dialog = ProfileActivitySkillsAdapter.this
-						.createDeleteSkillAlertDialog(imageViewDeleteButton, position);
+						.createDeleteSkillAlertDialog(position);
 
 				dialog.show();
 			}
@@ -71,48 +71,15 @@ public class ProfileActivitySkillsAdapter extends BaseAdapter {
 		return listRow;
 	}
 
-	private void removeRowFromListView(View listRow, int position) {
-		this.skills.remove(position);
-		this.notifyDataSetChanged();
-	}
+	private Dialog createDeleteSkillAlertDialog(final int rowIndex) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
-	private Dialog createDeleteSkillAlertDialog(final View deleteButton,
-			final int rowIndex) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				ProfileActivitySkillsAdapter.this.context);
-
-		builder.setTitle(R.string.are_you_sure);
+		builder.setTitle("Delete this skill?");
 
 		builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				int skillId = ProfileActivitySkillsAdapter.this.skills.get(rowIndex)
-						.getId();
-				SkillModel model = new SkillModel();
-				model.setId(skillId);
-
-				IOnSuccess onSuccess = new IOnSuccess() {
-					@Override
-					public void performAction(String data) {
-						View row = (View) deleteButton.getParent();
-						ProfileActivitySkillsAdapter.this.removeRowFromListView(row,
-								rowIndex);
-					}
-				};
-
-				IOnError onError = new IOnError() {
-					@Override
-					public void performAction(String data) {
-						ErrorNotifier.displayErrorMessage(
-								ProfileActivitySkillsAdapter.this.context, data);
-					}
-				};
-
-				WiredUpApp
-						.getData()
-						.getSkills()
-						.remove(model, WiredUpApp.getSessionKey(),
-								onSuccess, onError);
+				ProfileActivitySkillsAdapter.this.deleteSkill(rowIndex);
 			}
 		});
 
@@ -120,5 +87,32 @@ public class ProfileActivitySkillsAdapter extends BaseAdapter {
 
 		Dialog dialog = builder.create();
 		return dialog;
+	}
+	
+	private void deleteSkill(final int rowIndex) {
+		int skillId = this.skills.get(rowIndex).getId();
+		SkillModel model = new SkillModel();
+		model.setId(skillId);
+
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				ProfileActivitySkillsAdapter.this.skills.remove(rowIndex);
+				ProfileActivitySkillsAdapter.this.notifyDataSetChanged();
+			}
+		};
+
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(
+						ProfileActivitySkillsAdapter.this.context, data);
+			}
+		};
+
+		WiredUpApp
+				.getData()
+				.getSkills()
+				.remove(model, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 }
