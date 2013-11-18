@@ -32,6 +32,7 @@ public class AllMessagesFragment extends Fragment {
 	
 	private List<MessageModel> allMessages;
 	private MessagesAdapter allMessagesAdapter;
+	@SuppressWarnings("unused")
 	private boolean isDataLoaded;
 	
 	private ListView listViewAllMessages;

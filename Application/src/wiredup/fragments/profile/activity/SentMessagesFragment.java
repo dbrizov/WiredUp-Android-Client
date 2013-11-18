@@ -32,6 +32,7 @@ private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	
 	private List<MessageModel> sentMessages;
 	private MessagesAdapter sentMessagesAdapter;
+	@SuppressWarnings("unused")
 	private boolean isDataLoaded;
 	
 	private ListView listViewSentMessages;
