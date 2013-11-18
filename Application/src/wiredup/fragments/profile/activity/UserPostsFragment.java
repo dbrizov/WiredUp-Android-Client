@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import wiredup.activities.UserPostDetailsActivity;
 import wiredup.adapters.ProfileActivityUserPostsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
@@ -14,12 +15,14 @@ import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -84,6 +87,13 @@ public class UserPostsFragment extends Fragment {
 				R.layout.list_row_user_post_profile_activity, posts);
 
 		this.listViewPosts.setAdapter(this.postsAdapter);
+		
+		this.listViewPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row, int rowIndex, long postId) {
+				UserPostsFragment.this.startUserPostDetailsActivity((int) postId);
+			}
+		});
 	}
 
 	private void loadPostsData(String data) {
@@ -156,5 +166,12 @@ public class UserPostsFragment extends Fragment {
 		};
 		
 		WiredUpApp.getData().getUserPosts().create(newPost, WiredUpApp.getSessionKey(), onSuccess, onError);
+	}
+	
+	private void startUserPostDetailsActivity(int postId) {
+		Intent intent = new Intent(this.getActivity(), UserPostDetailsActivity.class);
+		intent.putExtra(BundleKey.POST_ID, postId);
+		
+		this.startActivity(intent);
 	}
 }

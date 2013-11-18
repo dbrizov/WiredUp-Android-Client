@@ -67,5 +67,6 @@
     <string name="title_activity_connection_requests">Connection Requests</string>
     <string name="title_activity_message_details">Message Details</string>
     <string name="title_activity_project_details">Project Details</string>
+    <string name="title_activity_user_post_details">Post Details</string>
 
 </resources>

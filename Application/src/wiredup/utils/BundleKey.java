@@ -12,4 +12,5 @@ public class BundleKey {
 	public static final String CONNECTION_REQUESTS = "connectionRequests";
 	public static final String MESSAGE_MODEL = "messageId";
 	public static final String PROJECT_ID = "projectId";
+	public static final String POST_ID = "postId";
 }
