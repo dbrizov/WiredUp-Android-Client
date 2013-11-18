@@ -10,6 +10,7 @@ public class PersistersUnitOfWork {
 	private MessagesPersister messages;
 	private ConnectionRequestsPersister connectionRequests;
 	private ConnectionsPersister connections;
+	private ProjectsPersister projects;
 	
 	public PersistersUnitOfWork(String rootUrl) {
 		this.rootUrl = rootUrl;
@@ -77,5 +78,13 @@ public class PersistersUnitOfWork {
 		}
 		
 		return this.connections;
+	}
+	
+	public ProjectsPersister getProjects() {
+		if (this.projects == null) {
+			this.projects = new ProjectsPersister(this.rootUrl);
+		}
+		
+		return projects;
 	}
 }
