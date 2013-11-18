@@ -8,9 +8,10 @@ import wiredup.adapters.ProfileActivityUserPostsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.UserPostCreateModel;
 import wiredup.models.UserPostModel;
-import wiredup.utils.ErrorNotifier;
 import wiredup.utils.BundleKey;
+import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,12 +39,15 @@ public class UserPostsFragment extends Fragment {
 	private ProfileActivityUserPostsAdapter postsAdapter;
 
 	private ListView listViewPosts;
+	private EditText editTextPostContent;
+	private Button btnCreatePost;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		this.posts = new ArrayList<UserPostModel>();
+		this.isPostsDataLoaded = false;
 
 		Bundle bundle = this.getArguments();
 		this.userId = bundle.getInt(BundleKey.USER_ID);
@@ -49,11 +56,19 @@ public class UserPostsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootLayoutView = inflater.inflate(R.layout.fragment_user_posts_profile_activity,
+		View rootView = inflater.inflate(R.layout.fragment_user_posts_profile_activity,
 				container, false);
 
-		this.listViewPosts = (ListView) rootLayoutView
-				.findViewById(R.id.listView_userPosts);
+		this.listViewPosts = (ListView) rootView.findViewById(R.id.listView_userPosts);
+		this.editTextPostContent = (EditText) rootView.findViewById(R.id.editText_postContent);
+		
+		this.btnCreatePost = (Button) rootView.findViewById(R.id.btn_createPost);
+		this.btnCreatePost.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				UserPostsFragment.this.createPost();
+			}
+		});
 
 		if (!this.isPostsDataLoaded) {
 			this.getDataFromServerAndSetUpListView();
@@ -61,7 +76,7 @@ public class UserPostsFragment extends Fragment {
 			this.setUpListView(this.getActivity(), this.posts);
 		}
 
-		return rootLayoutView;
+		return rootView;
 	}
 
 	private void setUpListView(Context context, List<UserPostModel> posts) {
@@ -105,5 +120,41 @@ public class UserPostsFragment extends Fragment {
 				.getUserPosts()
 				.getAllForUser(this.userId, WiredUpApp.getSessionKey(),
 						onSuccess, onError);
+	}
+	
+	private void createPost() {
+		String content = this.editTextPostContent.getText().toString().trim();
+		
+		// Validate content
+		if (content.length() == 0) {
+			Toast.makeText(
+					this.getActivity(), "The post content is required", Toast.LENGTH_LONG).show();
+			
+			return;
+		}
+		
+		UserPostCreateModel newPost = new UserPostCreateModel(content);
+		
+		IOnSuccess onSuccess = new IOnSuccess() {
+			@Override
+			public void performAction(String data) {
+				Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
+				UserPostModel postModel = gson.fromJson(data, UserPostModel.class);
+				
+				UserPostsFragment.this.posts.add(0, postModel);
+				UserPostsFragment.this.postsAdapter.notifyDataSetChanged();
+				
+				UserPostsFragment.this.editTextPostContent.setText("");
+			}
+		};
+		
+		IOnError onError = new IOnError() {
+			@Override
+			public void performAction(String data) {
+				ErrorNotifier.displayErrorMessage(UserPostsFragment.this.getActivity(), data);
+			}
+		};
+		
+		WiredUpApp.getData().getUserPosts().create(newPost, WiredUpApp.getSessionKey(), onSuccess, onError);
 	}
 }

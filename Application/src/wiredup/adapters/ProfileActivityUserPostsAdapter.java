@@ -72,7 +72,7 @@ public class ProfileActivityUserPostsAdapter extends BaseAdapter {
 		}
 		
 		TextView textViewPostContent = (TextView) listRow.findViewById(R.id.textView_postContent);
-		textViewPostContent.setText(this.posts.get(position).getContent());
+		textViewPostContent.setText(postContent);
 		
 		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 		String postDateAsString = dateFormat.format(this.posts.get(position).getPostDate());

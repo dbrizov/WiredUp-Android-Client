@@ -2,6 +2,7 @@ package wiredup.data;
 
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
+import wiredup.models.UserPostCreateModel;
 
 public class UserPostsPersister extends MainPersister {
 	public UserPostsPersister(String rootUrl) {
@@ -58,5 +59,23 @@ public class UserPostsPersister extends MainPersister {
 		get.setOnError(onError);
 		
 		get.execute();
+	}
+	
+	/**
+	 * Creates a new post for the current logged user
+	 * @param model - The post model that contains the content of the post
+	 * @param sessionKey - The sessionKey of the current user
+	 * @param onSuccess - onSuccess event handler
+	 * @param onError - onError event handler
+	 */
+	public void create(UserPostCreateModel model, String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%screate?sessionKey=%s", this.rootUrl, sessionKey);
+		String jsonData = this.gson.toJson(model);
+		
+		HttpPostJsonTask post = new HttpPostJsonTask(url, jsonData);
+		post.setOnSuccess(onSuccess);
+		post.setOnError(onError);
+		
+		post.execute();
 	}
 }
