@@ -26,6 +26,7 @@
     <string name="btn_send_connection_request">Send Connection Request</string>
     <string name="btn_see_certificate">See Certificate</string>
     <string name="btn_see_project">See Project</string>
+    <string name="btn_create_post">Create Post</string>
     
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
@@ -43,6 +44,7 @@
     <string name="hint_project_name">Project Name</string>
     <string name="hint_project_description">Description (optional)</string>
     <string name="hint_project_url">Url (optional)</string>
+    <string name="hint_post_content">Post Content</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>

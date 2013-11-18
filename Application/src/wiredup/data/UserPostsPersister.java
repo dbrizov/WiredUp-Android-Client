@@ -25,4 +25,38 @@ public class UserPostsPersister extends MainPersister {
 		
 		get.execute();
 	}
+	
+	/**
+	 * Deletes a post with specified id
+	 * @param postId - The id of the post that will be deleted
+	 * @param sessionKey - The sessionKey of the current user
+	 * @param onSuccess - onSuccess event handler
+	 * @param onError - onError event handler
+	 */
+	public void delete(int postId, String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sdelete/%d?sessionKey=%s", this.rootUrl, postId, sessionKey);
+		
+		HttpDeleteTask delete = new HttpDeleteTask(url);
+		delete.setOnSuccess(onSuccess);
+		delete.setOnError(onError);
+		
+		delete.execute();
+	}
+	
+	/**
+	 * Gets the details of a post with specified id
+	 * @param postId - The id of the post in the database
+	 * @param sessionKey - The sessionKey of the current user
+	 * @param onSuccess - onSuccess event handler
+	 * @param onError - onError event handler
+	 */
+	public void getDetails(int postId, String sessionKey, IOnSuccess onSuccess, IOnError onError) {
+		String url = String.format("%sdetails/%d?sessionKey=%s", this.rootUrl, postId, sessionKey);
+		
+		HttpGetJsonTask get = new HttpGetJsonTask(url);
+		get.setOnSuccess(onSuccess);
+		get.setOnError(onError);
+		
+		get.execute();
+	}
 }
