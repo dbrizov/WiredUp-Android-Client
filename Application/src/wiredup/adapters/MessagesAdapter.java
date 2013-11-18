@@ -123,7 +123,7 @@ public class MessagesAdapter extends BaseAdapter {
 	}
 	
 	private void showDeleteMessageDialog(final int rowIndex) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MessagesAdapter.this.context);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.context);
 		
 		dialogBuilder.setTitle("Delete this message?");
 		dialogBuilder.setNegativeButton(R.string.btn_no, null);
