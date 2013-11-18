@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import wiredup.activities.ProjectDetailsActivity;
 import wiredup.adapters.ProfileActivityProjectsAdapter;
 import wiredup.client.R;
 import wiredup.http.IOnError;
@@ -12,12 +13,14 @@ import wiredup.models.ProjectModel;
 import wiredup.utils.BundleKey;
 import wiredup.utils.ErrorNotifier;
 import wiredup.utils.WiredUpApp;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -49,7 +52,7 @@ public class ProjectsFragment extends Fragment {
 		this.listViewProjects = (ListView) rootView.findViewById(R.id.listView_projects);
 		
 		if (!this.isDataLoaded) {
-			this.getProjectsDataFromServerAndSetUpView();
+			this.getProjectsDataFromServerAndSetUpListView();
 		} else {
 			this.setUpListView();
 		}
@@ -57,7 +60,7 @@ public class ProjectsFragment extends Fragment {
 		return rootView;
 	}
 	
-	private void getProjectsDataFromServerAndSetUpView() {
+	private void getProjectsDataFromServerAndSetUpListView() {
 		IOnSuccess onSuccess = new IOnSuccess() {
 			@Override
 			public void performAction(String data) {
@@ -95,5 +98,19 @@ public class ProjectsFragment extends Fragment {
 						this.projects);
 		
 		this.listViewProjects.setAdapter(adapter);
+		this.listViewProjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View row, int rowIndex, long projectId) {
+				ProjectsFragment.this.startProjectDetailsActivity((int) projectId);
+			}
+		});
+	}
+	
+	private void startProjectDetailsActivity(int projectId) {
+		Intent intent = new Intent(this.getActivity(), ProjectDetailsActivity.class);
+		intent.putExtra(BundleKey.PROJECT_ID, projectId);
+		
+		this.startActivity(intent);
 	}
 }

@@ -60,5 +60,6 @@
     <string name="title_activity_certificate_details">Certificate Details</string>
     <string name="title_activity_connection_requests">Connection Requests</string>
     <string name="title_activity_message_details">Message Details</string>
+    <string name="title_activity_project_details">Project Details</string>
 
 </resources>

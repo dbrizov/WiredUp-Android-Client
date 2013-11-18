@@ -84,6 +84,11 @@
             android:name="wiredup.activities.MessageDetailsActivity"
             android:label="@string/title_activity_message_details" >
         </activity>
+        
+        <activity
+            android:name="wiredup.activities.ProjectDetailsActivity"
+            android:label="@string/title_activity_project_details" >
+        </activity>
     </application>
 
 </manifest>
