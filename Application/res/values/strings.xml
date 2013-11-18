@@ -40,6 +40,9 @@
     <string name="hint_languages">Languages</string>
     <string name="hint_search">Search users</string>
     <string name="hint_message_content">Content</string>
+    <string name="hint_project_name">Project Name</string>
+    <string name="hint_project_description">Description (optional)</string>
+    <string name="hint_project_url">Url (optional)</string>
     
     <string name="fragment_register">FragmentRegister</string>
     <string name="fragment_login">FragmentLogin</string>

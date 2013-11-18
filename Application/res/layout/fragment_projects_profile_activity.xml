@@ -4,6 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <EditText
+        android:id="@+id/editText_projectName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_project_name" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editText_projectDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_project_description"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/editText_projectUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_project_url"
+        android:inputType="textUri" />
+
+    <Button
+        android:id="@+id/btn_addProject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add" />
+
     <ListView
         android:id="@+id/listView_projects"
         android:layout_width="match_parent"

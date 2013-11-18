@@ -1,16 +1,18 @@
 package wiredup.models;
 
+import java.util.List;
+
 public class ProjectAddModel {
 	private String name;
 	private String description;
 	private String url;
-	private int[] membersIds;
+	private List<Integer> membersIds;
 	
 	public ProjectAddModel() {
 		
 	}
 	
-	public ProjectAddModel(String name, String description, String url, int[] membersIds) {
+	public ProjectAddModel(String name, String description, String url, List<Integer> membersIds) {
 		this.name = name;
 		this.description = description;
 		this.url = url;
@@ -41,11 +43,11 @@ public class ProjectAddModel {
 		this.url = url;
 	}
 
-	public int[] getMembersIds() {
+	public List<Integer> getMembersIds() {
 		return this.membersIds;
 	}
 
-	public void setMembersIds(int[] membersIds) {
+	public void setMembersIds(List<Integer> membersIds) {
 		this.membersIds = membersIds;
 	}
 }
