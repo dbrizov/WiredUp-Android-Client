@@ -51,11 +51,13 @@ private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 		
 		this.listViewSentMessages = (ListView) rootView.findViewById(R.id.listView_sentMessages);
 		
-		if (!this.isDataLoaded) {
-			this.getMessagesFromServerAndSetUpListView();
-		} else {
-			this.setUpListView();
-		}
+		this.getMessagesFromServerAndSetUpListView();
+		
+//		if (!this.isDataLoaded) {
+//			this.getMessagesFromServerAndSetUpListView();
+//		} else {
+//			this.setUpListView();
+//		}
 		
 		return rootView;
 	}

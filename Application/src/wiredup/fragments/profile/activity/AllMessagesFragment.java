@@ -51,11 +51,13 @@ public class AllMessagesFragment extends Fragment {
 		
 		this.listViewAllMessages = (ListView) rootView.findViewById(R.id.listView_allMessages);
 		
-		if (!this.isDataLoaded) {
-			this.getMessagesFromServerAndSetUpListView();
-		} else {
-			this.setUpListView();
-		}
+		this.getMessagesFromServerAndSetUpListView();
+		
+//		if (!this.isDataLoaded) {
+//			this.getMessagesFromServerAndSetUpListView();
+//		} else {
+//			this.setUpListView();
+//		}
 		
 		return rootView;
 	}
