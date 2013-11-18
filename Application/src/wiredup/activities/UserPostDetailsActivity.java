@@ -2,6 +2,7 @@ package wiredup.activities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import wiredup.client.R;
 import wiredup.http.IOnError;
 import wiredup.http.IOnSuccess;
@@ -12,10 +13,13 @@ import wiredup.utils.WiredUpApp;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class UserPostDetailsActivity extends OptionsMenuActivity {
-	private static final String DATE_FORMAT = "dd/MM/yyyy";
+	private final static String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String CLIENT_DATE_FORMAT = "dd/MM/yyyy";
 	
 	private UserPostModel userPostModel;
 	
@@ -59,13 +63,13 @@ public class UserPostDetailsActivity extends OptionsMenuActivity {
 	}
 	
 	private void loadPostDetailsData(String data) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat(SERVER_DATE_FORMAT).create();
 		this.userPostModel = gson.fromJson(data, UserPostModel.class);
 	}
 	
 	@SuppressLint("SimpleDateFormat")
 	private void setUpView() {
-		DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		DateFormat dateFormat = new SimpleDateFormat(CLIENT_DATE_FORMAT);
 		String postDateAsString = dateFormat.format(this.userPostModel.getPostDate());
 		this.textViewPostDate.setText(postDateAsString);
 		
