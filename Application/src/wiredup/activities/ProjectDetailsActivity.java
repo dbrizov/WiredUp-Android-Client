@@ -73,7 +73,7 @@ public class ProjectDetailsActivity extends OptionsMenuActivity {
 		this.textViewProjectName.setText(projectName);
 		
 		String projectDescription = this.projectDetailsModel.getDescription();
-		this.textViewProjectDescription.setText("Descriotion: " + projectDescription);
+		this.textViewProjectDescription.setText("Description: " + projectDescription);
 		
 		final String projectUrl = this.projectDetailsModel.getUrl();
 		this.textViewProjectUrl.setText("Url: " + projectUrl);
