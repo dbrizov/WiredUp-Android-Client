@@ -130,8 +130,7 @@ public class CertificatesFragment extends Fragment {
 
 	private void loadCertificatesData(String data) {
 		Gson gson = new Gson();
-		Type listType = new TypeToken<List<CertificateModel>>() {
-		}.getType();
+		Type listType = new TypeToken<List<CertificateModel>>() {}.getType();
 
 		this.certificates = gson.fromJson(data, listType);
 		this.isCertificatesDataLoaded = true;
