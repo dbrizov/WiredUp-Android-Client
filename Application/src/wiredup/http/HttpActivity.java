@@ -262,13 +262,14 @@ public class HttpActivity extends Activity {
 
 	private String getResponseContentAsString(HttpResponse response) {
 		String stringContent = null;
-
+		InputStream inputStream = null;
+		InputStreamReader reader = null;
+		BufferedReader bufferedReader = null;
+		
 		try {
-			InputStream inputStream = response.getEntity().getContent();
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream);
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
+			inputStream = response.getEntity().getContent();
+			reader = new InputStreamReader(inputStream);
+			bufferedReader = new BufferedReader(reader);
 
 			StringBuilder stringContentBuilder = new StringBuilder();
 			String line = bufferedReader.readLine();
@@ -281,6 +282,12 @@ public class HttpActivity extends Activity {
 			stringContent = stringContentBuilder.toString();
 		} catch (IOException ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return stringContent;
