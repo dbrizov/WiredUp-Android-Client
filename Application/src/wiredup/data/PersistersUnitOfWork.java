@@ -85,6 +85,6 @@ public class PersistersUnitOfWork {
 			this.projects = new ProjectsPersister(this.rootUrl);
 		}
 		
-		return projects;
+		return this.projects;
 	}
 }
